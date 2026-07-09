@@ -1,0 +1,5 @@
+name: knowledge-base
+title: Ludic Art Guild Knowledge Base
+version: ~
+nav:
+  - modules/ROOT/nav.adoc

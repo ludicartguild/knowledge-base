@@ -1,0 +1,2 @@
+// Regenerated on every publish by .publish/scripts/gen_nav.py in the lessons repo.
+// This placeholder keeps Antora happy before the first publish.
