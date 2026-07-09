@@ -1,2 +1,25 @@
-// Regenerated on every publish by .publish/scripts/gen_nav.py in the lessons repo.
-// This placeholder keeps Antora happy before the first publish.
+* Software Architecture
+** Patterns
+*** Behavioral
+**** xref:ROOT:software-architecture/patterns/behavioral/command-pattern.adoc[Command Pattern]
+**** xref:ROOT:software-architecture/patterns/behavioral/mediator-pattern.adoc[Mediator Pattern]
+**** xref:ROOT:software-architecture/patterns/behavioral/observer-pattern.adoc[Observer Pattern]
+**** xref:ROOT:software-architecture/patterns/behavioral/strategy-pattern.adoc[Strategy Pattern]
+*** Domain
+**** xref:ROOT:software-architecture/patterns/domain/repository-pattern.adoc[Repository Pattern]
+**** xref:ROOT:software-architecture/patterns/domain/specification-pattern.adoc[Specification Pattern]
+*** Structural
+**** xref:ROOT:software-architecture/patterns/structural/decorator-pattern.adoc[Decorator Pattern]
+** Principles
+*** xref:ROOT:software-architecture/principles/CAP-theorem.adoc[CAP Theorem]
+*** xref:ROOT:software-architecture/principles/CQS.adoc[Command Query Separation (CQS)]
+*** xref:ROOT:software-architecture/principles/DRY.adoc[DRY (Don't Repeat Yourself)]
+*** xref:ROOT:software-architecture/principles/GRASP.adoc[GRASP (General Responsibility Assignment Software Patterns)]
+*** xref:ROOT:software-architecture/principles/KISS.adoc[KISS (Keep It Simple, Stupid)]
+*** xref:ROOT:software-architecture/principles/SOLID.adoc[SOLID Principles]
+*** xref:ROOT:software-architecture/principles/YAGNI.adoc[YAGNI (You Aren't Gonna Need It)]
+*** xref:ROOT:software-architecture/principles/composition-over-inheritance.adoc[Favor Composition over Inheritance]
+*** xref:ROOT:software-architecture/principles/coupling-and-cohesion.adoc[Coupling and Cohesion]
+*** xref:ROOT:software-architecture/principles/encapsulation.adoc[Encapsulation]
+*** xref:ROOT:software-architecture/principles/fail-fast.adoc[Fail-Fast]
+*** xref:ROOT:software-architecture/principles/inversion-of-control.adoc[Inversion of Control (IoC)]

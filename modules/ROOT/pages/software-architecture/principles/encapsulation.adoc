@@ -1,0 +1,156 @@
+= Encapsulation
+:toc:
+:toclevels: 2
+:source-highlighter: rouge
+
+An object encapsulates its state and behaviour so that collaborators can interact with it through a stable interface without needing to know — or reach into — its internal workings.
+
+This is distinct from mere *information hiding via access modifiers*: `private` fields are a language mechanism that *enforces* encapsulation, but encapsulation is a *design discipline* that exists independently of whatever the compiler will or will not permit.
+
+== Encapsulation vs. Information Hiding
+
+[cols="1,2", options="header"]
+|===
+| Term | What it actually means
+
+| *Information Hiding* (Parnas, 1972)
+| A *design decision* to conceal the implementation details of a module behind an interface, so that the details can change without affecting callers.
+
+| *Encapsulation*
+| Bundling *data and the operations on that data* into a single unit (class/object), and restricting direct access to the data so that the operations are the only sanctioned way to modify it.
+
+| *Access Modifiers* (`private`, `protected`)
+| A *language enforcement mechanism* for information hiding. They help, but they are not encapsulation. A class that exposes a `get_x()` / `set_x()` pair for every field is technically using `private` while violating encapsulation in spirit.
+|===
+
+[NOTE]
+====
+David Parnas introduced the principle of information hiding in "On the Criteria To Be Used in Decomposing Systems into Modules" (1972). The OOP packaging of that idea into objects is what we call encapsulation.
+====
+
+== Before / After: Leaked vs. Encapsulated State
+
+=== Before — the collaborator manages the object's state
+
+[source,python]
+----
+class Order:
+    def __init__(self):
+        self.items = []
+        self.total = 0.0       # <-- exposed, raw
+        self.is_locked = False # <-- exposed flag
+
+# Caller has to know the rules and enforce them manually
+order = Order()
+order.items.append(item)
+order.total += item.price     # caller does arithmetic
+if not order.is_locked:
+    order.total = order.total * 1.1  # caller applies tax logic
+order.is_locked = True               # caller locks the order
+----
+
+Problems:
+
+* The rule "total includes tax" lives in the caller, not in `Order`. Duplicate it in every caller.
+* Any caller that forgets to lock the order, or applies a different tax rate, silently corrupts state.
+* `Order` is an *anemic data holder* — a struct with methods attached.
+
+=== After — the object manages its own state
+
+[source,python]
+----
+class Order:
+    def __init__(self, tax_rate: float = 0.1):
+        self._items: list[Item] = []
+        self._tax_rate = tax_rate
+        self._locked = False
+
+    def add_item(self, item: Item) -> None:
+        if self._locked:
+            raise OrderLockedError("Cannot modify a locked order.")
+        self._items.append(item)
+
+    def lock(self) -> None:
+        self._locked = True
+
+    @property
+    def total(self) -> float:
+        subtotal = sum(i.price for i in self._items)
+        return subtotal * (1 + self._tax_rate)
+
+# Caller just tells the order what to do
+order = Order()
+order.add_item(item)
+order.lock()
+print(order.total)   # rule lives here, once, where the data lives
+----
+
+The invariant "a locked order cannot be modified" is enforced in *one place*. The tax calculation lives next to the data it operates on. Callers need not know any of this.
+
+== Tell, Don't Ask
+
+[quote, Andy Hunt & Dave Thomas / popularised by Alec Sharp]
+Tell objects what to do; don't ask them for their data so you can do it yourself.
+
+Querying an object's internal state and then making a decision *outside* the object is the most common encapsulation violation. It re-creates the "caller manages state" smell even when access modifiers are in place.
+
+[source,python]
+----
+# ASK — leaks decision logic to the caller
+if order.status == "pending" and order.item_count > 0:
+    order.status = "confirmed"
+    order.send_confirmation_email()
+
+# TELL — the object owns its own state transition
+order.confirm()   # Order.confirm() checks and transitions internally
+----
+
+[TIP]
+====
+If you are reading a property only to immediately branch on it or write back to the same object, that is a Tell/Ask violation. Push the branch into the object.
+====
+
+== Common Violations
+
+[cols="1,3", options="header"]
+|===
+| Smell | Description
+
+| *Anemic Domain Model*
+| Classes that are pure data bags (fields + getters/setters, no behaviour). All business logic lives in external service classes that manipulate those bags. Named by Martin Fowler. Encapsulation is fully absent.
+
+| *Getter/Setter proliferation*
+| A `private` field with a public getter *and* a public setter is a public field with extra indirection. If callers can read and overwrite any field freely, the class has no control over its own state.
+
+| *Feature Envy*
+| A method that spends most of its time reaching into the data of *another* class. Named in _Refactoring_ (Fowler). Signals the method belongs on the class whose data it envies.
+
+| *Inappropriate Intimacy*
+| Two classes that reach deeply into each other's internals, creating bidirectional content coupling. Either merge them or introduce an interface boundary.
+
+| *Returning raw mutable collections*
+| `def get_items(self) -> list[Item]` returns the internal list directly. Callers can mutate it, bypassing all invariant checks. Return a copy or an immutable view.
+|===
+
+== Encapsulation and Abstraction
+
+Encapsulation is a *mechanism*. Abstraction is the *goal* it serves.
+
+* *Abstraction* — identifying *what* an object does (its interface, its contract).
+* *Encapsulation* — hiding *how* it does it (its implementation).
+
+You cannot have a useful abstraction without encapsulation: exposing the implementation collapses the interface and the implementation into one thing, so the abstraction leaks. When a caller depends on implementation details, any change to those details breaks the caller — the abstraction provides no protection.
+
+== Caveats and Limits
+
+* *Value objects* (dates, money, coordinates) are often legitimately immutable records with exposed attributes. Encapsulation here means *immutability*, not hiding: `price.amount` is fine because the object can never be changed through it.
+* *DTOs and serialisation boundaries* — objects crossing a serialisation layer (JSON, DB row) are intended to be transparent. Enforce encapsulation inside the domain; relax it at the boundary.
+* *Excessive encapsulation* can produce objects so opaque they are hard to test or inspect. Prefer testable, inspectable behaviour over hiding for its own sake. Encapsulation should protect *invariants*, not prevent *understanding*.
+* *Python's `_` convention* is advisory, not enforced. Discipline at the team level matters more than language enforcement.
+
+== Relation to other foundational concepts
+
+* xref:ROOT:software-architecture/principles/coupling-and-cohesion.adoc[*Coupling & Cohesion*] — encapsulation directly lowers *content coupling* (the worst kind: reaching into another object's state) and raises *functional cohesion* within the object.
+* xref:ROOT:software-architecture/principles/SOLID.adoc[*SOLID*] — SRP requires that a class own the behaviour for its *single* responsibility (not outsource it to callers); OCP depends on encapsulation to make the closed surface stable. Both collapse without it.
+* xref:ROOT:software-architecture/principles/GRASP.adoc[*GRASP*] — Information Expert ("assign responsibility to the class with the information") is the direct GRASP expression of encapsulation. Protected Variations uses encapsulation as its enforcement mechanism.
+* xref:ROOT:software-architecture/principles/composition-over-inheritance.adoc[*Composition over Inheritance*] — inheritance is one of the few relationships that *pierces* encapsulation (subclasses can see `protected` internals). Preferring composition keeps boundaries cleaner.
