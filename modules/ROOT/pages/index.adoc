@@ -1,7 +1,0 @@
-= Ludic Art Guild Knowledge Base
-
-A public, curated knowledge base published from private study notes.
-
-Use the navigation menu to browse the published sections. Content here is
-generated automatically by the publish pipeline in the (private) `lessons`
-repository — edits should be made there, not in this repo.
