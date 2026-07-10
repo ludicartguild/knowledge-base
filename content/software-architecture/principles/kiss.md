@@ -1,0 +1,50 @@
+---
+title: "KISS (Keep It Simple, Stupid)"
+tags: [architecture]
+level: deep
+type: reference
+---
+
+
+**KISS** — "Keep It Simple, Stupid" — is the principle that systems work best when they are kept simple rather than made complicated. Coined by Kelly Johnson at Lockheed Skunk Works in the 1960s, it predates software but transfers directly to it.
+
+## The core claim
+
+The more complex something is, the more likely it is to fail.
+
+* Simpler code is **faster to write**.
+* Simpler code is **faster to debug**.
+* Simpler code is **easier to maintain**.
+* Simpler code is **easier for new contributors to onboard onto**.
+
+Complexity is the dominant long-term cost in software. Every clever abstraction, configuration layer, indirection, or generalisation is a tax the rest of the team pays forever.
+
+## What "simple" means
+
+KISS is not "use the least lines of code" — that’s **terseness**, which often makes things harder to understand. Simple means:
+
+* **Few moving parts**. Fewer classes, fewer collaborators, fewer states.
+* **Obvious flow**. A reader can answer "what happens when X is called?" without grep.
+* **No speculative generality**. No abstractions for variations that don’t exist yet.
+* **Standard tools**. Boring solutions readers already know beat clever ones they don’t.
+
+## Common KISS violations
+
+* Adding configurability for a single hard-coded case.
+* Introducing an interface with one implementation "in case we add more later".
+* Using a framework feature when a plain function would do.
+* Building a plug-in system before there are two plug-ins.
+* Generalising the second occurrence rather than waiting for the third (see [[dry|Rule of Three]]).
+
+## KISS vs. abstraction
+
+KISS does not forbid abstraction — it forbids **premature** abstraction. The right abstraction at the right time is itself a form of simplification: it hides irrelevant detail. The wrong abstraction at the wrong time **adds** complexity disguised as cleanliness.
+
+The test: does the abstraction make the **call sites** easier to read, or harder? If the abstraction’s interface is more confusing than the duplication it replaced, the duplication was simpler.
+
+## Relation to other foundational concepts
+
+* [[yagni|YAGNI]] — KISS’s close sibling. YAGNI says "don’t build it yet"; KISS says "and when you do, don’t make it complicated".
+* [[dry|DRY]] — DRY pushes toward unification; KISS pushes back against unification that costs more than it saves. The two are in productive tension.
+* [[solid|OCP]] — OCP wants extensibility points; KISS wants you to add them only where variation is actually expected. See also _Protected Variations_ in [[grasp|GRASP]].
+* [[coupling-and-cohesion|Coupling]] — complexity is usually a coupling problem in disguise. Reducing complexity often means moving a responsibility, not rewriting it.

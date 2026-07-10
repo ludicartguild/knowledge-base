@@ -1,0 +1,95 @@
+---
+title: "Coupling and Cohesion"
+tags: [architecture]
+level: deep
+type: reference
+---
+
+
+Coupling and cohesion are the two most important concepts in software architecture. Every engineering problem can be traced back to:
+
+* an excess of **coupling** between things that should be independent, or
+* a lack of **cohesion** within things that should be unified.
+
+Coined by **Larry Constantine** and formalised with **Edward Yourdon** in _Structured Design_ (1979). The two ideas are mirror images — **low coupling between modules and high cohesion within them** is the goal, and the two pressures tend to push in the same direction.
+
+## Afferent vs. Efferent Coupling
+
+| Term | Symbol | Meaning |
+| --- | --- | --- |
+| Afferent Coupling | Ca | **Incoming** dependencies. The number of other modules/classes/packages that depend on this one. High Ca means many things break if it changes. |
+| Efferent Coupling | Ce | **Outgoing** dependencies. The number of other modules this one depends on. High Ce means this module is fragile to changes elsewhere — it has a lot of dependencies. |
+
+> [!tip]
+> Mnemonic: **A = Arriving (in), E = Exiting (out)**.
+
+## Instability Metric
+
+```
+I = Ce / (Ca + Ce)
+```
+
+Range: 0 to 1.
+
+* **I = 0** — maximally stable (only depended on, depends on nothing). Good for **core abstractions**.
+* **I = 1** — maximally unstable (depends on everything, nothing depends on it). Good for **leaf/UI code**.
+
+## Stable Dependencies Principle
+
+Robert Martin’s **Stable Dependencies Principle (SDP)**:
+
+Things should only depend on things more stable than themselves (lower I).
+
+### Tooling
+
+Instability can be computed with static analysis tools:
+
+* [NDepend](https://www.ndepend.com) (.NET)
+* [JDepend](https://github.com/clarkware/jdepend) (Java)
+* [pydeps](https://github.com/thebjorn/pydeps) (Python)
+
+## Types of Coupling
+
+Ca/Ce measure **how much** coupling exists. There is also a **qualitative** hierarchy describing **what kind** of coupling exists — from tightest (worst) to loosest (best). This is the Constantine/Yourdon hierarchy.
+
+| Type | Description | Severity |
+| --- | --- | --- |
+| **Content Coupling** (pathological) | Module A reads or modifies the internal state of module B directly. (e.g. reaching into private fields, monkey-patching.) | Worst |
+| **Common Coupling** | Modules share global mutable state. A change to the shared data can break any module that reads it. | Very high |
+| **External Coupling** | Modules share an externally imposed format, protocol, or device (e.g. a binary file layout, a fixed-position string). | High |
+| **Control Coupling** | Module A passes a flag to module B that controls B’s internal flow (e.g. `doThing(mode=2)`). A must know B’s internal structure to use it correctly. | Medium |
+| **Stamp Coupling** (data-structured) | Module A passes a whole composite structure to B when B only needs part of it. B is now exposed to all fields, including ones it doesn’t care about. | Medium-low |
+| **Data Coupling** | Module A passes only the primitive values B needs. The interface is minimal. | Low (good) |
+| **Message Coupling** | Modules communicate only via messages on a defined interface — no shared types, no shared state. | Lowest (best) |
+
+The rule of thumb: **prefer data and message coupling; tolerate stamp and control coupling when necessary; eliminate common and content coupling**. The lower the form of coupling, the more independently the modules can evolve.
+
+## Levels of Cohesion
+
+Cohesion measures how strongly the responsibilities **inside** a single module belong together. Constantine and Yourdon defined seven levels, from worst to best:
+
+| Level | Description | Quality |
+| --- | --- | --- |
+| **Coincidental Cohesion** | Parts of the module are grouped arbitrarily — there’s no real relationship between them. (e.g. a `Utils` class that does everything.) | Worst |
+| **Logical Cohesion** | Parts perform a logically similar category of operation, but each is invoked separately and they don’t share execution. (e.g. an `IO` module that handles file, network, and database I/O via a `kind` parameter.) | Poor |
+| **Temporal Cohesion** | Parts are grouped because they all run at the same time (e.g. `init()` that opens a file, starts a timer, and seeds a random number generator). | Poor |
+| **Procedural Cohesion** | Parts run in a sequence that the **caller** cares about, but they operate on different data. | Mediocre |
+| **Communicational (Informational) Cohesion** | Parts operate on the same data structure but otherwise have unrelated purposes. | OK |
+| **Sequential Cohesion** | The output of one part is the input to the next — they form a pipeline producing a single result. | Good |
+| **Functional Cohesion** | All parts contribute to a single, well-defined task. The module exists to do **one thing**. | Best |
+
+**Aim for functional cohesion.** Anything below sequential is a sign the module is doing more than one job and should likely be split.
+
+## The connection: coupling falls when cohesion rises
+
+These two metrics are not independent — they tend to move together. Splitting a low-cohesion module into pieces of higher cohesion almost always **reduces** coupling between the resulting pieces, because each piece now has fewer outward dependencies. Conversely, increasing cohesion inside a unit usually **increases** coupling at the level above it (more units = more boundaries to cross), which is why coupling and cohesion are evaluated **together**.
+
+This is the deep reason [[grasp|GRASP]] places **Low Coupling** and **High Cohesion** as the two **evaluative** patterns — you apply the others, then check the design against these two.
+
+## Relation to other foundational concepts
+
+* [[solid|SRP]] — the modern restatement of "high cohesion" at the class level: one class, one actor, one reason to change.
+* [[solid|DIP]] — converts efferent coupling on a concrete class into efferent coupling on an abstraction the high-level module owns, which inverts the **direction** of dependency without removing it.
+* [[grasp|GRASP]] — Low Coupling and High Cohesion are the explicit evaluative patterns; Pure Fabrication and Indirection are the constructive techniques used to improve them.
+* [[dry|DRY]] — duplication often signals low cohesion across modules (the same idea lives in multiple places). But mis-applied DRY can **increase** coupling by forcing two unrelated callers to share an abstraction.
+* [[kiss|KISS]] — most complexity is coupling in disguise. Reducing complexity usually means **moving** a responsibility (raising cohesion) rather than rewriting it.

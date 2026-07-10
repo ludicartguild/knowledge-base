@@ -1,0 +1,229 @@
+---
+title: "Command Pattern"
+tags: [architecture, patterns]
+level: deep
+type: reference
+---
+
+
+Encapsulate a request as an object, thereby letting you parameterize clients with different requests, queue or log requests, and support undoable operations.
+
+The **Command** pattern is a behavioral design pattern that turns a request (an action) into a standalone object — wrapping the method, the receiver, and the arguments together so the action can be stored, passed around, queued, logged, and reversed.
+
+## Core Idea
+
+Instead of calling a method directly, you package "what to do" into an object. That object becomes a **first-class value**: it can be handed to an invoker that doesn’t know what it does, put on a queue to run later, pushed onto a history stack for undo, or persisted to a log and replayed after a crash.
+
+The four roles:
+
+* **Command interface** — declares `execute()` and (when undo is needed) `undo()`.
+* **ConcreteCommand** — implements the interface; holds a reference to the receiver and captures the arguments needed to perform and reverse the action.
+* **Receiver** — the object that does the actual work (the domain object, the light, the document).
+* **Invoker** — asks the command to carry out the request; never talks to the receiver directly.
+
+## The Anti-Pattern It Replaces
+
+```python
+# Hardwired invoker — knows every receiver and every action
+class RemoteButton:
+    def __init__(self, light):
+        self.light = light
+
+    def press(self):
+        self.light.turn_on()          # tightly coupled to receiver AND action
+
+    def press_off(self):
+        self.light.turn_off()         # adding a new device = editing this class
+```
+
+Every new device or action forces a change to `RemoteButton`. The invoker becomes a god-object that knows about everything. No undo, no queue, no logging.
+
+## Python Example
+
+```python
+from __future__ import annotations
+from abc import ABC, abstractmethod
+
+
+# ── Command interface ──────────────────────────────────────────────
+class Command(ABC):
+    @abstractmethod
+    def execute(self) -> None: ...
+
+    @abstractmethod
+    def undo(self) -> None: ...
+
+
+# ── Receiver ───────────────────────────────────────────────────────
+class Light:
+    """The object that knows how to perform low-level operations."""
+
+    def __init__(self, location: str) -> None:
+        self.location = location
+        self._on = False
+
+    def turn_on(self) -> None:
+        self._on = True
+        print(f"[Light:{self.location}] ON")
+
+    def turn_off(self) -> None:
+        self._on = False
+        print(f"[Light:{self.location}] OFF")
+
+
+# ── ConcreteCommands ───────────────────────────────────────────────
+class LightOnCommand(Command):
+    """Concrete command — wraps receiver + action + reversal logic."""
+
+    def __init__(self, light: Light) -> None:
+        self._light = light
+
+    def execute(self) -> None:
+        self._light.turn_on()
+
+    def undo(self) -> None:
+        self._light.turn_off()
+
+
+class LightOffCommand(Command):
+    def __init__(self, light: Light) -> None:
+        self._light = light
+
+    def execute(self) -> None:
+        self._light.turn_off()
+
+    def undo(self) -> None:
+        self._light.turn_on()
+
+
+# ── Invoker ────────────────────────────────────────────────────────
+class RemoteButton:
+    """Invoker — knows only the Command interface; holds a history stack."""
+
+    def __init__(self) -> None:
+        self._command: Command | None = None
+        self._history: list[Command] = []
+
+    def set_command(self, command: Command) -> None:
+        self._command = command
+
+    def press(self) -> None:
+        if self._command:
+            self._command.execute()
+            self._history.append(self._command)
+
+    def press_undo(self) -> None:
+        if self._history:
+            last = self._history.pop()
+            last.undo()
+
+
+# ── Usage ──────────────────────────────────────────────────────────
+living_room = Light("living room")
+on_cmd  = LightOnCommand(living_room)
+off_cmd = LightOffCommand(living_room)
+
+remote = RemoteButton()
+
+remote.set_command(on_cmd)
+remote.press()        # [Light:living room] ON
+remote.press_undo()   # [Light:living room] OFF  ← undone from history
+
+remote.set_command(off_cmd)
+remote.press()        # [Light:living room] OFF
+remote.press_undo()   # [Light:living room] ON
+```
+
+The invoker (`RemoteButton`) never imports `Light`. Swap the light for a fan, a thermostat, or a database transaction — the invoker stays untouched. This is the Open/Closed Principle in action (see [[solid|SOLID]] — OCP).
+
+## Killer Features Command Unlocks
+
+Because actions are objects, the following fall out naturally:
+
+### Undo / Redo
+Push executed commands onto a history stack. Undo pops and calls `undo()`; redo re-executes. Every text editor, IDE, and drawing application relies on this. The trick is that each command must capture enough state to reverse itself (or pair with a [[mediator-pattern|Memento]] snapshot).
+
+### Queuing and Scheduling
+A command is serialisable and self-contained. Drop it on a queue, execute it on a worker thread later, or retry on failure without touching the original caller. This is exactly what Celery, Sidekiq, and RQ do: your task function becomes a ConcreteCommand.
+
+### Logging and Replay
+Persist the ordered list of executed commands to a write-ahead log. On crash recovery, replay them in order to rebuild system state. This is the core mechanic behind **event sourcing** — the command log **is** the source of truth.
+
+### Macros (Composite + Command)
+```python
+class MacroCommand(Command):
+    """MacroCommand = Composite pattern applied to commands."""
+
+    def __init__(self, commands: list[Command]) -> None:
+        self._commands = commands
+
+    def execute(self) -> None:
+        for cmd in self._commands:
+            cmd.execute()
+
+    def undo(self) -> None:
+        for cmd in reversed(self._commands):
+            cmd.undo()
+```
+
+A macro is just a list of commands treated as one. Users record a sequence; the macro replays it. Reversing in reverse order is essential for correct undo semantics.
+
+### Transactions
+Group a set of commands. If any `execute()` raises, iterate the successfully-executed subset in reverse and call `undo()` on each. No external transaction manager required for simple cases.
+
+## Real-World Occurrences
+
+### Text editors and IDEs
+Every keystroke, paste, or refactor is a ConcreteCommand pushed onto the undo stack. VS Code’s edit history, Photoshop’s History panel, and Vim’s undo tree are all Command pattern at scale.
+
+### GUI toolkits: one action, many invokers
+A "Save" action can be triggered by a menu item, a toolbar button, and `Ctrl+S`. All three hold a reference to the **same** `SaveCommand` object. Adding a fourth trigger (voice command, script) requires zero changes to the command.
+
+### Background job queues (Celery, Sidekiq, RQ)
+The task payload is a serialised command: function name + arguments + routing metadata. The broker is the queue; workers are invokers; the task function body is the receiver logic.
+
+### Event Sourcing
+Every state change is persisted as an immutable command (event). Current state is derived by replaying the log from the beginning (or from a snapshot). The command log replaces the mutable database row.
+
+### CQRS (Command Query Responsibility Segregation)
+CQRS takes the insight of [[cqs|CQS]] to the architectural level: write-side operations become explicit Command objects dispatched to a command bus; read-side is a separate, optimised query model. The Command pattern is the "C" in CQRS.
+
+## Pros and Cons
+
+| Pro | Detail |
+| --- | --- |
+| Decouples invoker from receiver | The invoker knows only the `Command` interface. Receivers can be swapped, combined, or replaced without touching the invoker. |
+| Undo/redo for free | Once `undo()` is defined per command, history management is generic and lives entirely in the invoker. |
+| Queueing and async execution | Commands are values — they can be serialised, queued, throttled, retried, and distributed across workers with no changes to the domain logic. |
+| Logging and audit trails | Persist the command stream to get a complete history of what happened, when, and with what arguments. |
+| Macros and composition | MacroCommand (Composite + Command) lets users build complex operations from primitives without any new domain logic. |
+| Open/Closed extension | New commands extend the system without modifying the invoker or any existing command. |
+
+| Con | Detail |
+| --- | --- |
+| Class proliferation | Each distinct action needs its own ConcreteCommand class. In large systems this can mean dozens or hundreds of thin wrapper classes. |
+| Overkill without the features | If you never need undo, queuing, or logging, the pattern adds indirection and boilerplate for no gain. A plain method call or Strategy is simpler. |
+| Undo logic is hard to get right | `undo()` must capture and restore exactly the right state. If the command has side effects that reach external systems (emails sent, charges processed), reversibility may be impossible or require compensating transactions. |
+| Serialisation complexity | Queuing and event sourcing require commands to be serialisable. Adding parameters, renaming methods, or changing argument types can break stored command logs. |
+
+Apply Command when you concretely need at least one of: undo/redo, job queuing, audit logging, or macro composition. If you only need pluggable behaviour without those features, reach for [[strategy-pattern|Strategy]] instead.
+
+## Command vs. Related Patterns
+
+| Pattern | What it encapsulates | Primary intent |
+| --- | --- | --- |
+| **Command** | A request — method + receiver + arguments | Defer, queue, log, or reverse an action |
+| **Strategy** | An algorithm — interchangeable implementations of one behaviour | Select how something is done at runtime; no undo or queueing implied |
+| **Memento** | An object’s internal state snapshot | Capture and restore state; often paired with Command to implement undo when the command itself doesn’t know the prior state |
+| **Observer** | A set of notification callbacks | Broadcast state changes to unknown listeners; not about deferring or reversing a specific action |
+
+Command and Memento are natural partners for undo: the Command captures **what was done**; the Memento captures **what the state was before**. Use Memento when a command cannot store enough delta information to reverse itself cleanly.
+
+## Relation to other foundational concepts
+
+* [[strategy-pattern|Strategy Pattern]] — both patterns wrap behaviour in an object, but Strategy selects one algorithm from a family; Command encapsulates a one-shot request with optional reversal. Prefer Strategy when you need pluggability without undo or queueing.
+* [[cqs|CQS / CQRS]] — CQS separates commands (state-mutating) from queries (pure reads) at the method level. CQRS elevates this to architecture by routing Command objects through a dedicated write path — the Command pattern is the structural foundation.
+* [[coupling-and-cohesion|Coupling and Cohesion]] — Command reduces coupling between invoker and receiver to a single interface. Each ConcreteCommand has high cohesion: it owns exactly one action and its reversal.
+* [[solid|SOLID]] — OCP: new actions extend the system by adding new command classes, never by modifying the invoker. SRP: the invoker manages execution policy; the receiver manages domain logic; the command mediates between them.
+* [[composition-over-inheritance|Composition over Inheritance]] — MacroCommand composes a list of commands rather than subclassing to add behaviour. The pattern is a natural showcase for composition.
+* [[observer-pattern|Observer Pattern]] — Observer callbacks can be modelled as Command objects (queued, logged, undone). The patterns are complementary: Observer for broadcast notification, Command for deferred or reversible action.
