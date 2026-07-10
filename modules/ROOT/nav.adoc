@@ -1,3 +1,17 @@
+* Full Stack
+** xref:ROOT:full-stack/ai-llms-and-mcps.adoc[AI, LLMs & MCPs]
+** xref:ROOT:full-stack/backends-bff-and-apis.adoc[Backends, BFF & APIs]
+** xref:ROOT:full-stack/cicd-and-github-actions.adoc[CI/CD & GitHub Actions]
+** xref:ROOT:full-stack/cloud-and-gcp.adoc[Cloud Fundamentals & GCP]
+** xref:ROOT:full-stack/communication.adoc[Communication]
+** xref:ROOT:full-stack/databases.adoc[Databases]
+** xref:ROOT:full-stack/docker-and-compose.adoc[Docker & Docker Compose]
+** xref:ROOT:full-stack/frontend-and-spas.adoc[Frontend & SPAs]
+** xref:ROOT:full-stack/full-stack-interview-foundations.adoc[Full-Stack Developer: Interview Foundations]
+** xref:ROOT:full-stack/git-and-github.adoc[Git & GitHub]
+** xref:ROOT:full-stack/glossary.adoc[Glossary & Acronym Dictionary]
+** xref:ROOT:full-stack/infrastructure-as-code.adoc[Infrastructure as Code & Terraform]
+** xref:ROOT:full-stack/web-app-architecture.adoc[How a Modern Web App Fits Together]
 * Software Architecture
 ** Patterns
 *** Behavioral

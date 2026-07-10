@@ -1,0 +1,108 @@
+= Full-Stack Developer: Interview Foundations
+:toc:
+:toclevels: 2
+
+A fundamentals-first path to interview-ready fluency across the modern full-stack.
+The aim is not to master every tool — it is to understand how the pieces fit and to
+speak clearly and honestly about each one. *Fundamentals over everything:* breadth
+to hold a confident conversation, with just enough depth to back it up.
+
+== How to use this path
+
+Work through the phases in order. Each phase links to the notes that cover it in
+depth; the xref:ROOT:full-stack/glossary.adoc[glossary] is a companion for any unfamiliar term.
+
+* For every topic, the goal is to be able to *explain it simply* — what it is, why
+  it exists, and where it fits in a real application.
+* You will not know everything, and that is expected. Learn *when* it is fine to say
+  "I'll figure it out" — see xref:ROOT:full-stack/communication.adoc[Communication].
+* Prefer understanding the shape of a thing over memorising syntax.
+
+[TIP]
+====
+If you can draw the picture in xref:ROOT:full-stack/web-app-architecture.adoc[How a Modern Web App Fits
+Together] and talk through where each topic below lives on it, you are most of the way there.
+====
+
+== Phase 1 — Foundations & Communication
+
+Start with the two things that make everything else easier to talk about: how to
+communicate as a developer, and the mental model of a web application.
+
+* xref:ROOT:full-stack/communication.adoc[Communication] — talking to interviewers and clients, asking
+  good questions, and the "I'll figure it out" rule.
+* xref:ROOT:full-stack/web-app-architecture.adoc[How a Modern Web App Fits Together] — the anatomy and
+  the request lifecycle that the rest of the path hangs on.
+* Keep the xref:ROOT:full-stack/glossary.adoc[glossary] open throughout.
+
+_Outcome:_ you can sketch the layers of a web app and describe what each does.
+
+== Phase 2 — The Web Stack
+
+The core of full-stack: the frontend the user sees, and the backend and APIs behind it.
+
+* xref:ROOT:full-stack/frontend-and-spas.adoc[Frontend & SPAs] — single-page apps, React fundamentals,
+  Angular awareness, TypeScript basics.
+* xref:ROOT:full-stack/backends-bff-and-apis.adoc[Backends, BFF & APIs] — Node/Express/NestJS, REST APIs,
+  the Backend-for-Frontend pattern, API security (OAuth2 / JWT), and testing.
+
+_Outcome:_ you can describe how a request travels from a button click to a database
+and back, and name the technologies at each step.
+
+== Phase 3 — Data
+
+Where application state lives.
+
+* xref:ROOT:full-stack/databases.adoc[Databases] — SQL vs NoSQL, relational fundamentals, and how
+  BigQuery differs from an application database.
+
+_Outcome:_ you can explain when you would choose a relational database over a document
+store, and read a simple query.
+
+== Phase 4 — Delivery
+
+How code gets from a laptop to running software, reliably and repeatably.
+
+* xref:ROOT:full-stack/git-and-github.adoc[Git & GitHub] — version control and the pull-request workflow.
+* xref:ROOT:full-stack/docker-and-compose.adoc[Docker & Docker Compose] — containers and multi-service
+  local stacks.
+* xref:ROOT:full-stack/cicd-and-github-actions.adoc[CI/CD & GitHub Actions] — automated build, test, and deploy.
+
+_Outcome:_ you can describe the journey from a commit to a deployed change.
+
+== Phase 5 — Cloud & Infrastructure
+
+Where modern applications actually run, and how that environment is managed.
+
+* xref:ROOT:full-stack/cloud-and-gcp.adoc[Cloud Fundamentals & GCP] — what the cloud is and the core GCP
+  services (with AWS/Azure equivalents).
+* xref:ROOT:full-stack/infrastructure-as-code.adoc[Infrastructure as Code & Terraform] — defining
+  infrastructure in versioned, repeatable code.
+
+_Outcome:_ you can name a handful of cloud services and explain why infrastructure is
+written as code.
+
+== Phase 6 — AI
+
+The layer employers increasingly expect developers to work alongside.
+
+* xref:ROOT:full-stack/ai-llms-and-mcps.adoc[AI, LLMs & MCPs] — how large language models work, using them
+  from an application, vector search and RAG, and the Model Context Protocol.
+
+_Outcome:_ you can talk about integrating an AI model into an app without overclaiming.
+
+== Phase 7 — Interview Readiness
+
+Bring it together. For each topic above, practise a two-minute explanation: what it is,
+why it matters, and one concrete example. Revisit xref:ROOT:full-stack/communication.adoc[Communication]
+for how to handle questions at the edge of your knowledge, and skim the
+xref:ROOT:full-stack/glossary.adoc[glossary] one last time so no acronym catches you off guard.
+
+_Outcome:_ you can hold a confident, honest conversation across the whole stack — and
+know how to respond well when a question goes past what you know.
+
+== What comes after
+
+Fluency is the start. The natural next step is to *build* something small end to end —
+a single-page frontend talking to an API and a database, containerised, deployed to the
+cloud through a CI/CD pipeline. Each note points deeper into its topic when you are ready.

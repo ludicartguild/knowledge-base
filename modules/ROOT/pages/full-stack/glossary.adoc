@@ -1,0 +1,172 @@
+= Glossary & Acronym Dictionary
+:toc:
+:toclevels: 2
+:source-highlighter: rouge
+
+Definitions are deliberately plain-English — enough to follow a conversation or a job description, not a textbook treatment. Where a term has a deeper note elsewhere in this knowledge base, the entry links out to it. Entries are grouped by first letter; acronyms are spelled out on first mention.
+
+[TIP]
+====
+Acronyms are expanded the first time they appear in each note across this knowledge base (for example, "SPA (Single-Page Application)"). After that, only the acronym is used.
+====
+
+== A
+
+Agile/Scrum:: A family of iterative project-management approaches for software teams. Instead of planning an entire project up front, work is broken into short cycles with regular check-ins and adjustments. Scrum is the most common specific framework for running Agile — see xref:ROOT:full-stack/communication.adoc[team communication practices].
+API (Application Programming Interface):: A defined set of rules that lets one piece of software talk to another — usually a set of URLs and data formats a client can call to read or change data on a server. See xref:ROOT:full-stack/web-app-architecture.adoc[web app architecture] and xref:ROOT:full-stack/backends-bff-and-apis.adoc[backends & APIs].
+API key:: A secret string a client sends with a request to identify itself to an API. It is simpler than full user login (OAuth2) and is typically used for machine-to-machine or third-party integrations rather than individual human users.
+Auth (authentication vs. authorization):: Two related but distinct concepts. *Authentication* answers "who are you?" (logging in, proving identity). *Authorization* answers "what are you allowed to do?" (permissions, roles). A system can authenticate a user correctly and still deny them access if they're not authorized.
+AWS (Amazon Web Services):: Amazon's cloud computing platform — rents out servers, storage, databases, and managed services over the internet instead of requiring a company to buy its own hardware. See xref:ROOT:full-stack/cloud-and-gcp.adoc[cloud platforms].
+Azure:: Microsoft's cloud computing platform, functionally similar to AWS and GCP but with its own product names and tight integration with Microsoft's enterprise tools. See xref:ROOT:full-stack/cloud-and-gcp.adoc[cloud platforms].
+Angular:: A full-featured frontend framework (maintained by Google) for building single-page applications, opinionated about structure and built around TypeScript. See xref:ROOT:full-stack/frontend-and-spas.adoc[frontend & SPAs].
+
+== B
+
+Backend:: The part of an application that runs on a server rather than in the user's browser — handles business logic, talks to databases, and enforces rules the client shouldn't be trusted to enforce itself. See xref:ROOT:full-stack/backends-bff-and-apis.adoc[backends & APIs].
+Backlog:: The running list of work a team has agreed is worth doing but hasn't scheduled yet. Items are pulled from the backlog into a sprint when there's capacity. See xref:ROOT:full-stack/communication.adoc[team communication practices].
+BFF (Backend for Frontend):: A backend service built specifically to serve one particular frontend's needs — it shapes and combines data from other services into exactly the format that frontend wants, instead of making the frontend stitch together multiple raw APIs. See xref:ROOT:full-stack/backends-bff-and-apis.adoc[backends & APIs].
+BigQuery:: Google Cloud's serverless data warehouse for running fast SQL queries over very large datasets without managing servers. See xref:ROOT:full-stack/cloud-and-gcp.adoc[cloud platforms].
+Branch:: An independent line of development in a Git repository, letting someone work on a change without affecting the main codebase until it's merged.
+Build:: The process of turning source code into something runnable — compiling, bundling, minifying, or otherwise transforming code into its deployable form.
+
+== C
+
+Cache:: A place that stores a copy of data so future requests for that data can be served faster than recomputing or refetching it from the original source. Caches trade a small risk of staleness for a large gain in speed.
+CDN (Content Delivery Network):: A network of geographically distributed servers that store copies of static content (images, scripts, stylesheets) close to users, so pages load faster no matter where in the world the request comes from.
+CI/CD (Continuous Integration / Continuous Delivery or Deployment):: A practice and set of tools that automatically test, build, and (for CD) ship code every time it changes, instead of doing those steps manually before each release.
+Cloud (IaaS/PaaS/SaaS):: Renting computing resources over the internet instead of owning hardware. *IaaS* (Infrastructure as a Service) rents raw servers/storage/networking; *PaaS* (Platform as a Service) rents a managed environment to run your app without managing the servers underneath; *SaaS* (Software as a Service) is a finished application you use directly (e.g., email, a CRM). See xref:ROOT:full-stack/cloud-and-gcp.adoc[cloud platforms].
+Commit:: A saved snapshot of changes in a Git repository, with a message describing what changed and why.
+Container:: A lightweight, self-contained package that bundles an application with everything it needs to run (code, dependencies, system tools) so it behaves the same on any machine. Docker is the most common tool for building and running containers.
+CRUD (Create, Read, Update, Delete):: The four basic operations almost every application performs on data. Most APIs and database interactions map directly onto these four actions.
+
+== D
+
+Database:: A structured system for storing, retrieving, and managing data. See xref:ROOT:full-stack/databases.adoc[databases].
+Dependency:: A piece of external code (a library or package) that a project relies on to work. Dependencies are typically installed and tracked via a package manager.
+Deploy:: The act of making a built version of an application available and running in a target environment (staging, production, etc.).
+Docker:: A tool for building, distributing, and running containers — the de facto standard for containerizing applications.
+DNS (Domain Name System):: The internet's system for translating human-readable domain names (like `example.com`) into the numeric IP addresses computers use to find each other.
+
+== E
+
+Embedding:: A numeric representation (a vector of numbers) of a piece of text, image, or other data that captures its meaning, allowing a computer to compare how similar two pieces of content are mathematically. See xref:ROOT:full-stack/ai-llms-and-mcps.adoc[AI, LLMs & MCPs].
+Endpoint:: A specific URL (and HTTP method) that an API exposes for a particular operation — for example, `GET /users/42` is one endpoint. See xref:ROOT:full-stack/backends-bff-and-apis.adoc[backends & APIs].
+Environment / env var:: An *environment* is a particular deployed context an app runs in (local, staging, production). An *environment variable* (env var) is a configuration value set outside the code itself — like a database URL or API key — so the same code can behave differently depending on where it runs.
+
+== F
+
+Fine-tuning:: Further training an existing pretrained model on a smaller, specific dataset so it performs better on a narrower task, rather than training a model from scratch. See xref:ROOT:full-stack/ai-llms-and-mcps.adoc[AI, LLMs & MCPs].
+Framework vs. library:: A *library* is code you call when you need it — you're in control of the flow. A *framework* calls your code according to its own structure and lifecycle — it's in control of the flow, and you fill in the pieces it expects (this is often summarized as "inversion of control").
+Frontend:: The part of an application that runs in the user's browser (or device) — what the user sees and interacts with directly. See xref:ROOT:full-stack/frontend-and-spas.adoc[frontend & SPAs].
+
+== G
+
+GCP (Google Cloud Platform):: Google's cloud computing platform, offering compute, storage, databases, and managed services such as BigQuery and Vertex AI. See xref:ROOT:full-stack/cloud-and-gcp.adoc[cloud platforms].
+Gemini:: Google's family of large language models, used both in consumer products and via API/Vertex AI for building AI-powered applications. See xref:ROOT:full-stack/ai-llms-and-mcps.adoc[AI, LLMs & MCPs].
+
+== H
+
+HTTP/HTTPS (HyperText Transfer Protocol / Secure):: The protocol web browsers and servers use to exchange requests and responses. HTTPS is HTTP encrypted with TLS, so data in transit can't be easily read or tampered with by anyone intercepting it.
+
+== I
+
+IaC (Infrastructure as Code):: Defining infrastructure (servers, networks, databases) in version-controlled configuration files instead of clicking through a cloud console by hand, so environments are reproducible and reviewable like code. Terraform is a common tool for this.
+Image:: A packaged, read-only template used to create containers — it bundles an application's code, dependencies, and runtime environment into a single distributable unit (a "Docker image").
+Index:: A data structure a database maintains alongside a table to make lookups on specific columns much faster, at the cost of extra storage and slightly slower writes. See xref:ROOT:full-stack/databases.adoc[databases].
+Integration test:: A test that checks whether multiple parts of a system work correctly together (e.g., an API endpoint talking to a real database), as opposed to testing one piece in isolation.
+
+== J
+
+JavaScript:: The programming language that runs natively in web browsers, also usable on the server via Node.js. It's the foundation of almost all interactive web frontends.
+JSON (JavaScript Object Notation):: A lightweight, human-readable text format for representing structured data (objects, arrays, key-value pairs). It's the default format most APIs use to send and receive data.
+JWT (JSON Web Token):: A compact, signed token format commonly used to represent an authenticated user's identity and claims, passed between client and server so the server can verify the request without a separate database lookup on every call.
+
+== K
+
+Kubernetes (K8s):: A system for automatically deploying, scaling, and managing groups of containers across a cluster of machines, handling things like restarting failed containers and load-balancing traffic between them.
+
+== L
+
+Load balancer:: A component that sits in front of multiple servers and distributes incoming requests across them, so no single server gets overwhelmed and traffic keeps flowing if one server fails.
+LLM (Large Language Model):: A machine learning model trained on huge amounts of text to predict and generate language, powering chat assistants, summarization, code generation, and more. See xref:ROOT:full-stack/ai-llms-and-mcps.adoc[AI, LLMs & MCPs].
+
+== M
+
+MCP (Model Context Protocol):: An open standard that lets AI assistants connect to external tools and data sources (files, APIs, databases) through a common protocol, instead of every integration being custom-built. See xref:ROOT:full-stack/ai-llms-and-mcps.adoc[AI, LLMs & MCPs].
+Merge:: Combining changes from one Git branch into another, bringing that branch's history together with the target branch's.
+Merge conflict:: A situation where Git can't automatically combine two branches because both changed the same lines of the same file, requiring a person to manually decide which changes to keep.
+Microservice:: An architectural style where an application is built as a collection of small, independently deployable services, each responsible for one capability, that communicate over the network.
+Middleware:: Code that runs in between receiving a request and producing a response — commonly used for cross-cutting concerns like logging, authentication checks, or error handling that should apply to many endpoints at once.
+Mock:: A fake stand-in for a real dependency (a database, an API, a service) used in tests so the test can run in isolation, quickly and predictably, without needing the real thing.
+Monolith:: An application built and deployed as a single unit, where all functionality lives in one codebase and one deployable, as opposed to being split into microservices.
+
+== N
+
+Node.js:: A runtime that lets JavaScript run outside the browser — most commonly used to build backend servers and command-line tools in JavaScript or TypeScript.
+NoSQL:: A broad category of databases that don't use the traditional relational (table-and-row) model — includes document stores, key-value stores, and graph databases, often chosen for flexible schemas or particular scaling needs. See xref:ROOT:full-stack/databases.adoc[databases].
+npm (Node Package Manager):: The default package manager for Node.js — used to install, publish, and manage JavaScript library dependencies.
+
+== O
+
+OAuth2:: An industry-standard protocol that lets a user grant one application limited access to their data on another service, without sharing their password with the first application (e.g., "Sign in with Google").
+ORM (Object-Relational Mapper):: A library that lets developers interact with a database using the programming language's native objects and methods instead of writing raw SQL by hand. See xref:ROOT:full-stack/databases.adoc[databases].
+
+== P
+
+Package manager:: A tool that installs, updates, and tracks a project's external dependencies (e.g., npm for JavaScript, pip for Python), usually recording exact versions so builds are reproducible.
+PR (Pull Request):: A request to merge one branch's changes into another, opened so teammates can review the diff, discuss it, and approve it before it becomes part of the shared codebase.
+Pub/Sub (Publish/Subscribe):: A messaging pattern where senders ("publishers") emit messages to a channel without knowing who's listening, and receivers ("subscribers") get every message on channels they've subscribed to — commonly used to decouple services. See xref:ROOT:full-stack/cloud-and-gcp.adoc[cloud platforms].
+
+== Q
+
+Query:: A request for data made to a database (most commonly written in SQL) or, more generally, a structured question sent to any data source.
+Queue:: A data structure or messaging system that holds items to be processed in order, letting producers add work without waiting for it to be handled immediately and letting consumers process it at their own pace.
+
+== R
+
+RAG (Retrieval-Augmented Generation):: A technique where an LLM's response is grounded by first retrieving relevant documents or data (often via vector search) and feeding them into the model's context, so it answers using specific, up-to-date information rather than relying only on what it memorized during training. See xref:ROOT:full-stack/ai-llms-and-mcps.adoc[AI, LLMs & MCPs].
+React:: A popular JavaScript library for building user interfaces out of reusable components, widely used for single-page applications. See xref:ROOT:full-stack/frontend-and-spas.adoc[frontend & SPAs].
+Repo (repository):: A directory tracked by a version control system (like Git), containing a project's code and its full history of changes.
+REST (Representational State Transfer):: An architectural style for designing APIs around resources (like `/users` or `/orders`) and standard HTTP methods (GET, POST, PUT, DELETE) to act on them. Most "REST APIs" in practice loosely follow these conventions rather than implementing the full formal style. See xref:ROOT:full-stack/web-app-architecture.adoc[web app architecture].
+Runtime:: The environment in which code actually executes (as opposed to when it's written or compiled) — also used to mean the software that provides that environment, like Node.js for JavaScript.
+
+== S
+
+Schema:: The defined structure of data — what fields/columns exist, their types, and how they relate to each other — whether in a database table or a JSON payload. See xref:ROOT:full-stack/databases.adoc[databases].
+SDK (Software Development Kit):: A packaged set of tools, libraries, and documentation provided by a platform or service to make it easier to build against it, often wrapping raw API calls in convenient, language-specific code.
+Serverless:: A cloud model where code runs on demand without the developer provisioning or managing any servers — the platform handles scaling automatically, and billing is typically based on actual usage rather than reserved capacity. See xref:ROOT:full-stack/cloud-and-gcp.adoc[cloud platforms].
+SPA (Single-Page Application):: A web application that loads a single HTML page once and then updates content dynamically with JavaScript, instead of requesting a whole new page from the server for every navigation. See xref:ROOT:full-stack/frontend-and-spas.adoc[frontend & SPAs].
+Sprint:: A fixed, short time period (commonly one to two weeks) in Scrum during which a team commits to completing a defined set of work from the backlog. See xref:ROOT:full-stack/communication.adoc[team communication practices].
+SQL (Structured Query Language):: The standard language for querying and manipulating data in relational databases. See xref:ROOT:full-stack/databases.adoc[databases].
+Staging vs. production:: *Staging* is an environment that mirrors production as closely as possible, used to test changes before they go live. *Production* is the live environment real users interact with.
+Standup:: A short, regular team meeting (often daily) where each person briefly shares what they did, what they're doing next, and any blockers. See xref:ROOT:full-stack/communication.adoc[team communication practices].
+
+== T
+
+Terraform:: A widely used Infrastructure as Code tool that lets teams define cloud resources in configuration files and apply them consistently across environments and providers.
+TLS/SSL (Transport Layer Security / Secure Sockets Layer):: Cryptographic protocols that encrypt data sent over a network connection. SSL is the older, deprecated predecessor to TLS, but the term "SSL" is still used colloquially to mean TLS.
+TypeScript:: A superset of JavaScript that adds static types, which are checked before the code runs, catching many bugs earlier and improving editor tooling.
+
+== U
+
+Unit test:: A test that checks a single, small piece of code (typically one function or method) in isolation from the rest of the system, usually with any dependencies mocked out.
+
+== V
+
+Vector search:: Searching for items by comparing their embeddings (numeric vectors) rather than matching exact keywords, so results can be found based on meaning or similarity even when the wording is different. See xref:ROOT:full-stack/ai-llms-and-mcps.adoc[AI, LLMs & MCPs].
+Vertex AI:: Google Cloud's managed platform for building, training, and deploying machine learning models, including access to Gemini and other foundation models. See xref:ROOT:full-stack/cloud-and-gcp.adoc[cloud platforms] and xref:ROOT:full-stack/ai-llms-and-mcps.adoc[AI, LLMs & MCPs].
+VPC (Virtual Private Cloud):: An isolated, private network within a cloud provider where resources can communicate with each other while being shielded from the public internet by default.
+
+== W
+
+Webhook:: A way for one system to notify another automatically when something happens, by sending an HTTP request to a URL the receiving system has registered in advance — the reverse of polling for updates.
+
+== Related notes
+
+* xref:ROOT:full-stack/web-app-architecture.adoc[Web app architecture]
+* xref:ROOT:full-stack/frontend-and-spas.adoc[Frontend & SPAs]
+* xref:ROOT:full-stack/backends-bff-and-apis.adoc[Backends, BFFs & APIs]
+* xref:ROOT:full-stack/databases.adoc[Databases]
+* xref:ROOT:full-stack/cloud-and-gcp.adoc[Cloud platforms & GCP]
+* xref:ROOT:full-stack/ai-llms-and-mcps.adoc[AI, LLMs & MCPs]
+* xref:ROOT:full-stack/communication.adoc[Team communication practices]
