@@ -6,7 +6,7 @@ type: concept
 ---
 
 
-The frontend is the part of an application that runs in the user’s browser: the layout, the interactivity, and everything a user directly sees and clicks. Modern frontend work is dominated by the Single-Page Application (SPA) model, built with a JavaScript framework — most commonly React or Angular — often written in TypeScript rather than plain JavaScript.
+The frontend is the part of an application that runs in the user’s browser: the layout, the interactivity, and everything a user directly sees and clicks. Modern frontend work is dominated by the Single-Page Application (SPA) model, built with a JavaScript framework, most commonly React or Angular, often written in TypeScript rather than plain JavaScript.
 
 ## What a SPA is
 
@@ -14,25 +14,25 @@ A traditional multi-page site loads a new HTML page from the server every time t
 
 A **Single-Page Application** loads one HTML shell up front, then uses JavaScript to render everything else directly in the browser and keep it updated:
 
-* **Client-side routing** — a router library intercepts link clicks and swaps which components are shown, updating the URL without asking the server for a new page.
-* **Rendering in the browser** — the browser’s JavaScript engine builds and updates the DOM directly, rather than receiving finished HTML for every view.
-* **Calling APIs** — the app fetches data as JSON from a backend using the `fetch` API (or a wrapper around it) and renders the response, instead of the server embedding data into the HTML it sends.
-* **Traditional multi-page site** — server renders full HTML per request; simple, but every navigation is a round trip.
-* **SPA** — one initial load, then JavaScript drives updates; feels faster after the first load, but there’s more upfront JavaScript to download and more client-side complexity to manage.
+* **Client-side routing**: a router library intercepts link clicks and swaps which components are shown, updating the URL without asking the server for a new page.
+* **Rendering in the browser**: the browser’s JavaScript engine builds and updates the DOM directly, rather than receiving finished HTML for every view.
+* **Calling APIs**: the app fetches data as JSON from a backend using the `fetch` API (or a wrapper around it) and renders the response, instead of the server embedding data into the HTML it sends.
+* **Traditional multi-page site**: server renders full HTML per request; simple, but every navigation is a round trip.
+* **SPA**: one initial load, then JavaScript drives updates; feels faster after the first load, but there’s more upfront JavaScript to download and more client-side complexity to manage.
 
-Most modern web apps — social feeds, dashboards, admin panels — are SPAs or close to it.
+Most modern web apps, social feeds, dashboards, admin panels, are SPAs or close to it.
 
 ## React fundamentals
 
-React is a JavaScript library for building UIs out of **components** — small, reusable pieces of interface that each manage their own markup and logic.
+React is a JavaScript library for building UIs out of **components**, small, reusable pieces of interface that each manage their own markup and logic.
 
-* **Components** — functions that return JSX (HTML-like syntax embedded in JavaScript) describing what the UI should look like.
-* **Props** — data passed **into** a component from its parent, read-only from the component’s own perspective.
-* **State** — data a component owns and can change over time, managed with the `useState` hook.
-* **One-way data flow** — data flows down from parent to child via props; a child never mutates a parent’s state directly, it calls a function the parent passed down instead. This makes UI behavior easier to trace.
-* **Hooks** — plain functions (`useState`, `useEffect`, and others) that let function components use state and other React features, introduced in React 16.8 and now the standard way to write components.
-  * `useState` — declares a piece of state and a setter function to update it.
-  * `useEffect` — runs side effects (data fetching, subscriptions, timers) after render, and can clean up after itself.
+* **Components**: functions that return JSX (HTML-like syntax embedded in JavaScript) describing what the UI should look like.
+* **Props**: data passed **into** a component from its parent, read-only from the component’s own perspective.
+* **State**: data a component owns and can change over time, managed with the `useState` hook.
+* **One-way data flow**: data flows down from parent to child via props; a child never mutates a parent’s state directly, it calls a function the parent passed down instead. This makes UI behavior easier to trace.
+* **Hooks**: plain functions (`useState`, `useEffect`, and others) that let function components use state and other React features, introduced in React 16.8 and now the standard way to write components.
+  * `useState`: declares a piece of state and a setter function to update it.
+  * `useEffect`: runs side effects (data fetching, subscriptions, timers) after render, and can clean up after itself.
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -59,9 +59,9 @@ function Greeting({ name }) {
 
 Angular is a full, opinionated framework (not just a UI library) maintained by Google, built TypeScript-first from the ground up.
 
-* **Component** — similar role to a React component: markup, styles, and logic bundled together, but declared with a `@Component` decorator and a separate HTML template.
-* **Module** — a container that groups related components, directives, and services together (`@NgModule`); Angular apps are organized into modules.
-* **Service** — a reusable class for logic that doesn’t belong in a component (API calls, shared state), provided to components via **dependency injection**.
+* **Component**: similar role to a React component: markup, styles, and logic bundled together, but declared with a `@Component` decorator and a separate HTML template.
+* **Module**: a container that groups related components, directives, and services together (`@NgModule`); Angular apps are organized into modules.
+* **Service**: a reusable class for logic that doesn’t belong in a component (API calls, shared state), provided to components via **dependency injection**.
 * Angular ships built-in solutions for routing, forms, and HTTP calls, where React relies on the surrounding ecosystem (React Router, etc.) for those.
 
 The practical takeaway for an interview: React is a flexible library you compose your own architecture around; Angular is a complete, more prescriptive framework with more built-in structure and more conventions to learn up front.
@@ -91,8 +91,8 @@ The `interface` describes the exact shape `User` must have; passing an object mi
 ## How to talk about this in an interview
 
 * Be able to explain, in plain language, why an SPA feels faster to navigate than a traditional multi-page site, and what tradeoff it makes in return (bigger initial JavaScript payload).
-* Know React’s core vocabulary — component, props, state, hooks — well enough to talk through a small example out loud.
-* It’s fine to have used only React, or only Angular, in practice. State that plainly rather than overclaiming: "I’ve mainly worked in React, but I understand Angular’s component/module/service structure and TypeScript-first approach — I’d expect to be productive in it within a short ramp-up." See [[communication|Communication]] for more on framing an honest knowledge gap.
+* Know React’s core vocabulary: component, props, state, hooks, well enough to talk through a small example out loud.
+* It’s fine to have used only React, or only Angular, in practice. State that plainly rather than overclaiming: "I’ve mainly worked in React, but I understand Angular’s component/module/service structure and TypeScript-first approach: I’d expect to be productive in it within a short ramp-up." See [[communication|Communication]] for more on framing an honest knowledge gap.
 * If asked about a specific hook or Angular API not used before, it’s reasonable to say "I haven’t used that one directly, but here’s how I’d expect to find out" rather than guessing confidently.
 
 ## Key terms
@@ -115,7 +115,7 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 
 ## Related notes
 
-* [[web-app-architecture|How a Modern Web App Fits Together]] — where the frontend sits relative to the BFF, API, and database.
-* [[backends-bff-and-apis|Backends, BFF & APIs]] — what the frontend is talking to when it calls `fetch`.
-* [[communication|Communication]] — framing an honest "I haven’t used that" answer in an interview.
-* [[glossary|Glossary]] — full term list referenced across all foundational notes.
+* [[web-app-architecture|How a Modern Web App Fits Together]]: where the frontend sits relative to the BFF, API, and database.
+* [[backends-bff-and-apis|Backends, BFF & APIs]]: what the frontend is talking to when it calls `fetch`.
+* [[communication|Communication]]: framing an honest "I haven’t used that" answer in an interview.
+* [[glossary|Glossary]]: full term list referenced across all foundational notes.

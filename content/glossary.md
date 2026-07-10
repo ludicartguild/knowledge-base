@@ -6,7 +6,7 @@ type: reference
 ---
 
 
-Definitions are deliberately plain-English — enough to follow a conversation or a job description, not a textbook treatment. Where a term has a deeper note elsewhere in this knowledge base, the entry links out to it. Entries are grouped by first letter; acronyms are spelled out on first mention.
+Definitions are deliberately plain-English, enough to follow a conversation or a job description, not a textbook treatment. Where a term has a deeper note elsewhere in this knowledge base, the entry links out to it. Entries are grouped by first letter; acronyms are spelled out on first mention.
 
 > [!tip]
 > Acronyms are expanded the first time they appear in each note across this knowledge base (for example, "SPA (Single-Page Application)"). After that, only the acronym is used.
@@ -14,15 +14,15 @@ Definitions are deliberately plain-English — enough to follow a conversation o
 ## A
 
 * **Agile/Scrum**\
-A family of iterative project-management approaches for software teams. Instead of planning an entire project up front, work is broken into short cycles with regular check-ins and adjustments. Scrum is the most common specific framework for running Agile — see [[communication|team communication practices]].
+A family of iterative project-management approaches for software teams. Instead of planning an entire project up front, work is broken into short cycles with regular check-ins and adjustments. Scrum is the most common specific framework for running Agile, see [[communication|team communication practices]].
 * **API (Application Programming Interface)**\
-A defined set of rules that lets one piece of software talk to another — usually a set of URLs and data formats a client can call to read or change data on a server. See [[web-app-architecture|web app architecture]] and [[backends-bff-and-apis|backends & APIs]].
+A defined set of rules that lets one piece of software talk to another, usually a set of URLs and data formats a client can call to read or change data on a server. See [[web-app-architecture|web app architecture]] and [[backends-bff-and-apis|backends & APIs]].
 * **API key**\
 A secret string a client sends with a request to identify itself to an API. It is simpler than full user login (OAuth2) and is typically used for machine-to-machine or third-party integrations rather than individual human users.
 * **Auth (authentication vs. authorization)**\
 Two related but distinct concepts. **Authentication** answers "who are you?" (logging in, proving identity). **Authorization** answers "what are you allowed to do?" (permissions, roles). A system can authenticate a user correctly and still deny them access if they’re not authorized.
 * **AWS (Amazon Web Services)**\
-Amazon’s cloud computing platform — rents out servers, storage, databases, and managed services over the internet instead of requiring a company to buy its own hardware. See [[cloud-and-gcp|cloud platforms]].
+Amazon’s cloud computing platform, rents out servers, storage, databases, and managed services over the internet instead of requiring a company to buy its own hardware. See [[cloud-and-gcp|cloud platforms]].
 * **Azure**\
 Microsoft’s cloud computing platform, functionally similar to AWS and GCP but with its own product names and tight integration with Microsoft’s enterprise tools. See [[cloud-and-gcp|cloud platforms]].
 * **Angular**\
@@ -31,17 +31,17 @@ A full-featured frontend framework (maintained by Google) for building single-pa
 ## B
 
 * **Backend**\
-The part of an application that runs on a server rather than in the user’s browser — handles business logic, talks to databases, and enforces rules the client shouldn’t be trusted to enforce itself. See [[backends-bff-and-apis|backends & APIs]].
+The part of an application that runs on a server rather than in the user’s browser, handles business logic, talks to databases, and enforces rules the client shouldn’t be trusted to enforce itself. See [[backends-bff-and-apis|backends & APIs]].
 * **Backlog**\
 The running list of work a team has agreed is worth doing but hasn’t scheduled yet. Items are pulled from the backlog into a sprint when there’s capacity. See [[communication|team communication practices]].
 * **BFF (Backend for Frontend)**\
-A backend service built specifically to serve one particular frontend’s needs — it shapes and combines data from other services into exactly the format that frontend wants, instead of making the frontend stitch together multiple raw APIs. See [[backends-bff-and-apis|backends & APIs]].
+A backend service built specifically to serve one particular frontend’s needs, it shapes and combines data from other services into exactly the format that frontend wants, instead of making the frontend stitch together multiple raw APIs. See [[backends-bff-and-apis|backends & APIs]].
 * **BigQuery**\
 Google Cloud’s serverless data warehouse for running fast SQL queries over very large datasets without managing servers. See [[cloud-and-gcp|cloud platforms]].
 * **Branch**\
 An independent line of development in a Git repository, letting someone work on a change without affecting the main codebase until it’s merged.
 * **Build**\
-The process of turning source code into something runnable — compiling, bundling, minifying, or otherwise transforming code into its deployable form.
+The process of turning source code into something runnable, compiling, bundling, minifying, or otherwise transforming code into its deployable form.
 
 ## C
 
@@ -69,7 +69,7 @@ A piece of external code (a library or package) that a project relies on to work
 * **Deploy**\
 The act of making a built version of an application available and running in a target environment (staging, production, etc.).
 * **Docker**\
-A tool for building, distributing, and running containers — the de facto standard for containerizing applications.
+A tool for building, distributing, and running containers, the de facto standard for containerizing applications.
 * **DNS (Domain Name System)**\
 The internet’s system for translating human-readable domain names (like `example.com`) into the numeric IP addresses computers use to find each other.
 
@@ -78,18 +78,18 @@ The internet’s system for translating human-readable domain names (like `examp
 * **Embedding**\
 A numeric representation (a vector of numbers) of a piece of text, image, or other data that captures its meaning, allowing a computer to compare how similar two pieces of content are mathematically. See [[ai-llms-and-mcps|AI, LLMs & MCPs]].
 * **Endpoint**\
-A specific URL (and HTTP method) that an API exposes for a particular operation — for example, `GET /users/42` is one endpoint. See [[backends-bff-and-apis|backends & APIs]].
+A specific URL (and HTTP method) that an API exposes for a particular operation, for example, `GET /users/42` is one endpoint. See [[backends-bff-and-apis|backends & APIs]].
 * **Environment / env var**\
-An **environment** is a particular deployed context an app runs in (local, staging, production). An **environment variable** (env var) is a configuration value set outside the code itself — like a database URL or API key — so the same code can behave differently depending on where it runs.
+An **environment** is a particular deployed context an app runs in (local, staging, production). An **environment variable** (env var) is a configuration value set outside the code itself, like a database URL or API key, so the same code can behave differently depending on where it runs.
 
 ## F
 
 * **Fine-tuning**\
 Further training an existing pretrained model on a smaller, specific dataset so it performs better on a narrower task, rather than training a model from scratch. See [[ai-llms-and-mcps|AI, LLMs & MCPs]].
 * **Framework vs. library**\
-A **library** is code you call when you need it — you’re in control of the flow. A **framework** calls your code according to its own structure and lifecycle — it’s in control of the flow, and you fill in the pieces it expects (this is often summarized as "inversion of control").
+A **library** is code you call when you need it, you’re in control of the flow. A **framework** calls your code according to its own structure and lifecycle, it’s in control of the flow, and you fill in the pieces it expects (this is often summarized as "inversion of control").
 * **Frontend**\
-The part of an application that runs in the user’s browser (or device) — what the user sees and interacts with directly. See [[frontend-and-spas|frontend & SPAs]].
+The part of an application that runs in the user’s browser (or device), what the user sees and interacts with directly. See [[frontend-and-spas|frontend & SPAs]].
 
 ## G
 
@@ -108,7 +108,7 @@ The protocol web browsers and servers use to exchange requests and responses. HT
 * **IaC (Infrastructure as Code)**\
 Defining infrastructure (servers, networks, databases) in version-controlled configuration files instead of clicking through a cloud console by hand, so environments are reproducible and reviewable like code. Terraform is a common tool for this.
 * **Image**\
-A packaged, read-only template used to create containers — it bundles an application’s code, dependencies, and runtime environment into a single distributable unit (a "Docker image").
+A packaged, read-only template used to create containers, it bundles an application’s code, dependencies, and runtime environment into a single distributable unit (a "Docker image").
 * **Index**\
 A data structure a database maintains alongside a table to make lookups on specific columns much faster, at the cost of extra storage and slightly slower writes. See [[databases|databases]].
 * **Integration test**\
@@ -146,7 +146,7 @@ A situation where Git can’t automatically combine two branches because both ch
 * **Microservice**\
 An architectural style where an application is built as a collection of small, independently deployable services, each responsible for one capability, that communicate over the network.
 * **Middleware**\
-Code that runs in between receiving a request and producing a response — commonly used for cross-cutting concerns like logging, authentication checks, or error handling that should apply to many endpoints at once.
+Code that runs in between receiving a request and producing a response, commonly used for cross-cutting concerns like logging, authentication checks, or error handling that should apply to many endpoints at once.
 * **Mock**\
 A fake stand-in for a real dependency (a database, an API, a service) used in tests so the test can run in isolation, quickly and predictably, without needing the real thing.
 * **Monolith**\
@@ -155,11 +155,11 @@ An application built and deployed as a single unit, where all functionality live
 ## N
 
 * **Node.js**\
-A runtime that lets JavaScript run outside the browser — most commonly used to build backend servers and command-line tools in JavaScript or TypeScript.
+A runtime that lets JavaScript run outside the browser, most commonly used to build backend servers and command-line tools in JavaScript or TypeScript.
 * **NoSQL**\
-A broad category of databases that don’t use the traditional relational (table-and-row) model — includes document stores, key-value stores, and graph databases, often chosen for flexible schemas or particular scaling needs. See [[databases|databases]].
+A broad category of databases that don’t use the traditional relational (table-and-row) model, includes document stores, key-value stores, and graph databases, often chosen for flexible schemas or particular scaling needs. See [[databases|databases]].
 * **npm (Node Package Manager)**\
-The default package manager for Node.js — used to install, publish, and manage JavaScript library dependencies.
+The default package manager for Node.js, used to install, publish, and manage JavaScript library dependencies.
 
 ## O
 
@@ -175,7 +175,7 @@ A tool that installs, updates, and tracks a project’s external dependencies (e
 * **PR (Pull Request)**\
 A request to merge one branch’s changes into another, opened so teammates can review the diff, discuss it, and approve it before it becomes part of the shared codebase.
 * **Pub/Sub (Publish/Subscribe)**\
-A messaging pattern where senders ("publishers") emit messages to a channel without knowing who’s listening, and receivers ("subscribers") get every message on channels they’ve subscribed to — commonly used to decouple services. See [[cloud-and-gcp|cloud platforms]].
+A messaging pattern where senders ("publishers") emit messages to a channel without knowing who’s listening, and receivers ("subscribers") get every message on channels they’ve subscribed to, commonly used to decouple services. See [[cloud-and-gcp|cloud platforms]].
 
 ## Q
 
@@ -195,16 +195,16 @@ A directory tracked by a version control system (like Git), containing a project
 * **REST (Representational State Transfer)**\
 An architectural style for designing APIs around resources (like `/users` or `/orders`) and standard HTTP methods (GET, POST, PUT, DELETE) to act on them. Most "REST APIs" in practice loosely follow these conventions rather than implementing the full formal style. See [[web-app-architecture|web app architecture]].
 * **Runtime**\
-The environment in which code actually executes (as opposed to when it’s written or compiled) — also used to mean the software that provides that environment, like Node.js for JavaScript.
+The environment in which code actually executes (as opposed to when it’s written or compiled), also used to mean the software that provides that environment, like Node.js for JavaScript.
 
 ## S
 
 * **Schema**\
-The defined structure of data — what fields/columns exist, their types, and how they relate to each other — whether in a database table or a JSON payload. See [[databases|databases]].
+The defined structure of data, what fields/columns exist, their types, and how they relate to each other, whether in a database table or a JSON payload. See [[databases|databases]].
 * **SDK (Software Development Kit)**\
 A packaged set of tools, libraries, and documentation provided by a platform or service to make it easier to build against it, often wrapping raw API calls in convenient, language-specific code.
 * **Serverless**\
-A cloud model where code runs on demand without the developer provisioning or managing any servers — the platform handles scaling automatically, and billing is typically based on actual usage rather than reserved capacity. See [[cloud-and-gcp|cloud platforms]].
+A cloud model where code runs on demand without the developer provisioning or managing any servers, the platform handles scaling automatically, and billing is typically based on actual usage rather than reserved capacity. See [[cloud-and-gcp|cloud platforms]].
 * **SPA (Single-Page Application)**\
 A web application that loads a single HTML page once and then updates content dynamically with JavaScript, instead of requesting a whole new page from the server for every navigation. See [[frontend-and-spas|frontend & SPAs]].
 * **Sprint**\
@@ -242,7 +242,7 @@ An isolated, private network within a cloud provider where resources can communi
 ## W
 
 * **Webhook**\
-A way for one system to notify another automatically when something happens, by sending an HTTP request to a URL the receiving system has registered in advance — the reverse of polling for updates.
+A way for one system to notify another automatically when something happens, by sending an HTTP request to a URL the receiving system has registered in advance, the reverse of polling for updates.
 
 ## Related notes
 

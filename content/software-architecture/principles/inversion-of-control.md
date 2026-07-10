@@ -6,13 +6,13 @@ type: reference
 ---
 
 
-Inversion of Control is a design principle where the framework or runtime—not your code—controls the program’s flow and object lifecycle, calling your code at the right moments rather than the other way around. Martin Fowler’s 2004 article [_Inversion of Control Containers and the Dependency Injection pattern_](https://martinfowler.com/articles/injection.html) remains the canonical reference.
+Inversion of Control is a design principle where the framework or runtime, not your code, controls the program’s flow and object lifecycle, calling your code at the right moments rather than the other way around. Martin Fowler’s 2004 article [_Inversion of Control Containers and the Dependency Injection pattern_](https://martinfowler.com/articles/injection.html) remains the canonical reference.
 
 ## The Hollywood Principle
 
 Don’t call us, we’ll call you.
 
-This informal phrasing—named after the Hollywood rejection cliché—captures the reversal precisely. Your code registers itself with a framework (implements an interface, wires up a handler, annotates a method), and the framework decides when to invoke it.
+This informal phrasing, named after the Hollywood rejection cliché, captures the reversal precisely. Your code registers itself with a framework (implements an interface, wires up a handler, annotates a method), and the framework decides when to invoke it.
 
 ## Traditional vs. Inverted Control Flow
 
@@ -23,7 +23,7 @@ This informal phrasing—named after the Hollywood rejection cliché—captures 
 
 ## Before and After: the OrderService example
 
-### WITHOUT IoC — hardwired dependencies
+### WITHOUT IoC, hardwired dependencies
 
 `OrderService` constructs its own collaborators. You cannot test it without a real database and a real mail server.
 
@@ -50,7 +50,7 @@ svc = OrderService()
 svc.place_order("Laptop")
 ```
 
-### WITH IoC — dependencies received from outside
+### WITH IoC, dependencies received from outside
 
 Control over object creation is inverted: whoever builds `OrderService` decides which collaborators it receives.
 
@@ -80,7 +80,7 @@ test_svc.place_order("Laptop")   # no real DB, no real email
 ```
 
 > [!tip]
-> The signature `__init__(self, db, mailer)` is the entire IoC contract. The class no longer cares **how** its collaborators are produced—only that they honour the expected interface.
+> The signature `__init__(self, db, mailer)` is the entire IoC contract. The class no longer cares **how** its collaborators are produced, only that they honour the expected interface.
 
 ## Mechanisms that implement IoC
 
@@ -112,7 +112,7 @@ order_service = container.svc()   # container builds and wires everything
 ```
 
 > [!note]
-> Containers are powerful but optional. Constructor injection without a container is perfectly valid—and often preferable—for smaller codebases.
+> Containers are powerful but optional. Constructor injection without a container is perfectly valid, and often preferable, for smaller codebases.
 
 ## IoC vs. Dependency Injection vs. Dependency Inversion Principle
 
@@ -129,9 +129,9 @@ These three terms are frequently conflated. They are related but distinct:
 
 ## Why it matters
 
-* **Decoupling** — collaborators can be swapped without touching `OrderService`. Changing the database means changing only the injected object.
-* **Testability** — pass in fakes or mocks at construction time; no need for monkey-patching or test databases.
-* **Flexibility** — the same class can be configured differently in different deployment contexts (production, staging, test, local).
+* **Decoupling**: collaborators can be swapped without touching `OrderService`. Changing the database means changing only the injected object.
+* **Testability**: pass in fakes or mocks at construction time; no need for monkey-patching or test databases.
+* **Flexibility**: the same class can be configured differently in different deployment contexts (production, staging, test, local).
 
 ## Caveats and failure modes
 
@@ -139,14 +139,14 @@ These three terms are frequently conflated. They are related but distinct:
 
 **Magic / hard-to-trace flow.** Frameworks that call your code through annotations, reflection, or XML config can make it hard to answer "what actually runs when this request arrives?" Prefer explicit wiring when the graph is small enough.
 
-**Abstraction for its own sake.** Extracting an interface just to enable injection—when there is and will only ever be one implementation—is [[yagni|YAGNI]]. Introduce the abstraction when you have a concrete second use (testing counts).
+**Abstraction for its own sake.** Extracting an interface just to enable injection, when there is and will only ever be one implementation, is [[yagni|YAGNI]]. Introduce the abstraction when you have a concrete second use (testing counts).
 
 **Constructor telescoping.** Ten-argument constructors signal that the class itself needs splitting ([[solid|SRP]] violation), not that you need a better container.
 
 ## Relation to other foundational concepts
 
-* [[solid|SOLID (DIP)]] — DIP specifies that injected dependencies should be **abstractions**, completing the IoC picture: not only is the object handed in, it’s typed against an interface the high-level module owns.
-* [[coupling-and-cohesion|Coupling & Cohesion]] — IoC’s primary payoff is reducing efferent coupling; classes stop reaching out to create their collaborators and instead receive a clean, minimal interface.
-* [[strategy-pattern|Strategy Pattern]] — the canonical structural expression of IoC: a collaborator implementing a swappable algorithm is injected rather than hard-coded.
-* [[repository-pattern|Repository Pattern]] — repositories are a canonical thing you inject; the pattern only works cleanly when the service does not instantiate the repository itself.
-* [[composition-over-inheritance|Composition over Inheritance]] — DI is the mechanism that makes composition practical at scale: you compose by injecting, not by subclassing.
+* [[solid|SOLID (DIP)]]: DIP specifies that injected dependencies should be **abstractions**, completing the IoC picture: not only is the object handed in, it’s typed against an interface the high-level module owns.
+* [[coupling-and-cohesion|Coupling & Cohesion]]: IoC’s primary payoff is reducing efferent coupling; classes stop reaching out to create their collaborators and instead receive a clean, minimal interface.
+* [[strategy-pattern|Strategy Pattern]]: the canonical structural expression of IoC: a collaborator implementing a swappable algorithm is injected rather than hard-coded.
+* [[repository-pattern|Repository Pattern]]: repositories are a canonical thing you inject; the pattern only works cleanly when the service does not instantiate the repository itself.
+* [[composition-over-inheritance|Composition over Inheritance]]: DI is the mechanism that makes composition practical at scale: you compose by injecting, not by subclassing.

@@ -6,7 +6,7 @@ type: reference
 ---
 
 
-A **behavioral** design pattern from GoF (_Design Patterns_, Gamma/Helm/Johnson/Vlissides, 1994). It centralizes communication between objects into a single mediator so that components never reference each other directly — every peer talks only to the hub, and the hub coordinates the rest.
+A **behavioral** design pattern from GoF (_Design Patterns_, Gamma/Helm/Johnson/Vlissides, 1994). It centralizes communication between objects into a single mediator so that components never reference each other directly, every peer talks only to the hub, and the hub coordinates the rest.
 
 ## Problem
 
@@ -14,9 +14,9 @@ When many objects interact, they accumulate direct references to one another. Th
 
 ## Solution
 
-Introduce one **Mediator** object. Each component (called a **Colleague**) knows only the mediator — it sends all requests there and reacts to events the mediator sends back. The many-to-many mesh collapses into many-to-one spokes.
+Introduce one **Mediator** object. Each component (called a **Colleague**) knows only the mediator, it sends all requests there and reacts to events the mediator sends back. The many-to-many mesh collapses into many-to-one spokes.
 
-The mediator holds every "when X then Y" rule that used to be scattered across Colleagues. The Colleagues themselves become ignorant of each other — and therefore reusable.
+The mediator holds every "when X then Y" rule that used to be scattered across Colleagues. The Colleagues themselves become ignorant of each other, and therefore reusable.
 
 ## Python Example
 
@@ -100,30 +100,30 @@ The `SignupDialog` is the only place that knows the "both checkbox AND non-empty
 | --- | --- |
 | GUI dialog / form controller | Holds all cross-widget enable/disable, show/hide, validation rules. |
 | Air-traffic control tower | Aircraft never talk to each other; all coordination flows through the tower. |
-| Chat room server | Users send messages to the room, which fans them out — users don’t address each other directly. |
+| Chat room server | Users send messages to the room, which fans them out, users don’t address each other directly. |
 | Message bus / event aggregator | Components publish events to a bus; the bus routes them to interested handlers. |
-| MVC controller | The controller mediates between the Model and View — neither holds a direct reference to the other. |
+| MVC controller | The controller mediates between the Model and View, neither holds a direct reference to the other. |
 
 ## Pros and Cons
 
 |  | Detail |
 | --- | --- |
-| **Pro** | Eliminates many-to-many coupling — Colleagues are decoupled from each other entirely. |
+| **Pro** | Eliminates many-to-many coupling, Colleagues are decoupled from each other entirely. |
 | **Pro** | Centralizes interaction logic. All coordination rules live in one class, making them easy to find and change. |
 | **Pro** | Colleagues become reusable. A `Checkbox` that only knows `Mediator` can be dropped into any dialog. |
-| **Pro** | Simplifies unit testing — test Colleagues with a stub mediator; test the mediator with stub Colleagues. |
+| **Pro** | Simplifies unit testing, test Colleagues with a stub mediator; test the mediator with stub Colleagues. |
 | **Con** | The mediator can become a **god object**. When it absorbs every rule, it grows in complexity as Colleagues grow in number. |
 | **Con** | Can become a bottleneck. All events funnel through one point; performance or availability issues in the mediator affect all Colleagues. |
-| **Con** | Indirection cost. The flow of control is harder to follow at a glance — you must trace through the mediator to understand what happens after any event. |
+| **Con** | Indirection cost. The flow of control is harder to follow at a glance, you must trace through the mediator to understand what happens after any event. |
 
 ## Mediator vs. Observer
 
 |  | Mediator | Observer |
 | --- | --- | --- |
-| **Direction** | Multidirectional — the mediator coordinates mutually-dependent peers, and peers can trigger each other (through the mediator). | One-to-many broadcast — a subject notifies subscribers who have no knowledge of each other. |
+| **Direction** | Multidirectional, the mediator coordinates mutually-dependent peers, and peers can trigger each other (through the mediator). | One-to-many broadcast, a subject notifies subscribers who have no knowledge of each other. |
 | **Coupling** | Colleagues know the mediator; the mediator knows all Colleagues. | Subjects know the Observer interface; concrete observers are anonymous. |
 | **Use when** | A set of peers must influence each other in complex, stateful ways. | A single source must push the same change to an open-ended list of listeners. |
-| **Combined?** | Often. A mediator uses the Observer pattern internally to receive events from its Colleagues. | — |
+| **Combined?** | Often. A mediator uses the Observer pattern internally to receive events from its Colleagues. |, |
 
 A chat room is often cited as a Mediator example, but if messages simply fan out uniformly, it may be closer to Observer/pub-sub. It becomes a true Mediator when the room makes routing **decisions** based on the state of participants.
 
@@ -132,15 +132,15 @@ A chat room is often cited as a Mediator example, but if messages simply fan out
 |  | Mediator | Facade |
 | --- | --- | --- |
 | **Direction** | Bidirectional. Colleagues call the mediator; the mediator calls Colleagues back. | Unidirectional. The caller talks to the facade; the subsystem never talks back through the facade. |
-| **Knowledge** | Colleagues are aware of the mediator — they hold a reference. | Subsystem components are unaware of the facade. |
+| **Knowledge** | Colleagues are aware of the mediator, they hold a reference. | Subsystem components are unaware of the facade. |
 | **Purpose** | Coordinate peer interaction and shared state. | Simplify a complex subsystem behind a cleaner interface. |
 
 Facade reduces **interface complexity** for a caller. Mediator reduces **coupling complexity** among peers. They solve different problems and are often used together.
 
 ## Relation to other foundational concepts
 
-* [[observer-pattern|Observer Pattern]] — Observer is a one-to-many broadcast; Mediator uses it internally and adds multidirectional coordination logic on top.
-* [[coupling-and-cohesion|Coupling and Cohesion]] — Mediator is a direct application of Low Coupling: Colleagues shed direct references to peers and depend only on the mediator interface.
-* [[grasp|GRASP]] — embodies the **Indirection** and **Low Coupling** GRASP patterns; the mediator is the indirection controller that absorbs cross-component coupling.
-* [[command-pattern|Command Pattern]] — Commands are often what Colleagues send to the mediator, allowing the mediator to queue, log, or undo interactions.
-* [[solid|SRP / OCP]] — Centralizing rules in the mediator gives it one reason to change (interaction policy), but risks violating SRP as the system grows; each new Colleague interaction rule must be added to the mediator (OCP tension).
+* [[observer-pattern|Observer Pattern]]: Observer is a one-to-many broadcast; Mediator uses it internally and adds multidirectional coordination logic on top.
+* [[coupling-and-cohesion|Coupling and Cohesion]]: Mediator is a direct application of Low Coupling: Colleagues shed direct references to peers and depend only on the mediator interface.
+* [[grasp|GRASP]]: embodies the **Indirection** and **Low Coupling** GRASP patterns; the mediator is the indirection controller that absorbs cross-component coupling.
+* [[command-pattern|Command Pattern]]: Commands are often what Colleagues send to the mediator, allowing the mediator to queue, log, or undo interactions.
+* [[solid|SRP / OCP]]: Centralizing rules in the mediator gives it one reason to change (interaction policy), but risks violating SRP as the system grows; each new Colleague interaction rule must be added to the mediator (OCP tension).

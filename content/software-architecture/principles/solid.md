@@ -23,7 +23,7 @@ An **actor** is a group of stakeholders who request changes for the same reason 
 **SRP IS NOT:**
 
 * ~~One class = one method.~~ SRP isn’t about size; it’s about reasons to change.
-* ~~One class = one thing it does.~~ Too vague — almost any class can be described as doing "one thing" at some level of abstraction.
+* ~~One class = one thing it does.~~ Too vague: almost any class can be described as doing "one thing" at some level of abstraction.
 
 SRP reduces **efferent coupling**.
 
@@ -109,7 +109,7 @@ In practice, this means creating software entities whose behavior can be changed
 
 ### Simple illustration
 
-Consider a method that does one thing — say, it writes to a particular file whose name is hard-coded into the method. If the requirements change and the filename now needs to be different in certain situations, we must open up the method to change the filename. If, on the other hand, the filename had been passed in as a parameter, we would be able to modify the behavior of this method without changing its source, keeping it closed to modification.
+Consider a method that does one thing, say, it writes to a particular file whose name is hard-coded into the method. If the requirements change and the filename now needs to be different in certain situations, we must open up the method to change the filename. If, on the other hand, the filename had been passed in as a parameter, we would be able to modify the behavior of this method without changing its source, keeping it closed to modification.
 
 ### Ways to achieve OCP
 
@@ -125,18 +125,18 @@ When this principle is violated, it tends to result in a lot of extra conditiona
 
 ### The four behavioural rules
 
-LSP isn’t just about types being compatible at compile time — it’s about **behaviour**. Liskov and Wing (1994) formalised this into four rules a subtype must respect:
+LSP isn’t just about types being compatible at compile time, it’s about **behaviour**. Liskov and Wing (1994) formalised this into four rules a subtype must respect:
 
-1. **Preconditions cannot be strengthened** — the subtype can’t demand more of the caller than the supertype did.
-2. **Postconditions cannot be weakened** — the subtype must deliver at least as much as the supertype promised.
-3. **Invariants of the supertype must be preserved** — any property that’s always true of the supertype must also always be true of the subtype.
-4. **History rule** — the subtype cannot allow state changes that the supertype’s contract didn’t allow (e.g. making an immutable type mutable).
+1. **Preconditions cannot be strengthened**, the subtype can’t demand more of the caller than the supertype did.
+2. **Postconditions cannot be weakened**, the subtype must deliver at least as much as the supertype promised.
+3. **Invariants of the supertype must be preserved**, any property that’s always true of the supertype must also always be true of the subtype.
+4. **History rule**, the subtype cannot allow state changes that the supertype’s contract didn’t allow (e.g. making an immutable type mutable).
 
-A subtype that breaks any of these is **type-compatible but behaviourally incompatible** — exactly the situation LSP forbids.
+A subtype that breaks any of these is **type-compatible but behaviourally incompatible**, exactly the situation LSP forbids.
 
 ### Canonical example: Rectangle and Square
 
-A `Square` **is-a** `Rectangle` mathematically. But making `Square` inherit from `Rectangle` breaks LSP — `Rectangle` has an implicit invariant that width and height can be set independently. `Square` cannot honour that invariant.
+A `Square` **is-a** `Rectangle` mathematically. But making `Square` inherit from `Rectangle` breaks LSP, `Rectangle` has an implicit invariant that width and height can be set independently. `Square` cannot honour that invariant.
 
 ```typescript
 class Rectangle {
@@ -147,7 +147,7 @@ class Rectangle {
   area(): number { return this.width * this.height; }
 }
 
-// Violates LSP — Square cannot honour Rectangle's "width and height vary independently"
+// Violates LSP - Square cannot honour Rectangle's "width and height vary independently"
 class Square extends Rectangle {
   setWidth(w: number): void {
     this.width = w;
@@ -171,8 +171,8 @@ The fix: stop modelling `Square` as a **subtype** of `Rectangle`. They are diffe
 
 ### Common LSP smells
 
-* `if (obj instanceof Subtype)` checks scattered through the codebase — callers don’t trust substitution.
-* Subclass methods that throw `UnsupportedOperationException` / `NotImplementedError` — the subclass can’t honour the supertype’s contract. (This is also an [ISP](#_i_interface_segregation_principle_isp) smell.)
+* `if (obj instanceof Subtype)` checks scattered through the codebase: callers don’t trust substitution.
+* Subclass methods that throw `UnsupportedOperationException` / `NotImplementedError`: the subclass can’t honour the supertype’s contract. (This is also an [ISP](#_i_interface_segregation_principle_isp) smell.)
 * Subclass methods that **silently** do less than the supertype did (weaker postcondition) or **demand** more setup (stronger precondition).
 
 ## [I] Interface Segregation Principle (ISP)
@@ -181,7 +181,7 @@ The Interface Segregation Principle states that **clients should not be forced t
 
 * Interfaces should belong to **clients**, not to libraries or hierarchies.
 * Thin interfaces with less functionality but more independence are preferable to fat interfaces with more features.
-* "Thin" doesn’t mean one interface per method — it means a cohesive grouping of methods that logically belong together for a single client role.
+* "Thin" doesn’t mean one interface per method: it means a cohesive grouping of methods that logically belong together for a single client role.
 
 ### Relationship to LSP
 
@@ -189,7 +189,7 @@ A benefit of adhering to ISP is that it makes Liskov Substitution Principle viol
 
 ### Example: ISP violation
 
-One fat `OfficeMachine` interface forces every implementer to support `print`, `scan`, and `fax`. A `SimplePrinter` isn’t a scanner or a fax, but it’s still forced to implement those methods — and ends up throwing at runtime. Clients that only want to print are coupled to scan/fax changes they don’t care about.
+One fat `OfficeMachine` interface forces every implementer to support `print`, `scan`, and `fax`. A `SimplePrinter` isn’t a scanner or a fax, but it’s still forced to implement those methods, and ends up throwing at runtime. Clients that only want to print are coupled to scan/fax changes they don’t care about.
 
 ```typescript
 interface OfficeMachine {
@@ -216,7 +216,7 @@ class SimplePrinter implements OfficeMachine {
 Split the fat interface into focused, role-based interfaces. `SimplePrinter` only commits to `Printer`; `MultiFunctionPrinter` composes all three. Consumers depend on the narrow role they need, so misuse becomes a compile-time error instead of a runtime throw.
 
 ```typescript
-// Focused interfaces — one role each.
+// Focused interfaces - one role each.
 interface Printer {
   print(document: string): void;
 }
@@ -257,8 +257,8 @@ function archive(s: Scanner, document: string): void {
 }
 
 const basic = new SimplePrinter();
-printDocument(basic, "Memo.pdf");  // works — SimplePrinter is a Printer
-// archive(basic, "Memo.pdf");     // compile error — SimplePrinter isn't a Scanner
+printDocument(basic, "Memo.pdf");  // works - SimplePrinter is a Printer
+// archive(basic, "Memo.pdf");     // compile error - SimplePrinter isn't a Scanner
 ```
 
 ## [D] Dependency Inversion Principle (DIP)
@@ -309,7 +309,7 @@ class MySQLOrderRepository implements OrderRepository {
   }
 }
 
-// High-level module — depends only on the interface
+// High-level module - depends only on the interface
 class OrderService {
   constructor(private repository: OrderRepository) {} // dependency injection
 
@@ -324,8 +324,8 @@ service.placeOrder("Book");
 
 ## Relation to other foundational concepts
 
-* [[coupling-and-cohesion|Coupling & Cohesion]] — SRP and ISP are direct attacks on coupling; DIP redirects it; OCP and LSP make it survivable as the system grows.
-* [[grasp|GRASP]] — High Cohesion is the GRASP-era precursor to SRP; Polymorphism precedes LSP and OCP; Protected Variations + Indirection precede DIP. GRASP guides the original assignment; SOLID audits the result.
-* [[dry|DRY]] — duplication crossing actor boundaries is often an SRP violation in disguise.
-* [[kiss|KISS]] / [[yagni|YAGNI]] — OCP wants extensibility points; KISS and YAGNI restrict you to **real** variation, not imagined variation.
-* [[cqs|CQS]] — a method-level axis of separation orthogonal to SRP’s actor-level axis. Both reduce coupling.
+* [[coupling-and-cohesion|Coupling & Cohesion]]: SRP and ISP are direct attacks on coupling; DIP redirects it; OCP and LSP make it survivable as the system grows.
+* [[grasp|GRASP]]: High Cohesion is the GRASP-era precursor to SRP; Polymorphism precedes LSP and OCP; Protected Variations + Indirection precede DIP. GRASP guides the original assignment; SOLID audits the result.
+* [[dry|DRY]]: duplication crossing actor boundaries is often an SRP violation in disguise.
+* [[kiss|KISS]] / [[yagni|YAGNI]]: OCP wants extensibility points; KISS and YAGNI restrict you to **real** variation, not imagined variation.
+* [[cqs|CQS]]: a method-level axis of separation orthogonal to SRP’s actor-level axis. Both reduce coupling.

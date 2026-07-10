@@ -6,7 +6,7 @@ type: concept
 ---
 
 
-A modern web app is not one program — it’s a chain of small, specialized programs that hand a request along until it turns into pixels on a screen. Full-stack work means being able to point to any link in that chain and explain what it does, why it exists, and what happens if it fails.
+A modern web app is not one program, it’s a chain of small, specialized programs that hand a request along until it turns into pixels on a screen. Full-stack work means being able to point to any link in that chain and explain what it does, why it exists, and what happens if it fails.
 
 ## The big picture
 
@@ -22,7 +22,7 @@ Every layer has one job. Understanding the boundary between layers is more impor
 | APIs / services | Own business logic and rules for a specific domain (orders, users, billing, etc.). | Server |
 | Databases | Persist data durably; enforce structure and integrity. | Server (often a managed service) |
 | Cloud | Hosts, scales, and networks everything above; provides infrastructure like load balancers, secrets, and logging. | Cloud provider |
-| External / AI services | Third-party capability the app doesn’t own — payments, email, search, or an LLM API. | Cloud (someone else’s server) |
+| External / AI services | Third-party capability the app doesn’t own, payments, email, search, or an LLM API. | Cloud (someone else’s server) |
 
 > [!note]
 > The **BFF** is easy to underrate. It exists because a mobile app, a web app, and a public API often want the same data shaped differently. Rather than making every frontend negotiate with every backend service directly, the BFF sits in between and does that translation once.
@@ -33,25 +33,25 @@ Every layer has one job. Understanding the boundary between layers is more impor
 
 Trace a single click end to end:
 
-1. **Browser** — the user clicks a button. The SPA’s event handler fires.
-2. **Frontend SPA** — the SPA decides it needs data and issues an HTTP request (usually `fetch` or a library wrapping it).
-3. **BFF** — receives the request, checks auth, and figures out which downstream service(s) to call.
-4. **APIs / services** — apply business rules, validate input, and read or write data.
-5. **Databases** — the service queries or updates persisted data and returns rows/documents.
-6. **External / AI services** — if the business logic needs it (e.g. charge a card, call an LLM), the service calls out to a third party and waits for a response.
-7. **Response travels back up** — database to service, service to BFF, BFF reshapes the combined result, BFF to SPA.
-8. **Frontend SPA** — receives JSON, updates its state, re-renders the screen.
-9. **Browser** — the user sees the result.
+1. **Browser**, the user clicks a button. The SPA’s event handler fires.
+2. **Frontend SPA**, the SPA decides it needs data and issues an HTTP request (usually `fetch` or a library wrapping it).
+3. **BFF**, receives the request, checks auth, and figures out which downstream service(s) to call.
+4. **APIs / services**, apply business rules, validate input, and read or write data.
+5. **Databases**, the service queries or updates persisted data and returns rows/documents.
+6. **External / AI services**, if the business logic needs it (e.g. charge a card, call an LLM), the service calls out to a third party and waits for a response.
+7. **Response travels back up**, database to service, service to BFF, BFF reshapes the combined result, BFF to SPA.
+8. **Frontend SPA**, receives JSON, updates its state, re-renders the screen.
+9. **Browser**, the user sees the result.
 
 > [!tip]
-> Every arrow in that diagram is a place where things can go wrong: a slow query, a timeout calling a third party, a malformed response. When debugging, walk the request the same way — layer by layer — rather than guessing.
+> Every arrow in that diagram is a place where things can go wrong: a slow query, a timeout calling a third party, a malformed response. When debugging, walk the request the same way, layer by layer, rather than guessing.
 
 ## Why it matters
 
 * **Failures are layer-specific.** A blank screen could be a frontend bug, a BFF outage, a database timeout, or a third-party API being down. Knowing the layers narrows the search fast.
 * **Performance budgets differ by layer.** A slow database query and a slow network hop to an external API feel identical to the user but require completely different fixes.
 * **Security boundaries live between layers.** The browser is untrusted; the BFF and services are where real authorization checks happen.
-* **"Full-stack" is a claim about range, not depth everywhere.** It means you can reason across the whole chain — frontend, BFF, services, data, cloud — even if you’re strongest in one or two layers.
+* **"Full-stack" is a claim about range, not depth everywhere.** It means you can reason across the whole chain: frontend, BFF, services, data, cloud, even if you’re strongest in one or two layers.
 
 ## How to talk about this in an interview
 
@@ -62,14 +62,14 @@ A strong answer:
 * Names each layer and its one job in a sentence.
 * Explains **why** a BFF exists rather than just naming it.
 * Distinguishes what runs on the client versus the server versus the cloud.
-* Can describe what breaks — and where you’d look first — if a page loads data slowly or not at all.
+* Can describe what breaks: and where you’d look first, if a page loads data slowly or not at all.
 
 ## Key terms
 
 | Term | Quick definition |
 | --- | --- |
-| SPA | Single-Page Application — a frontend that rewrites the page in the browser instead of reloading from the server on every navigation. |
-| BFF | Backend for Frontend — a server-side layer tailored to one frontend’s data shape. |
+| SPA | Single-Page Application, a frontend that rewrites the page in the browser instead of reloading from the server on every navigation. |
+| BFF | Backend for Frontend, a server-side layer tailored to one frontend’s data shape. |
 | API | A defined contract a service exposes so other programs can call it. |
 | Client | Code that runs on the user’s device (the browser). |
 | Server | Code that runs on a machine the app’s team controls, away from the user. |
@@ -82,8 +82,8 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 
 ## Related notes
 
-* [[frontend-and-spas|Frontend & SPAs]] — a closer look at the client layer.
-* [[backends-bff-and-apis|Backends, BFF & APIs]] — a closer look at the server layer.
-* [[databases|Databases]] — how the persistence layer works.
-* [[cloud-and-gcp|Cloud & GCP]] — where all of this actually runs.
-* [[glossary|Glossary]] — definitions for terms introduced here.
+* [[frontend-and-spas|Frontend & SPAs]]: a closer look at the client layer.
+* [[backends-bff-and-apis|Backends, BFF & APIs]]: a closer look at the server layer.
+* [[databases|Databases]]: how the persistence layer works.
+* [[cloud-and-gcp|Cloud & GCP]]: where all of this actually runs.
+* [[glossary|Glossary]]: definitions for terms introduced here.

@@ -18,7 +18,7 @@ type: reference
 
 ## Partition tolerance is not optional
 
-In any real distributed system, network partitions **will** happen — links flap, switches die, cloud zones isolate. **P is non-negotiable.**
+In any real distributed system, network partitions **will** happen, links flap, switches die, cloud zones isolate. **P is non-negotiable.**
 
 So the real choice is:
 
@@ -46,10 +46,10 @@ Every node keeps answering, but some may return stale data until it reconciles.
 ## Important nuances
 
 * CAP is about behavior **during a partition**, not at all times. A CP system can absolutely be available when there is no partition.
-* "Consistency" in CAP means **linearizability** — not the **C** in ACID (which means "preserves invariants"). They are different concepts that share a letter.
+* "Consistency" in CAP means **linearizability**: not the **C** in ACID (which means "preserves invariants"). They are different concepts that share a letter.
 * Real systems aren’t strictly binary. Cassandra lets you tune consistency level (`ONE`, `QUORUM`, `ALL`) per query. DynamoDB offers "eventually consistent" vs. "strongly consistent" reads.
 
-## PACELC — the more useful refinement
+## PACELC, the more useful refinement
 
 Daniel Abadi’s extension is what most architects actually reason with:
 
@@ -61,11 +61,11 @@ Systems describe themselves with two pairs, one per regime:
 
 | Classification | Example |
 | --- | --- |
-| PA / EL | Cassandra — chooses availability during partitions and latency the rest of the time. |
-| PC / EC | HBase — chooses consistency during partitions and consistency the rest of the time. |
+| PA / EL | Cassandra, chooses availability during partitions and latency the rest of the time. |
+| PC / EC | HBase, chooses consistency during partitions and consistency the rest of the time. |
 
 ## Relation to other foundational concepts
 
-* [[solid|DIP / Clean Architecture]] says high-level policy shouldn’t depend on storage details — but CAP forces architectural decisions that **leak** into the domain (e.g. "an order may be created twice during a partition; the domain must be idempotent"). You can’t fully hide CAP behind an abstraction.
+* [[solid|DIP / Clean Architecture]] says high-level policy shouldn’t depend on storage details: but CAP forces architectural decisions that **leak** into the domain (e.g. "an order may be created twice during a partition; the domain must be idempotent"). You can’t fully hide CAP behind an abstraction.
 * [[coupling-and-cohesion|Coupling]]: choosing AP often means weaker **temporal** coupling between services (they can run independently during partitions) at the cost of stronger **semantic** coupling (every consumer must handle stale or conflicting data).
 * [[cqs|CQS / CQRS]]: in AP systems, separating the read model from the write model (CQRS) is often the only sane way to expose eventually-consistent reads without poisoning command semantics.

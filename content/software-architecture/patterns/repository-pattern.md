@@ -12,20 +12,20 @@ A Repository represents all objects of a certain type as a conceptual set. It ac
 
 ## Core idea
 
-Your domain code asks a repository for objects as if reaching into an in-memory collection. The repository hides **how** and **where** those objects are stored — whether that is a relational database, a REST API, a flat file, a cache, or a combination.
+Your domain code asks a repository for objects as if reaching into an in-memory collection. The repository hides **how** and **where** those objects are stored, whether that is a relational database, a REST API, a flat file, a cache, or a combination.
 
 | Without Repository | With Repository |
 | --- | --- |
 | SQL, connection strings, column indexes, and ORM calls scattered through service classes. | Service classes speak in domain terms: `get`, `save`, `find_by_email`. |
 | Business logic coupled to Postgres (or whichever storage engine is currently in use). | Storage is an implementation detail behind an interface the domain owns. |
-| Tests require a running database — slow, brittle, hard to isolate. | Tests swap in an in-memory implementation — fast and deterministic. |
+| Tests require a running database, slow, brittle, hard to isolate. | Tests swap in an in-memory implementation, fast and deterministic. |
 
 > [!note]
 > The key shift is **who owns the abstraction**. The domain defines the interface; the infrastructure implements it. This is a direct application of the Dependency Inversion Principle.
 
 ## The interface
 
-Define the repository as an abstract class (or Protocol) in your domain layer. It speaks domain language — domain objects in, domain objects out. No SQL, no HTTP, no file paths.
+Define the repository as an abstract class (or Protocol) in your domain layer. It speaks domain language, domain objects in, domain objects out. No SQL, no HTTP, no file paths.
 
 ```python
 from abc import ABC, abstractmethod
@@ -35,7 +35,7 @@ from domain.order import Order
 
 class OrderRepository(ABC):
     """Collection-like abstraction for Order persistence.
-    Belongs to the domain layer — infrastructure implements it."""
+    Belongs to the domain layer - infrastructure implements it."""
 
     @abstractmethod
     def get(self, order_id: int) -> Optional[Order]:
@@ -60,7 +60,7 @@ class OrderRepository(ABC):
 
 ## The service (dependency injection)
 
-The service receives the repository via constructor injection. It never imports a concrete storage class — it depends only on the abstract interface.
+The service receives the repository via constructor injection. It never imports a concrete storage class, it depends only on the abstract interface.
 
 ```python
 from domain.order import Order
@@ -160,7 +160,7 @@ class InMemoryOrderRepository(OrderRepository):
 ```
 
 ```python
-# Test — no database required
+# Test - no database required
 def test_cancel_order_marks_it_cancelled():
     repo = InMemoryOrderRepository()
     order = Order(id=1, customer_email="a@b.com", line_items=["widget"])
@@ -174,11 +174,11 @@ def test_cancel_order_marks_it_cancelled():
 
 ## Benefits
 
-* **Testability** — swap the concrete implementation for `InMemoryOrderRepository`; no database, no network, no setup fixtures.
-* **Swappable storage** — change from Postgres to DynamoDB by writing one new class; the domain and all its tests remain untouched.
-* **Centralised data logic** — queries, caching strategy, and mapping all live in one place instead of scattered across services.
-* **Separation of concerns** — the domain layer knows nothing about infrastructure; the infrastructure knows nothing about business rules.
-* **Domain language** — the interface speaks in terms the business understands (`find_by_customer_email`), not in database terms (`SELECT ... WHERE email = ?`).
+* **Testability**: swap the concrete implementation for `InMemoryOrderRepository`; no database, no network, no setup fixtures.
+* **Swappable storage**: change from Postgres to DynamoDB by writing one new class; the domain and all its tests remain untouched.
+* **Centralised data logic**: queries, caching strategy, and mapping all live in one place instead of scattered across services.
+* **Separation of concerns**: the domain layer knows nothing about infrastructure; the infrastructure knows nothing about business rules.
+* **Domain language**: the interface speaks in terms the business understands (`find_by_customer_email`), not in database terms (`SELECT ... WHERE email = ?`).
 
 ## Nuances and criticisms
 
@@ -190,14 +190,14 @@ Active Record (used by Django ORM, Rails ActiveRecord) **is already a repository
 
 |  | Repository | DAO (Data Access Object) |
 | --- | --- | --- |
-| **Granularity** | Domain-level — may aggregate multiple tables or sources into one rich object. | Table-level — one DAO per table, exposes CRUD for that table only. |
+| **Granularity** | Domain-level, may aggregate multiple tables or sources into one rich object. | Table-level, one DAO per table, exposes CRUD for that table only. |
 | **Language** | Speaks domain concepts: `find_active_subscriptions`. | Speaks storage concepts: `select_by_status("active")`. |
 | **Origin** | Evans DDD, Fowler PoEAA. | J2EE patterns (Core J2EE Patterns, 2001). |
 
 > [!tip]
-> If your "repository" method names look like column names and SQL clauses, you have a DAO. That is not wrong — it is just a different pattern with a different purpose.
+> If your "repository" method names look like column names and SQL clauses, you have a DAO. That is not wrong, it is just a different pattern with a different purpose.
 
-### Leaky abstractions — avoid returning `IQueryable`
+### Leaky abstractions, avoid returning `IQueryable`
 
 Some ORM-backed repositories return a raw queryable/lazy collection (`IQueryable<T>` in C#, or an unexecuted SQLAlchemy `Query` object in Python). This leaks the query mechanism through the interface: callers can append arbitrary filter conditions, and the abstraction no longer hides anything. Return materialised collections (`list`, `Optional`) or typed query methods.
 
@@ -217,9 +217,9 @@ Infrastructure (adapters)
 
 ## Relation to other foundational concepts
 
-* [[inversion-of-control|Inversion of Control / Dependency Injection]] — the Repository is injected into services; the domain owns the interface, the infrastructure owns the implementation. This is the Dependency Inversion Principle in concrete form.
-* [[solid|SOLID]] — DIP (D) motivates the abstract interface; SRP (S) keeps the repository focused on access, not business rules.
-* [[coupling-and-cohesion|Coupling and Cohesion]] — the Repository reduces efferent coupling of the domain to the storage engine, and raises cohesion by grouping all data-access logic for an aggregate in one place.
-* [[specification-pattern|Specification Pattern]] — a natural companion for complex querying: encode filter criteria as a `Specification` object and pass it to `repository.find(spec)` instead of proliferating `find_by_*` methods.
-* [[cqs|CQS]] — repository methods are cleanly separable into commands (`save`, `remove`) and queries (`get`, `find_by_*`); applying CQS discipline here prevents methods that mutate and return data simultaneously.
-* [[strategy-pattern|Strategy Pattern]] — the concrete repository implementation (Postgres, in-memory, S3) is a strategy: a family of interchangeable algorithms behind a common interface.
+* [[inversion-of-control|Inversion of Control / Dependency Injection]]: the Repository is injected into services; the domain owns the interface, the infrastructure owns the implementation. This is the Dependency Inversion Principle in concrete form.
+* [[solid|SOLID]]: DIP (D) motivates the abstract interface; SRP (S) keeps the repository focused on access, not business rules.
+* [[coupling-and-cohesion|Coupling and Cohesion]]: the Repository reduces efferent coupling of the domain to the storage engine, and raises cohesion by grouping all data-access logic for an aggregate in one place.
+* [[specification-pattern|Specification Pattern]]: a natural companion for complex querying: encode filter criteria as a `Specification` object and pass it to `repository.find(spec)` instead of proliferating `find_by_*` methods.
+* [[cqs|CQS]]: repository methods are cleanly separable into commands (`save`, `remove`) and queries (`get`, `find_by_*`); applying CQS discipline here prevents methods that mutate and return data simultaneously.
+* [[strategy-pattern|Strategy Pattern]]: the concrete repository implementation (Postgres, in-memory, S3) is a strategy: a family of interchangeable algorithms behind a common interface.

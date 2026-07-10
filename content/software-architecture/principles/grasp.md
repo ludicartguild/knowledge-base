@@ -6,26 +6,26 @@ type: reference
 ---
 
 
-**GRASP** — **G*eneral *R*esponsibility *A*ssignment *S*oftware *P*atterns — was introduced by *Craig Larman** in _Applying UML and Patterns_ (1997).
+**GRASP**, **G*eneral *R*esponsibility *A*ssignment *S*oftware *P*atterns, was introduced by *Craig Larman** in _Applying UML and Patterns_ (1997).
 
 Where GoF design patterns answer "what shape should this collaboration have?", GRASP answers a more foundational question:
 
 Which class should be responsible for this behaviour?
 
-It is a set of nine heuristics — **not laws** — for **assigning responsibilities** to classes. Together they form the conceptual bedrock that SOLID later refined.
+It is a set of nine heuristics, **not laws**, for **assigning responsibilities** to classes. Together they form the conceptual bedrock that SOLID later refined.
 
 ## What is a responsibility?
 
 In software, a **responsibility** is an obligation to perform a task or to know information. It has two forms:
 
-* **Behaviour** — doing something.
-* **Data** — knowing something.
+* **Behaviour**: doing something.
+* **Data**: knowing something.
 
 GRASP gives you a vocabulary for deciding **which class** should hold each of those.
 
 ## The nine patterns
 
-Each pattern is stated as a **Problem** and a **Solution** — the form Larman uses in the book.
+Each pattern is stated as a **Problem** and a **Solution**, the form Larman uses in the book.
 
 ### 1. Information Expert
 
@@ -34,7 +34,7 @@ Each pattern is stated as a **Problem** and a **Solution** — the form Larman u
 | **Problem** | What is a basic principle by which to assign responsibilities to objects? |
 | **Solution** | Assign a responsibility to the class that has the information needed to fulfil it. |
 
-If `Order` knows its line items and their prices, then `Order.getTotal()` belongs on `Order` — not on `OrderTotalCalculator`. Putting behaviour next to its data minimises data shuttling and keeps cohesion high.
+If `Order` knows its line items and their prices, then `Order.getTotal()` belongs on `Order`, not on `OrderTotalCalculator`. Putting behaviour next to its data minimises data shuttling and keeps cohesion high.
 
 **The single most-applied GRASP pattern.** Most "where does this method go?" questions are answered by Information Expert.
 
@@ -54,7 +54,7 @@ So `Order` creates `OrderLineItem` (it aggregates them). A `ShoppingCart` create
 | **Problem** | What first object beyond the UI layer receives and coordinates ("controls") a system operation? |
 | **Solution** | Assign the responsibility to an object representing one of: * The overall **system**, **root object**, **device**, or a **major subsystem** (variations of a _facade controller_). * A **use case scenario** within which the system operation occurs (a _use case / session controller_). |
 
-The Controller is the **first object beyond the UI layer** that receives and coordinates a system operation. **It does not do the work itself — it delegates.** This is why "fat controllers" are a smell: the Controller should be thin and delegate to domain Experts.
+The Controller is the **first object beyond the UI layer** that receives and coordinates a system operation. **It does not do the work itself, it delegates.** This is why "fat controllers" are a smell: the Controller should be thin and delegate to domain Experts.
 
 This pattern is the direct ancestor of **MVC’s controller** and of **Clean Architecture’s use case interactors**.
 
@@ -65,7 +65,7 @@ This pattern is the direct ancestor of **MVC’s controller** and of **Clean Arc
 | **Problem** | How to reduce the impact of change? How to support low dependency and increased reuse? |
 | **Solution** | Assign responsibilities so that (unnecessary) coupling remains low. Use this principle to **evaluate alternatives**. |
 
-Same idea as [[coupling-and-cohesion|coupling-and-cohesion]] — minimise the dependencies a class has on other classes. When you have multiple valid options for where a responsibility could go, prefer the placement that creates fewer connections.
+Same idea as [[coupling-and-cohesion|coupling-and-cohesion]], minimise the dependencies a class has on other classes. When you have multiple valid options for where a responsibility could go, prefer the placement that creates fewer connections.
 
 ### 5. High Cohesion
 
@@ -76,21 +76,21 @@ Same idea as [[coupling-and-cohesion|coupling-and-cohesion]] — minimise the de
 
 Each class should have a focused, related set of responsibilities. **This is the direct GRASP-era precursor to SRP.** Larman wrote about cohesion years before Martin formalised "one reason to change".
 
-Low Coupling and High Cohesion are the **evaluative** patterns — you apply the others, then check your design against these two.
+Low Coupling and High Cohesion are the **evaluative** patterns, you apply the others, then check your design against these two.
 
 ### 6. Polymorphism
 
 |  | Statement |
 | --- | --- |
 | **Problem** | How to handle alternatives based on type? |
-| **Solution** | When related alternatives or behaviours vary by type (class), assign responsibility for the behaviour — using **polymorphic operations** — to the types for which the behaviour varies. |
+| **Solution** | When related alternatives or behaviours vary by type (class), assign responsibility for the behaviour, using **polymorphic operations**, to the types for which the behaviour varies. |
 
 ```typescript
-// Smell — type checking
+// Smell - type checking
 if (animal.type === "dog") { dog.bark(); }
 else if (animal.type === "cat") { cat.meow(); }
 
-// GRASP applied — polymorphic operation
+// GRASP applied - polymorphic operation
 animal.speak();
 ```
 
@@ -103,9 +103,9 @@ Variants in behaviour → variants in subtype, not in `if`-chains. This is the G
 | **Problem** | What object should have the responsibility, when you do not want to violate High Cohesion and Low Coupling, but solutions offered by other principles are not appropriate? |
 | **Solution** | Assign a highly cohesive set of responsibilities to an artificial or convenience class that does not represent a problem-domain concept. |
 
-Sometimes Information Expert wants to put behaviour on a domain class (`Order.save()`) — but persistence has nothing to do with the domain meaning of "order". So you **fabricate** an `OrderRepository`: a class with no domain analog, invented purely to keep `Order` cohesive.
+Sometimes Information Expert wants to put behaviour on a domain class (`Order.save()`), but persistence has nothing to do with the domain meaning of "order". So you **fabricate** an `OrderRepository`: a class with no domain analog, invented purely to keep `Order` cohesive.
 
-This is the conceptual root of **repositories, services, mappers, validators** — all the supporting infrastructure that SRP and Clean Architecture eventually formalise.
+This is the conceptual root of **repositories, services, mappers, validators**, all the supporting infrastructure that SRP and Clean Architecture eventually formalise.
 
 ### 8. Indirection
 
@@ -114,9 +114,9 @@ This is the conceptual root of **repositories, services, mappers, validators** �
 | **Problem** | Where to assign a responsibility to avoid direct coupling between two or more things? |
 | **Solution** | Assign the responsibility to an intermediate object to mediate between other components or services so they are not directly coupled. |
 
-Insert a middle layer to decouple. `MediaPlayer` doesn’t talk to `MP3Decoder` directly — it talks to a `Codec` interface, with `MP3Decoder` plugged in behind it. This is the principle behind **adapters, brokers, mediators, dependency-injection containers,** and the entire concept of **DIP**.
+Insert a middle layer to decouple. `MediaPlayer` doesn’t talk to `MP3Decoder` directly, it talks to a `Codec` interface, with `MP3Decoder` plugged in behind it. This is the principle behind **adapters, brokers, mediators, dependency-injection containers,** and the entire concept of **DIP**.
 
-All problems in computer science can be solved by another level of indirection — except too many levels of indirection.
+All problems in computer science can be solved by another level of indirection, except too many levels of indirection.
 
 ### 9. Protected Variations
 
@@ -140,20 +140,20 @@ This is the meta-principle behind **OCP** and behind every plug-in architecture.
 | Indirection + Protected Variations | DIP, OCP |
 | Low Coupling | implicit in all of SOLID |
 | Pure Fabrication | enables SRP, ISP |
-| Information Expert | no direct SOLID counterpart — orthogonal |
-| Creator | no direct SOLID counterpart — orthogonal |
+| Information Expert | no direct SOLID counterpart, orthogonal |
+| Creator | no direct SOLID counterpart, orthogonal |
 | Controller | thin-controller pattern, MVC, Clean Architecture use-cases |
 
 ## Spirit: GRASP vs. SOLID
 
-* **GRASP is constructive** — "given this responsibility, which class should own it?"
-* **SOLID is constraining** — "given this class, does it violate these rules?"
+* **GRASP is constructive**: "given this responsibility, which class should own it?"
+* **SOLID is constraining**: "given this class, does it violate these rules?"
 
 GRASP feels like **building**. SOLID feels like **auditing**. Used together, GRASP guides the original assignment and SOLID checks the result.
 
 ## Relation to other foundational concepts
 
-* [[solid|SOLID]] — see mapping above.
-* [[coupling-and-cohesion|Coupling & Cohesion]] — Low Coupling and High Cohesion are **literally** GRASP patterns; the foundational note generalises them beyond responsibility assignment.
-* [[kiss|KISS]] — Pure Fabrication, Indirection, and Protected Variations all **risk** over-engineering. KISS reminds you to apply them only where the variation or coupling pressure is real.
-* [[yagni|YAGNI]] — Protected Variations is the GRASP pattern most often misapplied. Build the protection only when the variation is real, not when it’s imagined.
+* [[solid|SOLID]]: see mapping above.
+* [[coupling-and-cohesion|Coupling & Cohesion]]: Low Coupling and High Cohesion are **literally** GRASP patterns; the foundational note generalises them beyond responsibility assignment.
+* [[kiss|KISS]]: Pure Fabrication, Indirection, and Protected Variations all **risk** over-engineering. KISS reminds you to apply them only where the variation or coupling pressure is real.
+* [[yagni|YAGNI]]: Protected Variations is the GRASP pattern most often misapplied. Build the protection only when the variation is real, not when it’s imagined.

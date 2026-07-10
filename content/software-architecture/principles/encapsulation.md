@@ -6,7 +6,7 @@ type: reference
 ---
 
 
-An object encapsulates its state and behaviour so that collaborators can interact with it through a stable interface without needing to know — or reach into — its internal workings.
+An object encapsulates its state and behaviour so that collaborators can interact with it through a stable interface without needing to know, or reach into, its internal workings.
 
 This is distinct from mere **information hiding via access modifiers**: `private` fields are a language mechanism that **enforces** encapsulation, but encapsulation is a **design discipline** that exists independently of whatever the compiler will or will not permit.
 
@@ -23,7 +23,7 @@ This is distinct from mere **information hiding via access modifiers**: `private
 
 ## Before / After: Leaked vs. Encapsulated State
 
-### Before — the collaborator manages the object’s state
+### Before, the collaborator manages the object’s state
 
 ```python
 class Order:
@@ -45,9 +45,9 @@ Problems:
 
 * The rule "total includes tax" lives in the caller, not in `Order`. Duplicate it in every caller.
 * Any caller that forgets to lock the order, or applies a different tax rate, silently corrupts state.
-* `Order` is an **anemic data holder** — a struct with methods attached.
+* `Order` is an **anemic data holder**: a struct with methods attached.
 
-### After — the object manages its own state
+### After, the object manages its own state
 
 ```python
 class Order:
@@ -85,12 +85,12 @@ Tell objects what to do; don’t ask them for their data so you can do it yourse
 Querying an object’s internal state and then making a decision **outside** the object is the most common encapsulation violation. It re-creates the "caller manages state" smell even when access modifiers are in place.
 
 ```python
-# ASK — leaks decision logic to the caller
+# ASK - leaks decision logic to the caller
 if order.status == "pending" and order.item_count > 0:
     order.status = "confirmed"
     order.send_confirmation_email()
 
-# TELL — the object owns its own state transition
+# TELL - the object owns its own state transition
 order.confirm()   # Order.confirm() checks and transitions internally
 ```
 
@@ -111,21 +111,21 @@ order.confirm()   # Order.confirm() checks and transitions internally
 
 Encapsulation is a **mechanism**. Abstraction is the **goal** it serves.
 
-* **Abstraction** — identifying **what** an object does (its interface, its contract).
-* **Encapsulation** — hiding **how** it does it (its implementation).
+* **Abstraction**: identifying **what** an object does (its interface, its contract).
+* **Encapsulation**: hiding **how** it does it (its implementation).
 
-You cannot have a useful abstraction without encapsulation: exposing the implementation collapses the interface and the implementation into one thing, so the abstraction leaks. When a caller depends on implementation details, any change to those details breaks the caller — the abstraction provides no protection.
+You cannot have a useful abstraction without encapsulation: exposing the implementation collapses the interface and the implementation into one thing, so the abstraction leaks. When a caller depends on implementation details, any change to those details breaks the caller, the abstraction provides no protection.
 
 ## Caveats and Limits
 
 * **Value objects** (dates, money, coordinates) are often legitimately immutable records with exposed attributes. Encapsulation here means **immutability**, not hiding: `price.amount` is fine because the object can never be changed through it.
-* **DTOs and serialisation boundaries** — objects crossing a serialisation layer (JSON, DB row) are intended to be transparent. Enforce encapsulation inside the domain; relax it at the boundary.
+* **DTOs and serialisation boundaries**: objects crossing a serialisation layer (JSON, DB row) are intended to be transparent. Enforce encapsulation inside the domain; relax it at the boundary.
 * **Excessive encapsulation** can produce objects so opaque they are hard to test or inspect. Prefer testable, inspectable behaviour over hiding for its own sake. Encapsulation should protect **invariants**, not prevent **understanding**.
 * **Python’s `_` convention** is advisory, not enforced. Discipline at the team level matters more than language enforcement.
 
 ## Relation to other foundational concepts
 
-* [[coupling-and-cohesion|Coupling & Cohesion]] — encapsulation directly lowers **content coupling** (the worst kind: reaching into another object’s state) and raises **functional cohesion** within the object.
-* [[solid|SOLID]] — SRP requires that a class own the behaviour for its **single** responsibility (not outsource it to callers); OCP depends on encapsulation to make the closed surface stable. Both collapse without it.
-* [[grasp|GRASP]] — Information Expert ("assign responsibility to the class with the information") is the direct GRASP expression of encapsulation. Protected Variations uses encapsulation as its enforcement mechanism.
-* [[composition-over-inheritance|Composition over Inheritance]] — inheritance is one of the few relationships that **pierces** encapsulation (subclasses can see `protected` internals). Preferring composition keeps boundaries cleaner.
+* [[coupling-and-cohesion|Coupling & Cohesion]]: encapsulation directly lowers **content coupling** (the worst kind: reaching into another object’s state) and raises **functional cohesion** within the object.
+* [[solid|SOLID]]: SRP requires that a class own the behaviour for its **single** responsibility (not outsource it to callers); OCP depends on encapsulation to make the closed surface stable. Both collapse without it.
+* [[grasp|GRASP]]: Information Expert ("assign responsibility to the class with the information") is the direct GRASP expression of encapsulation. Protected Variations uses encapsulation as its enforcement mechanism.
+* [[composition-over-inheritance|Composition over Inheritance]]: inheritance is one of the few relationships that **pierces** encapsulation (subclasses can see `protected` internals). Preferring composition keeps boundaries cleaner.
