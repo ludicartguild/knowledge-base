@@ -196,9 +196,19 @@ Knowing what the system is doing and trusting that it works.
 **Focus:** How do you follow one request across services? What is worth testing, and at
 what level?
 
-*Planned: telemetry with OpenTelemetry (traces, metrics, logs) and a layered testing
-strategy. Until then, the [[full-stack-interview-foundations|full-stack path]] covers
-testing fundamentals.*
+**Learn:**
+* [[observability-with-opentelemetry|observability with OpenTelemetry]]: traces, metrics, and logs, and following one request across services with distributed tracing.
+* [[testing-strategy|a layered testing strategy]]: the test pyramid, test doubles, contract tests, and where each level runs.
+
+**Practice:** Instrument a small service so a single request produces a trace across two
+hops, then add a unit test and one integration test that runs against an ephemeral container.
+
+**Self-check:** you can explain the three telemetry signals and place a given test at the
+right level of the pyramid.
+
+**Ask yourself:**
+* When something breaks in production, what would I look at first, and is it actually instrumented?
+* Which of my tests give the most confidence per second they take to run?
 
 ## GenAI & agents
 
