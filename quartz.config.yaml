@@ -278,7 +278,10 @@ plugins:
       name: quartz-themes
       repo: github:saberzero1/quartz-themes
       subdir: plugin
-    enabled: true
+    # Disabled: this Obsidian-theme plugin remaps --lightgray (the graph's edge
+    # colour) to a near-background tint in every theme, making graph edges
+    # invisible. Palette is controlled by configuration.theme.colors instead.
+    enabled: false
     options:
       theme: default
   - source: github:quartz-community/obsidian-plugin-excalidraw
