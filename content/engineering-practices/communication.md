@@ -106,4 +106,4 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 ## Related notes
 
 * [[glossary|Glossary]]: full term list referenced across all foundational notes.
-* [[git-and-github|Git and GitHub]]: commit messages and PR descriptions are one of the most common places developer communication shows up in day-to-day work.
+* [[git-and-github|Git and GitHub]]: commit messages and [[glossary#p|PR]] descriptions are one of the most common places developer communication shows up in day-to-day work.

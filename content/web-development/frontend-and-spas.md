@@ -7,7 +7,7 @@ reviewed: 2026-07-12
 ---
 
 
-The frontend is the part of an application that runs in the user’s browser: the layout, the interactivity, and everything a user directly sees and clicks. Modern frontend work is dominated by the Single-Page Application (SPA) model, built with a JavaScript framework, most commonly React or Angular, often written in TypeScript rather than plain JavaScript.
+The frontend is the part of an application that runs in the user’s browser: the layout, the interactivity, and everything a user directly sees and clicks. Modern frontend work is dominated by the Single-Page Application ([[glossary#s|SPA]]) model, built with a JavaScript framework, most commonly React or Angular, often written in TypeScript rather than plain JavaScript.
 
 ## What a SPA is
 
@@ -17,7 +17,7 @@ A **Single-Page Application** loads one HTML shell up front, then uses JavaScrip
 
 * **Client-side routing**: a router library intercepts link clicks and swaps which components are shown, updating the URL without asking the server for a new page.
 * **Rendering in the browser**: the browser’s JavaScript engine builds and updates the DOM directly, rather than receiving finished HTML for every view.
-* **Calling APIs**: the app fetches data as JSON from a backend using the `fetch` API (or a wrapper around it) and renders the response, instead of the server embedding data into the HTML it sends.
+* **Calling APIs**: the app fetches data as [[glossary#j|JSON]] from a backend using the `fetch` [[glossary#a|API]] (or a wrapper around it) and renders the response, instead of the server embedding data into the HTML it sends.
 * **Traditional multi-page site**: server renders full HTML per request; simple, but every navigation is a round trip.
 * **SPA**: one initial load, then JavaScript drives updates; feels faster after the first load, but there’s more upfront JavaScript to download and more client-side complexity to manage.
 
@@ -63,7 +63,7 @@ Angular is a full, opinionated framework (not just a UI library) maintained by G
 * **Component**: similar role to a React component: markup, styles, and logic bundled together, but declared with a `@Component` decorator and a separate HTML template.
 * **Module**: a container that groups related components, directives, and services together (`@NgModule`); Angular apps are organized into modules.
 * **Service**: a reusable class for logic that doesn’t belong in a component (API calls, shared state), provided to components via **dependency injection**.
-* Angular ships built-in solutions for routing, forms, and HTTP calls, where React relies on the surrounding ecosystem (React Router, etc.) for those.
+* Angular ships built-in solutions for routing, forms, and [[glossary#h|HTTP]] calls, where React relies on the surrounding ecosystem (React Router, etc.) for those.
 
 The practical takeaway for an interview: React is a flexible library you compose your own architecture around; Angular is a complete, more prescriptive framework with more built-in structure and more conventions to learn up front.
 
@@ -131,7 +131,7 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 
 ## Related notes
 
-* [[web-app-architecture|How a Modern Web App Fits Together]]: where the frontend sits relative to the BFF, API, and database.
+* [[web-app-architecture|How a Modern Web App Fits Together]]: where the frontend sits relative to the [[glossary#b|BFF]], API, and database.
 * [[backends-bff-and-apis|Backends, BFF & APIs]]: what the frontend is talking to when it calls `fetch`.
 * [[communication|Communication]]: framing an honest "I haven’t used that" answer in an interview.
 * [[glossary|Glossary]]: full term list referenced across all foundational notes.

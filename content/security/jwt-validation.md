@@ -8,7 +8,7 @@ reviewed: 2026-07-12
 
 ## TL;DR
 
-A JSON Web Token (JWT) lets a resource server verify a caller's identity and permissions **without calling the issuer on every request**: the token is signed, and the server checks the signature and claims locally. That statelessness is the whole point, and also the whole danger. Validation done wrong (trusting the token's own `alg` header, skipping audience checks, accepting `alg: none`) turns "verify the token" into "believe whatever the attacker sent." Doing it right is a fixed checklist: verify the signature with a key and algorithm *you* pin, then validate every registered claim, and fail closed on anything missing.
+A [[glossary#j|JSON]] Web Token ([[glossary#j|JWT]]) lets a resource server verify a caller's identity and permissions **without calling the issuer on every request**: the token is signed, and the server checks the signature and claims locally. That statelessness is the whole point, and also the whole danger. Validation done wrong (trusting the token's own `alg` header, skipping audience checks, accepting `alg: none`) turns "verify the token" into "believe whatever the attacker sent." Doing it right is a fixed checklist: verify the signature with a key and algorithm *you* pin, then validate every registered claim, and fail closed on anything missing.
 
 ## Why it exists
 
@@ -20,7 +20,7 @@ The tradeoff is that a signed token cannot be un-issued before it expires (there
 
 ### Anatomy of a signed JWT
 
-A JWT is three base64url-encoded parts joined by dots: `header.payload.signature`. This signed form is a **JWS** (JSON Web Signature).
+A JWT is three base64url-encoded parts joined by dots: `header.payload.signature`. This signed form is a **[[glossary#j|JWS]]** (JSON Web Signature).
 
 - **Header**: metadata, including `alg` (the signing algorithm the issuer claims it used) and usually `kid` (which key).
 - **Payload**: the **claims**, a JSON object (`iss`, `aud`, `exp`, and so on).
@@ -35,9 +35,9 @@ Only the signature is secret-bearing; the header and payload are merely encoded,
 
 ### Getting the keys: JWKS and rotation
 
-The issuer publishes its public keys as a **JWK Set** (JWKS): a JSON document with a `keys` array, each entry a JWK carrying `kty` (key type, e.g. RSA/EC), optionally `use` (`sig`) and `alg`, and a `kid`.
+The issuer publishes its public keys as a **[[glossary#j|JWK]] Set** ([[glossary#j|JWKS]]): a JSON document with a `keys` array, each entry a JWK carrying `kty` (key type, e.g. RSA/EC), optionally `use` (`sig`) and `alg`, and a `kid`.
 
-Validation resolves the key by `kid`: read the token header's `kid`, find the matching JWK in the set. **Key rotation** works precisely because a JWKS can publish the old and new keys *at the same time*: the issuer starts signing with the new `kid` while the old one remains published until all its tokens expire, so nothing breaks mid-rotation. Verifiers therefore **cache the JWKS but refresh it** (on a TTL, and on encountering an unknown `kid`), rather than pinning a single key forever.
+Validation resolves the key by `kid`: read the token header's `kid`, find the matching JWK in the set. **Key rotation** works precisely because a JWKS can publish the old and new keys *at the same time*: the issuer starts signing with the new `kid` while the old one remains published until all its tokens expire, so nothing breaks mid-rotation. Verifiers therefore **cache the JWKS but refresh it** (on a [[glossary#t|TTL]], and on encountering an unknown `kid`), rather than pinning a single key forever.
 
 ### Verifying: pin the algorithm, never trust the header
 
@@ -100,7 +100,7 @@ A JWT is a **tamper-evident sealed envelope**, not a locked box. Anyone can read
 
 - [[oauth2-and-oidc-flows]]: where these tokens come from and what `iss`/`aud`/`client_id` mean.
 - [[web-session-and-token-handling]]: how a web app holds these tokens and forwards them.
-- [[backends-bff-and-apis]]: the API layer that performs this validation on each request.
+- [[backends-bff-and-apis]]: the [[glossary#a|API]] layer that performs this validation on each request.
 
 ## Sources
 

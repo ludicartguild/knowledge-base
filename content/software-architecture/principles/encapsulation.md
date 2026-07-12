@@ -120,7 +120,7 @@ You cannot have a useful abstraction without encapsulation: exposing the impleme
 ## Caveats and Limits
 
 * **Value objects** (dates, money, coordinates) are often legitimately immutable records with exposed attributes. Encapsulation here means **immutability**, not hiding: `price.amount` is fine because the object can never be changed through it.
-* **DTOs and serialisation boundaries**: objects crossing a serialisation layer (JSON, DB row) are intended to be transparent. Enforce encapsulation inside the domain; relax it at the boundary.
+* **DTOs and serialisation boundaries**: objects crossing a serialisation layer ([[glossary#j|JSON]], DB row) are intended to be transparent. Enforce encapsulation inside the domain; relax it at the boundary.
 * **Excessive encapsulation** can produce objects so opaque they are hard to test or inspect. Prefer testable, inspectable behaviour over hiding for its own sake. Encapsulation should protect **invariants**, not prevent **understanding**.
 * **Python’s `_` convention** is advisory, not enforced. Discipline at the team level matters more than language enforcement.
 

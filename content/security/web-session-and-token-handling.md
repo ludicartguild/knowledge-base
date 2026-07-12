@@ -8,11 +8,11 @@ reviewed: 2026-07-12
 
 ## TL;DR
 
-The browser is a hostile place to keep an OAuth token: any script on the page, including one an attacker injects, has the same access to `localStorage` and JavaScript-readable cookies that your own code does. The durable answer is to **keep tokens on the server** and give the browser only an opaque, `HttpOnly` session cookie. A backend-for-frontend (BFF) holds the access and refresh tokens, the browser holds a ticket, and the BFF attaches the real token to upstream calls. Every protected action is then authorized on the server, never on the strength of "the browser said so."
+The browser is a hostile place to keep an OAuth token: any script on the page, including one an attacker injects, has the same access to `localStorage` and JavaScript-readable cookies that your own code does. The durable answer is to **keep tokens on the server** and give the browser only an opaque, `HttpOnly` session cookie. A backend-for-frontend ([[glossary#b|BFF]]) holds the access and refresh tokens, the browser holds a ticket, and the BFF attaches the real token to upstream calls. Every protected action is then authorized on the server, never on the strength of "the browser said so."
 
 ## Why it exists
 
-Single-page apps naturally want to store the access token in the browser (`localStorage`, memory, or a script-readable cookie) and send it themselves. The problem is the **cross-site scripting (XSS)** threat model: injected script "has the same privileges as legitimate application code," so any token the legitimate code can read, an attacker's code can steal. Once stolen, a bearer token is usable anywhere until it expires.
+Single-page apps naturally want to store the access token in the browser (`localStorage`, memory, or a script-readable cookie) and send it themselves. The problem is the **cross-site scripting ([[glossary#x|XSS]])** threat model: injected script "has the same privileges as legitimate application code," so any token the legitimate code can read, an attacker's code can steal. Once stolen, a bearer token is usable anywhere until it expires.
 
 Keeping the token out of the browser entirely removes that attack surface. The browser cannot leak what it never holds. This is why current guidance (the OAuth 2.0 for Browser-Based Apps BCP) recommends the BFF pattern for business, sensitive, and personal-data applications.
 
@@ -29,8 +29,8 @@ A small server-side component sits between the browser and the APIs. During logi
 The cookie is the browser's entire credential, so its attributes matter (per the `Set-Cookie` semantics):
 
 - **`HttpOnly`**: JavaScript cannot read it via `document.cookie`. This is what defuses XSS token theft; a script can still trigger requests, but it cannot exfiltrate the cookie.
-- **`Secure`**: sent only over HTTPS, so it cannot leak over plaintext to a network attacker.
-- **`SameSite`** (`Lax` or `Strict`): limits or blocks the cookie on cross-site requests, mitigating CSRF. `None` requires `Secure` and should be used only when cross-site sending is genuinely needed. Treat `SameSite` as **defense-in-depth, not a complete CSRF control**: `Lax` still permits top-level GET navigations and browser coverage varies, so a cookie-session app still needs an explicit anti-CSRF mechanism (a double-submit token, or requiring a custom header that cross-site forms cannot set) on state-changing requests.
+- **`Secure`**: sent only over [[glossary#h|HTTPS]], so it cannot leak over plaintext to a network attacker.
+- **`SameSite`** (`Lax` or `Strict`): limits or blocks the cookie on cross-site requests, mitigating [[glossary#c|CSRF]]. `None` requires `Secure` and should be used only when cross-site sending is genuinely needed. Treat `SameSite` as **defense-in-depth, not a complete CSRF control**: `Lax` still permits top-level GET navigations and browser coverage varies, so a cookie-session app still needs an explicit anti-CSRF mechanism (a double-submit token, or requiring a custom header that cross-site forms cannot set) on state-changing requests.
 - **`__Host-` name prefix**: the browser enforces that the cookie was set over HTTPS, has `Path=/`, and has **no `Domain`**, binding it to the exact host and not its subdomains. It is the closest thing to treating the origin as a hard security boundary.
 
 Session data can exceed the roughly 4 KB per-cookie limit, so implementations sometimes **chunk** the cookie across several, reassembling server-side.
@@ -43,12 +43,12 @@ A useful division of labor: a cheap **edge/middleware check** can gate on mere c
 
 ### Logout that actually ends the session
 
-Deleting the local cookie logs the user out of *your* app but leaves them signed in at the identity provider, so the next login silently succeeds. **RP-initiated logout** (OIDC) closes this: the app redirects the browser to the provider's `end_session_endpoint`, passing an `id_token_hint` (identifying which session to end) and a registered `post_logout_redirect_uri` (where to land afterward). This ends the session at the provider too.
+Deleting the local cookie logs the user out of *your* app but leaves them signed in at the identity provider, so the next login silently succeeds. **[[glossary#r|RP]]-initiated logout** ([[glossary#o|OIDC]]) closes this: the app redirects the browser to the provider's `end_session_endpoint`, passing an `id_token_hint` (identifying which session to end) and a registered `post_logout_redirect_uri` (where to land afterward). This ends the session at the provider too.
 
 ## Trade-offs & when to use
 
 - **BFF (tokens server-side)**: strongest against XSS token theft; needs a stateful-ish server component and a session store. The default for anything sensitive.
-- **SPA holds the token**: simpler, no backend session, but the token is exposed to any script on the page. Acceptable only for low-value, public-data apps, and even then short lifetimes and strict content-security policies are essential.
+- **[[glossary#s|SPA]] holds the token**: simpler, no backend session, but the token is exposed to any script on the page. Acceptable only for low-value, public-data apps, and even then short lifetimes and strict content-security policies are essential.
 
 The deciding question is blast radius: if a stolen token would expose personal or privileged data, keep it off the browser.
 
@@ -85,12 +85,12 @@ Think of a **coat check**. You hand your coat and valuables (the tokens) to the 
 ## Cross-links
 
 - [[oauth2-and-oidc-flows]]: the flow the BFF runs at login to obtain the tokens it stores.
-- [[jwt-validation]]: what the upstream API does with the bearer token the BFF forwards.
+- [[jwt-validation]]: what the upstream [[glossary#a|API]] does with the bearer token the BFF forwards.
 - [[backends-bff-and-apis]]: the BFF as an architectural pattern beyond auth.
 
 ## Sources
 
 - OAuth 2.0 for Browser-Based Apps (BFF pattern, token storage), IETF draft: https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps
-- MDN, `Set-Cookie` (HttpOnly, Secure, SameSite, `__Host-`/`__Secure-` prefixes): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie
+- MDN, `Set-Cookie` (HttpOnly, Secure, SameSite, `__Host-`/`__Secure-` prefixes): https://developer.mozilla.org/en-US/docs/Web/[[glossary#h|HTTP]]/Reference/Headers/Set-Cookie
 - HTTP State Management (cookies), RFC 6265bis: https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis
 - OpenID Connect RP-Initiated Logout 1.0: https://openid.net/specs/openid-connect-rpinitiated-1_0.html

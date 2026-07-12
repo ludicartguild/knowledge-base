@@ -16,7 +16,7 @@ A Specification is a predicate that determines whether an object does or does no
 Turn a predicate (`is_satisfied_by(obj) -> bool`) into a first-class composable object. The pattern has two primary use cases:
 
 1. **In-memory validation and selection**, filter a collection of domain objects already in memory.
-2. **Querying**, translate the specification into a persistence query (SQL `WHERE` clause, ORM filter, Elasticsearch query) so only matching records are fetched from storage.
+2. **Querying**, translate the specification into a persistence query ([[glossary#s|SQL]] `WHERE` clause, [[glossary#o|ORM]] filter, Elasticsearch query) so only matching records are fetched from storage.
 
 Because both use cases share the same specification object, a rule written once drives both runtime checks and database queries, no duplication between validation logic and query parameters.
 

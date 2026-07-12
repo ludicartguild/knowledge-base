@@ -13,11 +13,11 @@ A Repository represents all objects of a certain type as a conceptual set. It ac
 
 ## Core idea
 
-Your domain code asks a repository for objects as if reaching into an in-memory collection. The repository hides **how** and **where** those objects are stored, whether that is a relational database, a REST API, a flat file, a cache, or a combination.
+Your domain code asks a repository for objects as if reaching into an in-memory collection. The repository hides **how** and **where** those objects are stored, whether that is a relational database, a [[glossary#r|REST]] [[glossary#a|API]], a flat file, a cache, or a combination.
 
 | Without Repository | With Repository |
 | --- | --- |
-| SQL, connection strings, column indexes, and ORM calls scattered through service classes. | Service classes speak in domain terms: `get`, `save`, `find_by_email`. |
+| [[glossary#s|SQL]], connection strings, column indexes, and [[glossary#o|ORM]] calls scattered through service classes. | Service classes speak in domain terms: `get`, `save`, `find_by_email`. |
 | Business logic coupled to Postgres (or whichever storage engine is currently in use). | Storage is an implementation detail behind an interface the domain owns. |
 | Tests require a running database, slow, brittle, hard to isolate. | Tests swap in an in-memory implementation, fast and deterministic. |
 
@@ -26,7 +26,7 @@ Your domain code asks a repository for objects as if reaching into an in-memory 
 
 ## The interface
 
-Define the repository as an abstract class (or Protocol) in your domain layer. It speaks domain language, domain objects in, domain objects out. No SQL, no HTTP, no file paths.
+Define the repository as an abstract class (or Protocol) in your domain layer. It speaks domain language, domain objects in, domain objects out. No SQL, no [[glossary#h|HTTP]], no file paths.
 
 ```python
 from abc import ABC, abstractmethod
@@ -191,7 +191,7 @@ Active Record (used by Django ORM, Rails ActiveRecord) **is already a repository
 
 |  | Repository | DAO (Data Access Object) |
 | --- | --- | --- |
-| **Granularity** | Domain-level, may aggregate multiple tables or sources into one rich object. | Table-level, one DAO per table, exposes CRUD for that table only. |
+| **Granularity** | Domain-level, may aggregate multiple tables or sources into one rich object. | Table-level, one DAO per table, exposes [[glossary#c|CRUD]] for that table only. |
 | **Language** | Speaks domain concepts: `find_active_subscriptions`. | Speaks storage concepts: `select_by_status("active")`. |
 | **Origin** | Evans DDD, Fowler PoEAA. | J2EE patterns (Core J2EE Patterns, 2001). |
 

@@ -17,7 +17,7 @@ to hold a confident conversation, with just enough depth to back it up.
 By the end of this path you can:
 
 * Sketch the anatomy and request lifecycle of a modern web application and place any topic on it.
-* Explain concisely what every layer of the stack does and why it exists: frontend, backend/API, database, delivery, cloud, and AI.
+* Explain concisely what every layer of the stack does and why it exists: frontend, backend/[[glossary#a|API]], database, delivery, cloud, and AI.
 * Name the common technology at each layer and one reason you would reach for it.
 * Answer entry-level questions on each topic, and respond well when a question goes past what you know.
 
@@ -72,12 +72,12 @@ one honest way to handle a question at the edge of your knowledge.
 
 The core of full-stack: the frontend the user sees, and the backend and APIs behind it.
 
-**Focus:** What is a SPA and what problem does it solve? What is a REST API, a BFF, and
+**Focus:** What is a [[glossary#s|SPA]] and what problem does it solve? What is a [[glossary#r|REST]] API, a [[glossary#b|BFF]], and
 why keep auth logic on the server?
 
 **Learn:**
 * [[frontend-and-spas|Frontend & SPAs]]: single-page apps, React fundamentals, Angular awareness, TypeScript basics.
-* [[backends-bff-and-apis|Backends, BFF & APIs]]: Node/Express/NestJS, REST APIs, the Backend-for-Frontend pattern, API security (OAuth2 / JWT), and testing.
+* [[backends-bff-and-apis|Backends, BFF & APIs]]: Node/Express/NestJS, REST APIs, the Backend-for-Frontend pattern, API security ([[glossary#o|OAuth2]] / [[glossary#j|JWT]]), and testing.
 
 **Practice:** Pick a simple app you know (a to-do list, a store). List the API endpoints
 it would need (method + path), and say which logic runs on the frontend vs the backend and
@@ -94,7 +94,7 @@ the technology at each step, and explain what a BFF adds.
 
 Where application state lives.
 
-**Focus:** When do you choose SQL vs NoSQL? What is a join, an index, a transaction?
+**Focus:** When do you choose [[glossary#s|SQL]] vs [[glossary#n|NoSQL]]? What is a join, an index, a transaction?
 
 **Learn:**
 * [[databases|Databases]]: SQL vs NoSQL, relational fundamentals, transactions & ACID, and how BigQuery differs from an application database.
@@ -114,7 +114,7 @@ say what ACID guarantees and why they matter for money or orders.
 How code gets from a laptop to running software, reliably and repeatably.
 
 **Focus:** What is the pull-request workflow? What does a container solve? What does a
-CI/CD pipeline do on each commit?
+[[glossary#c|CI/CD]] pipeline do on each commit?
 
 **Learn:**
 * [[git-and-github|Git & GitHub]]: version control and the pull-request workflow.
@@ -138,14 +138,14 @@ Where modern applications actually run, and how that environment is managed.
 **Focus:** What is the cloud (IaaS/PaaS/SaaS)? What does Infrastructure as Code buy you?
 
 **Learn:**
-* [[cloud-and-gcp|Cloud Fundamentals & GCP]]: what the cloud is and the core GCP services (with AWS/Azure equivalents).
+* [[cloud-and-gcp|Cloud Fundamentals & GCP]]: what the cloud is and the core [[glossary#g|GCP]] services (with [[glossary#a|AWS]]/Azure equivalents).
 * [[infrastructure-as-code|Infrastructure as Code & Terraform]]: defining infrastructure in versioned, repeatable code.
 
 **Practice:** Name three cloud services and the problem each solves. In one or two
 sentences, explain why teams write infrastructure as code instead of clicking in a console.
 
 **Self-check:** you can distinguish IaaS/PaaS/SaaS with an example each and explain the
-value of IaC (reproducible, reviewable, versioned environments).
+value of [[glossary#i|IaC]] (reproducible, reviewable, versioned environments).
 
 **Ask yourself:**
 * Why would a team pay for managed services instead of running the servers themselves?
@@ -155,7 +155,7 @@ value of IaC (reproducible, reviewable, versioned environments).
 
 The layer employers increasingly expect developers to work alongside.
 
-**Focus:** What is an LLM from an app developer's view? What are RAG and MCP for?
+**Focus:** What is an [[glossary#l|LLM]] from an app developer's view? What are [[glossary#r|RAG]] and [[glossary#m|MCP]] for?
 
 **Learn:**
 * [[ai-llms-and-mcps|AI, LLMs & MCPs]]: how large language models work, using them from an application, vector search and RAG, and the Model Context Protocol.

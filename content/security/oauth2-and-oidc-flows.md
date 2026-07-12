@@ -8,7 +8,7 @@ reviewed: 2026-07-12
 
 ## TL;DR
 
-OAuth2 is a framework for **delegated authorization**: it lets a client obtain limited access to a resource without ever seeing the resource owner's password. OpenID Connect (OIDC) is a thin **authentication** layer on top of OAuth2 that adds a verifiable identity token. The grant type you pick encodes *who is present and what is being delegated*: authorization-code + PKCE for a user signing in, client-credentials for a service acting as itself, and token-exchange (RFC 8693) for a service acting on a user's behalf downstream. Modern practice (RFC 9700) narrows the safe set of flows sharply: no implicit grant, no password grant, PKCE everywhere.
+[[glossary#o|OAuth2]] is a framework for **delegated authorization**: it lets a client obtain limited access to a resource without ever seeing the resource owner's password. OpenID Connect ([[glossary#o|OIDC]]) is a thin **authentication** layer on top of OAuth2 that adds a verifiable identity token. The grant type you pick encodes *who is present and what is being delegated*: authorization-code + [[glossary#p|PKCE]] for a user signing in, client-credentials for a service acting as itself, and token-exchange (RFC 8693) for a service acting on a user's behalf downstream. Modern practice (RFC 9700) narrows the safe set of flows sharply: no implicit grant, no password grant, PKCE everywhere.
 
 ## Why it exists
 
@@ -22,10 +22,10 @@ OAuth2 solves this by introducing a **token** the resource owner authorizes once
 
 - **Resource owner**: the user (or the service itself) who owns the data.
 - **Client**: the application requesting access.
-- **Authorization server (AS)**: authenticates the resource owner and issues tokens. This is the identity provider (IdP).
-- **Resource server (RS)**: the API that holds the protected data and accepts tokens.
+- **Authorization server (AS)**: authenticates the resource owner and issues tokens. This is the identity provider ([[glossary#i|IdP]]).
+- **Resource server (RS)**: the [[glossary#a|API]] that holds the protected data and accepts tokens.
 
-The client obtains an **access token** from the AS and presents it to the RS, typically as an HTTP `Authorization: Bearer <token>` header (RFC 6750). The access token is the currency of OAuth2; everything else exists to issue, scope, refresh, or verify it.
+The client obtains an **access token** from the AS and presents it to the RS, typically as an [[glossary#h|HTTP]] `Authorization: Bearer <token>` header (RFC 6750). The access token is the currency of OAuth2; everything else exists to issue, scope, refresh, or verify it.
 
 ### Grant types: choosing by who is present
 
@@ -45,7 +45,7 @@ Two legacy grants are now discouraged and should not appear in new systems (see 
 
 This is the default flow whenever a human logs in. The insight is that the token is delivered through a **back channel** (a server-to-server call), never through the browser URL.
 
-1. The client redirects the browser to the AS `/authorize` endpoint with `response_type=code`, its `client_id`, requested `scope`, a `redirect_uri`, a random `state` (CSRF defense), and a PKCE `code_challenge`.
+1. The client redirects the browser to the AS `/authorize` endpoint with `response_type=code`, its `client_id`, requested `scope`, a `redirect_uri`, a random `state` ([[glossary#c|CSRF]] defense), and a PKCE `code_challenge`.
 2. The AS authenticates the user and obtains consent, then redirects back to `redirect_uri` with a short-lived **authorization code**.
 3. The client calls the AS `/token` endpoint, exchanging the code plus the PKCE `code_verifier` (and, for a confidential client, its own credentials) for an **access token** (and often a refresh token, and for OIDC an ID token).
 
@@ -72,11 +72,11 @@ Token exchange solves this. Service A calls `/token` with `grant_type=urn:ietf:p
 
 ### Refresh tokens
 
-Access tokens are short-lived by design so that a leaked one expires quickly. A **refresh token** lets the client obtain a new access token without re-prompting the user, by calling `/token` with `grant_type=refresh_token`. Because a refresh token is long-lived and powerful, RFC 9700 requires it to be **sender-constrained or rotated** for public clients: rotation issues a new refresh token on each use and revokes the family if an old one is replayed, which detects theft. *Sender-constraining* instead binds the token to a key the client holds (via DPoP, RFC 9449, or mutual-TLS), so a stolen token is useless to anyone who lacks that key.
+Access tokens are short-lived by design so that a leaked one expires quickly. A **refresh token** lets the client obtain a new access token without re-prompting the user, by calling `/token` with `grant_type=refresh_token`. Because a refresh token is long-lived and powerful, RFC 9700 requires it to be **sender-constrained or rotated** for public clients: rotation issues a new refresh token on each use and revokes the family if an old one is replayed, which detects theft. *Sender-constraining* instead binds the token to a key the client holds (via DPoP, RFC 9449, or mutual-[[glossary#t|TLS]]), so a stolen token is useless to anyone who lacks that key.
 
 ### OIDC: the identity layer
 
-OAuth2 alone never tells the client *who* the user is; a raw access token is opaque to the client. OIDC ("a simple identity layer on top of the OAuth 2.0 protocol") adds an **ID token**: a signed JWT with standard identity claims (`iss`, `sub`, `aud`, `exp`, `iat`, and `nonce` for replay defense). Request it by adding the `openid` scope to an authorization-code flow.
+OAuth2 alone never tells the client *who* the user is; a raw access token is opaque to the client. OIDC ("a simple identity layer on top of the OAuth 2.0 protocol") adds an **ID token**: a signed [[glossary#j|JWT]] with standard identity claims (`iss`, `sub`, `aud`, `exp`, `iat`, and `nonce` for replay defense). Request it by adding the `openid` scope to an authorization-code flow.
 
 The distinction that trips people up:
 
@@ -92,7 +92,7 @@ Okta is a widely used hosted IdP; its public model illustrates the concepts. Okt
 - **Org authorization server** (`https://{yourOktaDomain}`): built in, issues tokens for Okta's own APIs. Its access tokens are for Okta and their contents "are subject to change," so your own resource servers should not try to validate them.
 - **Custom authorization server** (`https://{yourOktaDomain}/oauth2/{authorizationServerId}`): part of API Access Management; here you define your own `scope`s, `claim`s, and access policies. These tokens are meant to be validated by *your* APIs.
 
-Either way the endpoints follow the standard shape: `/authorize` (start the flow), `/token` (exchange code or get a client-credentials token), `/keys` (the JWKS of public signing keys), and `/.well-known/openid-configuration` (discovery). This maps one-to-one onto the flows above: an SPA does authorization-code + PKCE against `/authorize` then `/token`; a backend job does client-credentials against `/token`; every consumer fetches `/keys` to verify token signatures (see [[jwt-validation]]).
+Either way the endpoints follow the standard shape: `/authorize` (start the flow), `/token` (exchange code or get a client-credentials token), `/keys` (the [[glossary#j|JWKS]] of public signing keys), and `/.well-known/openid-configuration` (discovery). This maps one-to-one onto the flows above: an [[glossary#s|SPA]] does authorization-code + PKCE against `/authorize` then `/token`; a backend job does client-credentials against `/token`; every consumer fetches `/keys` to verify token signatures (see [[jwt-validation]]).
 
 ## Trade-offs & when to use
 

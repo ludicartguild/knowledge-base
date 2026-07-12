@@ -23,12 +23,12 @@ By the end of this path you can:
 * Model data safely with transactions and idempotent operations.
 * Define infrastructure as code and promote a change through environments behind gates.
 * Deliver software through a pipeline you would trust with production.
-* Explain how an LLM agent is orchestrated, grounded, and evaluated in production.
+* Explain how an [[glossary#l|LLM]] agent is orchestrated, grounded, and evaluated in production.
 
 ## Prerequisites
 
 Comfort with the [[full-stack-interview-foundations|full-stack fundamentals]] (how a web
-app, API, and database fit together), a terminal, and access to a cloud account and a
+app, [[glossary#a|API]], and database fit together), a terminal, and access to a cloud account and a
 container runtime for the hands-on work.
 
 ## How to use this path
@@ -50,16 +50,16 @@ is scoped to what exists.
 How identity, trust, and secrets work across a distributed system. Start here: almost
 every other topic assumes it.
 
-**Focus:** Which OAuth2 grant fits which caller? How does a service verify a token offline
+**Focus:** Which [[glossary#o|OAuth2]] grant fits which caller? How does a service verify a token offline
 without trusting the attacker? Where do tokens and secrets actually live?
 
 **Learn:**
-* [[oauth2-and-oidc-flows|OAuth2 & OIDC flows]]: grant types, PKCE, on-behalf-of, and OIDC.
-* [[jwt-validation|JWT validation done right]]: signatures, JWKS, claim checks, algorithm pinning.
+* [[oauth2-and-oidc-flows|OAuth2 & OIDC flows]]: grant types, [[glossary#p|PKCE]], on-behalf-of, and [[glossary#o|OIDC]].
+* [[jwt-validation|JWT validation done right]]: signatures, [[glossary#j|JWKS]], claim checks, algorithm pinning.
 * [[web-session-and-token-handling|web session & token handling]]: keeping tokens off the browser, secure cookies, real logout.
 * [[secrets-and-supply-chain-security|secrets & supply-chain security]]: short-lived federated credentials and pipeline hardening.
 
-**Practice:** Implement a JWT validation function that fetches a JWKS, resolves the key by
+**Practice:** Implement a [[glossary#j|JWT]] validation function that fetches a JWKS, resolves the key by
 `kid`, **pins the expected algorithm**, rejects `alg: none`, and checks `iss`/`aud`/`exp`.
 Feed it a tampered token and a wrong-audience token and confirm both are rejected.
 
@@ -81,7 +81,7 @@ operation safe to retry?
 **Learn:**
 * [[software-architecture-map|Software Architecture Map]]: the principles (SOLID, coupling & cohesion, IoC) and patterns (Strategy, Repository, Command) this builds on.
 
-**Practice:** Take a small service and push one external dependency (a database or HTTP
+**Practice:** Take a small service and push one external dependency (a database or [[glossary#h|HTTP]]
 client) behind an interface, so the core logic can be tested with a fake. Then make one
 write operation idempotent (safe to call twice).
 
@@ -101,7 +101,7 @@ Talking to a relational store safely and correctly.
 **Focus:** What does a transaction guarantee? How do you evolve a schema without downtime?
 
 **Learn:**
-* [[databases|databases]]: relational vs NoSQL, transactions & ACID, indexing, normalization.
+* [[databases|databases]]: relational vs [[glossary#n|NoSQL]], transactions & ACID, indexing, normalization.
 
 **Practice:** Wrap a two-step change (e.g. debit one row, credit another) in a transaction
 and prove that a failure midway leaves the data untouched. Add an index and observe the
@@ -120,7 +120,7 @@ transaction protects a multi-step change.
 
 Defining infrastructure declaratively and reproducibly.
 
-**Focus:** What does IaC buy you over clicking in a console? What is remote state for?
+**Focus:** What does [[glossary#i|IaC]] buy you over clicking in a console? What is remote state for?
 
 **Learn:**
 * [[infrastructure-as-code|infrastructure as code]]: version-controlled, reviewable infrastructure.
@@ -159,7 +159,7 @@ and describe what a managed runtime handles for you (scaling, health, networking
 * What am I giving up (control, cost, portability) by choosing a managed service here?
 * If this container works locally but fails in the cloud, where would I look first?
 
-*Deeper notes planned: cloud networking, IAM & Workload Identity Federation, Kubernetes workload basics.*
+*Deeper notes planned: cloud networking, [[glossary#i|IAM]] & Workload Identity Federation, Kubernetes workload basics.*
 
 ## CI/CD & delivery
 
@@ -200,7 +200,7 @@ testing fundamentals.*
 
 Running LLM agents in production.
 
-**Focus:** How does a backend actually use a model? What are RAG, tool-calling, and
+**Focus:** How does a backend actually use a model? What are [[glossary#r|RAG]], tool-calling, and
 grounding for?
 
 **Learn:**

@@ -7,7 +7,7 @@ reviewed: 2026-07-12
 ---
 
 
-"The cloud" is not a mysterious place, it is someone else’s data center, rented on demand through an API instead of bought and racked yourself. A developer requests a server, a database, or a place to run a container, and it exists within seconds instead of after a purchase order and a trip to a hardware closet. Google Cloud Platform (GCP) is one of the three major providers of this rented infrastructure, alongside AWS and Azure. A junior developer is not expected to be a cloud architect, but should recognize the core services, know roughly what each one is for, and be able to follow a conversation about deploying an app.
+"The cloud" is not a mysterious place, it is someone else’s data center, rented on demand through an [[glossary#a|API]] instead of bought and racked yourself. A developer requests a server, a database, or a place to run a container, and it exists within seconds instead of after a purchase order and a trip to a hardware closet. Google Cloud Platform ([[glossary#g|GCP]]) is one of the three major providers of this rented infrastructure, alongside [[glossary#a|AWS]] and Azure. A junior developer is not expected to be a cloud architect, but should recognize the core services, know roughly what each one is for, and be able to follow a conversation about deploying an app.
 
 ## What the cloud is
 
@@ -27,7 +27,7 @@ These are the GCP services most likely to come up in a full-stack role, at an aw
 | --- | --- |
 | Cloud Run | Runs a containerized app or API without managing servers; scales automatically, including down to zero. |
 | GKE (Google Kubernetes Engine) | Managed Kubernetes for orchestrating many containers together; more control and complexity than Cloud Run, mostly relevant at larger scale. |
-| Cloud SQL | A managed relational database (Postgres or MySQL), Google handles backups, patching, and replication. |
+| Cloud [[glossary#s|SQL]] | A managed relational database (Postgres or MySQL), Google handles backups, patching, and replication. |
 | BigQuery | A managed data warehouse built for running fast analytical queries over very large datasets. |
 | Pub/Sub | A messaging service for passing events between systems asynchronously, decoupling the sender from the receiver. |
 | Vertex AI / Gemini | Google’s platform for building with and deploying machine learning and generative AI models. |
@@ -45,7 +45,7 @@ A simple deployment might put a containerized API on Cloud Run, store its data i
 
 * **Projects**: the top-level container for resources, billing, and permissions. Nearly everything created in GCP (a database, a Cloud Run service, a bucket) belongs to exactly one project.
 * **Regions and zones**: a region is a geographic area (for example `us-central1`); a zone is an isolated location within that region. Resources are placed in a region or zone to control latency and to spread risk, if one zone has an outage, others in the region should stay up.
-* **IAM (Identity and Access Management)**: controls who (a person or a service) can do what, on which resource. A role bundles a set of permissions (for example "can deploy to Cloud Run" or "can read from this database") and is granted to a user, group, or service account.
+* **[[glossary#i|IAM]] (Identity and Access Management)**: controls who (a person or a service) can do what, on which resource. A role bundles a set of permissions (for example "can deploy to Cloud Run" or "can read from this database") and is granted to a user, group, or service account.
 
 > [!tip]
 > When a task description mentions "least privilege," it is talking about IAM: granting only the specific permissions a person or service actually needs, not broad admin access by default.

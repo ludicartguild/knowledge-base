@@ -50,7 +50,7 @@ Most teams follow some version of this flow for every change:
 1. **Branch**, create a new branch off the main branch so the change is isolated: `git switch -c feature/add-login-form`.
 2. **Commit**, make changes and commit them in small, logical steps.
 3. **Push**, push the branch to GitHub with `git push`.
-4. **Open a Pull Request (PR)**, propose merging the branch into main. A PR shows the full diff and gives teammates a place to leave comments.
+4. **Open a Pull Request ([[glossary#p|PR]])**, propose merging the branch into main. A PR shows the full diff and gives teammates a place to leave comments.
 5. **Review**, teammates read the code, ask questions, request changes, or approve it. This is where most feedback and learning happens.
 6. **Merge**, once approved (and once any automated checks pass, see [[cicd-and-github-actions|CI/CD and GitHub Actions]]), the PR is merged into main and the feature becomes part of the shared codebase.
 

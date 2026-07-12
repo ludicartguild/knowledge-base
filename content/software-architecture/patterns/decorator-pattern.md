@@ -152,7 +152,7 @@ def slow_query(n):
 
 ### Web middleware
 
-HTTP middleware pipelines are decorators: each middleware adds one concern (authentication, logging, rate-limiting, CORS headers) and passes the request to the next handler. In frameworks like Django, Express, or ASP.NET Core the middleware stack is literally assembled by wrapping handlers at startup.
+[[glossary#h|HTTP]] middleware pipelines are decorators: each middleware adds one concern (authentication, logging, rate-limiting, CORS headers) and passes the request to the next handler. In frameworks like Django, Express, or ASP.NET Core the middleware stack is literally assembled by wrapping handlers at startup.
 
 ### UI components
 

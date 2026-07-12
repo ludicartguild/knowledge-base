@@ -110,7 +110,7 @@ Every DOM event listener (`addEventListener`) is an observer. The `EventTarget` 
 ### Reactive front-end frameworks
 * **React**: `useEffect` / Redux `subscribe` wires component re-renders to store state changes.
 * **Vue**: reactive data properties use a hidden dependency-tracking observer graph (via `Proxy`).
-* **RxJS**: explicit `Observable` / `subscribe` / `unsubscribe` API; Observers are first-class objects.
+* **RxJS**: explicit `Observable` / `subscribe` / `unsubscribe` [[glossary#a|API]]; Observers are first-class objects.
 
 ### Pub/sub and message queues
 Kafka, Redis Pub/Sub, and Google Pub/Sub extend the pattern across process boundaries. The broker decouples producer (subject) from consumer (observer) both in time and space, a pure push model where consumers decide their own filtering.

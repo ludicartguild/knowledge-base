@@ -93,7 +93,7 @@ IoC is a **principle**, not a mechanism. Many patterns realise it:
 | **Callbacks / event handlers** | You register a function; the runtime calls it when an event fires. | `button.on_click(handler)`; `addEventListener("click", fn)`. |
 | **Template Method pattern** | Base class defines the algorithm skeleton; subclass fills in hook methods the base calls. | Django’s `get()` / `post()` on class-based views; JUnit’s `setUp()` / `tearDown()`. |
 | **Framework lifecycle hooks** | Framework drives the lifecycle; your code implements named entry points. | React `render()`, `componentDidMount()`; Flask route decorators; pytest fixtures. |
-| **Plugin / extension registries** | Your code declares itself to a registry; the host discovers and invokes it. | VSCode extension API; Python `entry_points`; pytest plugins. |
+| **Plugin / extension registries** | Your code declares itself to a registry; the host discovers and invokes it. | VSCode extension [[glossary#a|API]]; Python `entry_points`; pytest plugins. |
 
 ## IoC Containers
 

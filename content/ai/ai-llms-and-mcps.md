@@ -7,7 +7,7 @@ reviewed: 2026-07-12
 ---
 
 
-AI now shows up inside ordinary full-stack apps, not just in dedicated chatbots, a backend calls a model the same way it might call any other third-party service. A junior developer doesn’t need to know how these models are built, but should be able to talk fluently about what an LLM is, how an app calls one, and how tools like RAG and MCP fit around it.
+AI now shows up inside ordinary full-stack apps, not just in dedicated chatbots, a backend calls a model the same way it might call any other third-party service. A junior developer doesn’t need to know how these models are built, but should be able to talk fluently about what an [[glossary#l|LLM]] is, how an app calls one, and how tools like [[glossary#r|RAG]] and [[glossary#m|MCP]] fit around it.
 
 ## What an LLM is
 
@@ -26,7 +26,7 @@ Core vocabulary:
 
 ## Using AI in an app
 
-Most apps don’t train their own model. Instead, a backend calls a hosted model through an SDK (Software Development Kit), a client library that wraps the underlying API call.
+Most apps don’t train their own model. Instead, a backend calls a hosted model through an [[glossary#s|SDK]] (Software Development Kit), a client library that wraps the underlying [[glossary#a|API]] call.
 
 ```javascript
 // pseudo-code: backend route calling a hosted LLM
@@ -42,7 +42,7 @@ async function summarize(text) {
 }
 ```
 
-The pattern is the same as calling any other external service: send a request, get a response, handle errors and timeouts. The BFF or service layer is usually where this call lives, not the frontend, so the API key stays on the server.
+The pattern is the same as calling any other external service: send a request, get a response, handle errors and timeouts. The [[glossary#b|BFF]] or service layer is usually where this call lives, not the frontend, so the API key stays on the server.
 
 ## Embeddings, vector search & RAG
 
@@ -67,7 +67,7 @@ Three different ways to get an LLM to behave the way an app needs, roughly in or
 
 MCP (Model Context Protocol) is an open standard that lets an AI assistant connect to external tools and data through a common interface, instead of every integration being custom-built. An app exposes an "MCP server" that advertises a set of **tools** (actions the model can call, like "search issues" or "read a file") and **resources** (data the model can read). Any AI assistant that speaks MCP can then use those tools without the app needing to write a bespoke integration for each assistant.
 
-The practical value is standard plumbing: before MCP, connecting a model to a database, a ticketing system, and a file store meant three separate custom integrations. With MCP, each system exposes one server, and any compliant assistant can plug into all three the same way, similar to how a REST API lets many different clients talk to one backend without custom code per client.
+The practical value is standard plumbing: before MCP, connecting a model to a database, a ticketing system, and a file store meant three separate custom integrations. With MCP, each system exposes one server, and any compliant assistant can plug into all three the same way, similar to how a [[glossary#r|REST]] API lets many different clients talk to one backend without custom code per client.
 
 ## How to talk about this in an interview
 

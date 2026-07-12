@@ -7,7 +7,7 @@ reviewed: 2026-07-12
 ---
 
 
-Every app needs somewhere to run: servers, databases, networks, load balancers. Infrastructure as Code (IaC) means describing that "somewhere" in text files instead of clicking buttons in a cloud console. The files are checked into version control just like application code, which means infrastructure changes get the same review, history, and repeatability that code already gets.
+Every app needs somewhere to run: servers, databases, networks, load balancers. Infrastructure as Code ([[glossary#i|IaC]]) means describing that "somewhere" in text files instead of clicking buttons in a cloud console. The files are checked into version control just like application code, which means infrastructure changes get the same review, history, and repeatability that code already gets.
 
 ## What Infrastructure as Code is
 
@@ -25,10 +25,10 @@ Every app needs somewhere to run: servers, databases, networks, load balancers. 
 
 ## Terraform basics
 
-Terraform is the most widely used IaC tool. It works with most major cloud providers (GCP, AWS, Azure) and many other services, using the same workflow and syntax regardless of provider.
+Terraform is the most widely used IaC tool. It works with most major cloud providers ([[glossary#g|GCP]], [[glossary#a|AWS]], Azure) and many other services, using the same workflow and syntax regardless of provider.
 
 * **Provider**: a plugin that tells Terraform how to talk to a specific platform, such as GCP or AWS. A file declares which provider(s) it needs.
-* **Resource**: a single piece of infrastructure to manage: a virtual machine, a storage bucket, a database instance, a DNS record.
+* **Resource**: a single piece of infrastructure to manage: a virtual machine, a storage bucket, a database instance, a [[glossary#d|DNS]] record.
 * **HCL (HashiCorp Configuration Language)**: the declarative syntax Terraform files are written in. It reads like structured configuration, not a programming language with loops and conditionals as the default style.
 
 A minimal resource block:

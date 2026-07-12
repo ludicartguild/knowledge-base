@@ -7,7 +7,7 @@ reviewed: 2026-07-12
 ---
 
 
-The backend is the part of an app that runs on a server the team controls, away from the user’s device. It owns business logic, talks to databases, and exposes that logic to the outside world through an API, a defined contract other programs can call. A junior full-stack developer doesn’t need to have built a large-scale backend, but should be able to explain what a Node.js server does, describe a REST endpoint, and reason about who’s allowed to call it and why.
+The backend is the part of an app that runs on a server the team controls, away from the user’s device. It owns business logic, talks to databases, and exposes that logic to the outside world through an [[glossary#a|API]], a defined contract other programs can call. A junior full-stack developer doesn’t need to have built a large-scale backend, but should be able to explain what a Node.js server does, describe a [[glossary#r|REST]] endpoint, and reason about who’s allowed to call it and why.
 
 ## Backends & runtimes (Node, Express, NestJS)
 
@@ -33,11 +33,11 @@ app.listen(3000, () => console.log("Server running on port 3000"));
 ```
 
 > [!tip]
-> Express and NestJS both end up serving HTTP requests over Node.js, the difference is how much structure is imposed on you versus how much you have to decide yourself. Neither is "better" in the abstract; it depends on team size and how much consistency the project needs.
+> Express and NestJS both end up serving [[glossary#h|HTTP]] requests over Node.js, the difference is how much structure is imposed on you versus how much you have to decide yourself. Neither is "better" in the abstract; it depends on team size and how much consistency the project needs.
 
 ## REST APIs
 
-**REST (Representational State Transfer)** is an architectural style for designing APIs around **resources** (like `users` or `orders`) and standard HTTP methods to act on them. A resource is addressed by a URL; the HTTP verb says what to do to it. Requests and responses are typically JSON.
+**REST (Representational State Transfer)** is an architectural style for designing APIs around **resources** (like `users` or `orders`) and standard HTTP methods to act on them. A resource is addressed by a URL; the HTTP verb says what to do to it. Requests and responses are typically [[glossary#j|JSON]].
 
 | Verb | Typical meaning |
 | --- | --- |
@@ -65,7 +65,7 @@ Most "REST APIs" in practice loosely follow these conventions rather than implem
 
 ## The BFF pattern
 
-A **BFF (Backend for Frontend)** is a backend tailored to the needs of one specific frontend. Instead of a mobile app, a web app, and a public API all negotiating directly with the same general-purpose backend services, each frontend gets its own thin server-side layer that calls those services, combines their responses, and reshapes the result into exactly what that frontend wants.
+A **[[glossary#b|BFF]] (Backend for Frontend)** is a backend tailored to the needs of one specific frontend. Instead of a mobile app, a web app, and a public API all negotiating directly with the same general-purpose backend services, each frontend gets its own thin server-side layer that calls those services, combines their responses, and reshapes the result into exactly what that frontend wants.
 
 It exists because different frontends often want the same underlying data shaped differently: a mobile screen might need a small, flattened payload to save bandwidth, while a web dashboard might want a richer, nested response. Without a BFF, either every backend service tries to serve every possible shape (bloat), or every frontend does its own complex aggregation (duplication). The BFF absorbs that translation in one place.
 
@@ -76,9 +76,9 @@ It exists because different frontends often want the same underlying data shaped
 
 Two concerns come up constantly around APIs: **authentication** ("who are you?") and **authorization** ("what are you allowed to do?"). A system can correctly authenticate someone and still refuse a request because they’re not authorized for that action.
 
-**OAuth2** is an industry-standard protocol for **delegated authorization**, it lets a user grant one application limited access to their data on another service without handing over their password. "Sign in with Google" is OAuth2 in action: the app never sees the user’s Google password, only a token proving limited, revocable access.
+**[[glossary#o|OAuth2]]** is an industry-standard protocol for **delegated authorization**, it lets a user grant one application limited access to their data on another service without handing over their password. "Sign in with Google" is OAuth2 in action: the app never sees the user’s Google password, only a token proving limited, revocable access.
 
-**JWT (JSON Web Token)** is a compact, signed token format. After a user authenticates, the server issues a JWT containing their identity and claims. The client stores it and sends it back on later requests, usually in an `Authorization: Bearer <token>` header. Because the token is signed, the server can verify it wasn’t tampered with, without a database lookup on every single request.
+**[[glossary#j|JWT]] (JSON Web Token)** is a compact, signed token format. After a user authenticates, the server issues a JWT containing their identity and claims. The client stores it and sends it back on later requests, usually in an `Authorization: Bearer <token>` header. Because the token is signed, the server can verify it wasn’t tampered with, without a database lookup on every single request.
 
 ![[auth-oauth-jwt.drawio.svg]]
 

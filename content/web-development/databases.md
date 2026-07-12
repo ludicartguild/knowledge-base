@@ -7,7 +7,7 @@ reviewed: 2026-07-12
 ---
 
 
-A database is where an application’s data lives between requests, user accounts, orders, messages, anything that needs to survive a restart. The two big families are **relational (SQL)** and **non-relational (NoSQL)**. Most full-stack roles expect comfort with at least one relational database and an awareness of when a NoSQL store is the better fit. Neither is "better" in general, the right choice depends on the shape of the data and how it will be queried.
+A database is where an application’s data lives between requests, user accounts, orders, messages, anything that needs to survive a restart. The two big families are **relational ([[glossary#s|SQL]])** and **non-relational ([[glossary#n|NoSQL]])**. Most full-stack roles expect comfort with at least one relational database and an awareness of when a NoSQL store is the better fit. Neither is "better" in general, the right choice depends on the shape of the data and how it will be queried.
 
 ## SQL vs NoSQL
 
@@ -15,7 +15,7 @@ A database is where an application’s data lives between requests, user account
 | --- | --- | --- |
 | Structure | Fixed schema, tables with defined columns and types | Flexible schema, documents or records can vary in shape |
 | Data model | Rows and columns, related via keys | Documents, key-value pairs, wide columns, or graphs |
-| Query language | SQL (standardized, declarative) | Varies by database, often a query API or JSON-based syntax |
+| Query language | SQL (standardized, declarative) | Varies by database, often a query [[glossary#a|API]] or [[glossary#j|JSON]]-based syntax |
 | Relationships | First-class, enforced via foreign keys and joins | Usually handled in application code or by embedding related data |
 | Scaling | Traditionally vertical (bigger server); harder to shard | Often designed to scale horizontally (more servers) |
 | Good fit for | Structured data with clear relationships, orders, accounts, invoices | Rapidly changing or loosely structured data, logs, catalogs, sessions |
@@ -48,7 +48,7 @@ PostgreSQL and MySQL are the two relational databases most commonly seen in job 
 
 ### CRUD
 
-Almost every database interaction falls into one of four operations, **Create, Read, Update, Delete**, regardless of whether the backing store is SQL or NoSQL. In SQL these map to `INSERT`, `SELECT`, `UPDATE`, and `DELETE`. Application code often issues them through an ORM (Object-Relational Mapper, see Key terms) rather than hand-written SQL.
+Almost every database interaction falls into one of four operations, **Create, Read, Update, Delete**, regardless of whether the backing store is SQL or NoSQL. In SQL these map to `INSERT`, `SELECT`, `UPDATE`, and `DELETE`. Application code often issues them through an [[glossary#o|ORM]] (Object-Relational Mapper, see Key terms) rather than hand-written SQL.
 
 ### Indexes
 
@@ -101,7 +101,7 @@ BigQuery is Google Cloud’s serverless data warehouse, it is built for running 
 * It is **serverless**: there is no database instance to size or manage; queries scale automatically and billing is largely based on data scanned.
 * It speaks **SQL**, so the query syntax is familiar to anyone who knows relational databases.
 
-The key distinction for an interview: **Cloud SQL** (GCP’s managed Postgres/MySQL) is a transactional database for an application, fast single-row reads and writes, used by the app to serve users in real time. **BigQuery** is an analytical warehouse, it answers questions like "what were total sales by region last quarter" by scanning huge volumes of historical data, and it is not designed for the frequent small read/write pattern of a live app.
+The key distinction for an interview: **Cloud SQL** ([[glossary#g|GCP]]’s managed Postgres/MySQL) is a transactional database for an application, fast single-row reads and writes, used by the app to serve users in real time. **BigQuery** is an analytical warehouse, it answers questions like "what were total sales by region last quarter" by scanning huge volumes of historical data, and it is not designed for the frequent small read/write pattern of a live app.
 
 ## How to talk about this in an interview
 

@@ -18,12 +18,12 @@ Every layer has one job. Understanding the boundary between layers is more impor
 | Layer | Responsibility | Runs where |
 | --- | --- | --- |
 | User / Browser | Renders UI, captures input, holds the visible application state. | Client (the user’s device) |
-| Frontend SPA | Builds the screens, manages client-side state, calls the BFF for data. | Client (JavaScript downloaded and executed in the browser) |
+| Frontend [[glossary#s|SPA]] | Builds the screens, manages client-side state, calls the [[glossary#b|BFF]] for data. | Client (JavaScript downloaded and executed in the browser) |
 | BFF (Backend for Frontend) | Talks to the frontend in the shapes it wants; aggregates and reshapes data from multiple backend services into one convenient response. | Server |
 | APIs / services | Own business logic and rules for a specific domain (orders, users, billing, etc.). | Server |
 | Databases | Persist data durably; enforce structure and integrity. | Server (often a managed service) |
 | Cloud | Hosts, scales, and networks everything above; provides infrastructure like load balancers, secrets, and logging. | Cloud provider |
-| External / AI services | Third-party capability the app doesn’t own, payments, email, search, or an LLM API. | Cloud (someone else’s server) |
+| External / AI services | Third-party capability the app doesn’t own, payments, email, search, or an [[glossary#l|LLM]] [[glossary#a|API]]. | Cloud (someone else’s server) |
 
 > [!note]
 > The **BFF** is easy to underrate. It exists because a mobile app, a web app, and a public API often want the same data shaped differently. Rather than making every frontend negotiate with every backend service directly, the BFF sits in between and does that translation once.
@@ -35,13 +35,13 @@ Every layer has one job. Understanding the boundary between layers is more impor
 Trace a single click end to end:
 
 1. **Browser**, the user clicks a button. The SPA’s event handler fires.
-2. **Frontend SPA**, the SPA decides it needs data and issues an HTTP request (usually `fetch` or a library wrapping it).
+2. **Frontend SPA**, the SPA decides it needs data and issues an [[glossary#h|HTTP]] request (usually `fetch` or a library wrapping it).
 3. **BFF**, receives the request, checks auth, and figures out which downstream service(s) to call.
 4. **APIs / services**, apply business rules, validate input, and read or write data.
 5. **Databases**, the service queries or updates persisted data and returns rows/documents.
 6. **External / AI services**, if the business logic needs it (e.g. charge a card, call an LLM), the service calls out to a third party and waits for a response.
 7. **Response travels back up**, database to service, service to BFF, BFF reshapes the combined result, BFF to SPA.
-8. **Frontend SPA**, receives JSON, updates its state, re-renders the screen.
+8. **Frontend SPA**, receives [[glossary#j|JSON]], updates its state, re-renders the screen.
 9. **Browser**, the user sees the result.
 
 > [!tip]

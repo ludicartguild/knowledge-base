@@ -143,14 +143,14 @@ Validating in the constructor means an instance of the type is a **proof** that 
 ## The crucial nuance: internal errors vs. edge conditions
 
 > [!warning]
-> Fail-fast does **not** mean a server should crash on every malformed HTTP request.
+> Fail-fast does **not** mean a server should crash on every malformed [[glossary#h|HTTP]] request.
 
 The principle applies to **two different categories of problems**, and the right response is different for each:
 
 | Category | Examples | Correct response |
 | --- | --- | --- |
 | **Programming errors / broken invariants** | Violated precondition, impossible enum value, null where the type system said it couldn’t be, corrupted internal state. | **Fail fast**, raise, assert, panic. This should never happen in correct code; hiding it is dangerous. |
-| **Expected recoverable conditions at the edges** | Malformed user input, network timeout, rate-limited downstream API, a single bad record in a batch. | **Degrade gracefully**, return a 400, retry with backoff, skip and log, surface a user-friendly error. |
+| **Expected recoverable conditions at the edges** | Malformed user input, network timeout, rate-limited downstream [[glossary#a|API]], a single bad record in a batch. | **Degrade gracefully**, return a 400, retry with backoff, skip and log, surface a user-friendly error. |
 
 The rule of thumb: **fail fast internally, degrade gracefully at the edges.**
 

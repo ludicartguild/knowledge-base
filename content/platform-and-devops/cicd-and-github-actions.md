@@ -7,7 +7,7 @@ reviewed: 2026-07-12
 ---
 
 
-Shipping code by hand, building it, testing it, copying files to a server, does not scale past a handful of changes before something gets skipped and breaks in production. CI/CD is the practice of automating that path from "code is written" to "code is running," so the same checks and steps happen the same way every single time.
+Shipping code by hand, building it, testing it, copying files to a server, does not scale past a handful of changes before something gets skipped and breaks in production. [[glossary#c|CI/CD]] is the practice of automating that path from "code is written" to "code is running," so the same checks and steps happen the same way every single time.
 
 ## What CI/CD means
 
@@ -45,12 +45,12 @@ GitHub Actions is GitHub’s built-in automation system for running CI/CD pipeli
 Core vocabulary:
 
 * **Workflow**: one automated process, defined in one YAML file (e.g. `.github/workflows/ci.yml`).
-* **Trigger (`on:`)**: the event that starts the workflow, most commonly `push` (code lands on a branch) or `pull_request` (a PR is opened or updated).
+* **Trigger (`on:`)**: the event that starts the workflow, most commonly `push` (code lands on a branch) or `pull_request` (a [[glossary#p|PR]] is opened or updated).
 * **Job**: a group of steps that runs on its own runner. A workflow can have multiple jobs, which run in parallel by default.
 * **Step**: a single command or action inside a job. Steps in a job run in order, on the same runner.
 * **Action (`uses:`)**: a reusable, packaged step someone else wrote (checking out code, setting up a language runtime, publishing an artifact) referenced by name and version.
 * **Runner**: the virtual machine (`runs-on:`) that executes the job, commonly `ubuntu-latest`.
-* **Secrets**: encrypted values (API keys, tokens, credentials) stored in the repository settings and referenced as `${{ secrets.NAME }}` instead of hardcoded in the YAML.
+* **Secrets**: encrypted values ([[glossary#a|API]] keys, tokens, credentials) stored in the repository settings and referenced as `${{ secrets.NAME }}` instead of hardcoded in the YAML.
 
 A minimal workflow that runs tests on every push and pull request:
 
@@ -127,6 +127,6 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 
 * [[git-and-github|Git and GitHub]]: workflows trigger on the pushes and pull requests described there.
 * [[docker-and-compose|Docker & Compose]]: the artifact a pipeline builds and deploys is often a container image.
-* [[infrastructure-as-code|Infrastructure as Code]]: pipelines often deploy by applying IaC rather than copying files by hand.
+* [[infrastructure-as-code|Infrastructure as Code]]: pipelines often deploy by applying [[glossary#i|IaC]] rather than copying files by hand.
 * [[communication|Communication]]: how to talk about experience gaps honestly in an interview.
 * [[glossary|Glossary]]: definitions for terms introduced here.
