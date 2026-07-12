@@ -151,6 +151,9 @@ workload?
 **Learn:**
 * [[cloud-and-gcp|cloud & GCP]]: managed services and the cloud model.
 * [[docker-and-compose|Docker & Compose]]: containerizing an application and its dependencies.
+* [[cloud-networking|cloud networking]]: VPC/subnets, load balancers, DNS, TLS, and private connectivity.
+* [[iam-and-workload-identity|cloud IAM & workload identity]]: principals, roles, least privilege, and short-lived federated credentials.
+* [[kubernetes-workload-basics|Kubernetes workload basics]]: pods, deployments, services, probes, and hardened security contexts.
 
 **Practice:** Containerize a small app with a multi-stage Dockerfile, run it locally with
 Compose alongside a database, then deploy the image to a managed container runtime.
@@ -161,8 +164,6 @@ and describe what a managed runtime handles for you (scaling, health, networking
 **Ask yourself:**
 * What am I giving up (control, cost, portability) by choosing a managed service here?
 * If this container works locally but fails in the cloud, where would I look first?
-
-*Deeper notes planned: cloud networking, [[glossary#i|IAM]] & Workload Identity Federation, Kubernetes workload basics.*
 
 ## CI/CD & delivery
 
