@@ -3,6 +3,7 @@ title: "Mediator Pattern"
 tags: [architecture, patterns]
 level: deep
 type: reference
+reviewed: 2026-07-12
 ---
 
 
@@ -123,7 +124,7 @@ The `SignupDialog` is the only place that knows the "both checkbox AND non-empty
 | **Direction** | Multidirectional, the mediator coordinates mutually-dependent peers, and peers can trigger each other (through the mediator). | One-to-many broadcast, a subject notifies subscribers who have no knowledge of each other. |
 | **Coupling** | Colleagues know the mediator; the mediator knows all Colleagues. | Subjects know the Observer interface; concrete observers are anonymous. |
 | **Use when** | A set of peers must influence each other in complex, stateful ways. | A single source must push the same change to an open-ended list of listeners. |
-| **Combined?** | Often. A mediator uses the Observer pattern internally to receive events from its Colleagues. |, |
+| **Combined?** | Often; a Mediator uses Observer internally to receive events from its Colleagues. | Observer is frequently a building block inside a Mediator. |
 
 A chat room is often cited as a Mediator example, but if messages simply fan out uniformly, it may be closer to Observer/pub-sub. It becomes a true Mediator when the room makes routing **decisions** based on the state of participants.
 

@@ -1,8 +1,9 @@
 ---
 title: "Git & GitHub"
-tags: [git, tooling]
+tags: [practices, devops]
 level: fundamentals
 type: how-to
+reviewed: 2026-07-12
 ---
 
 

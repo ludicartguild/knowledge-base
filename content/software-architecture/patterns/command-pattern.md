@@ -3,6 +3,7 @@ title: "Command Pattern"
 tags: [architecture, patterns]
 level: deep
 type: reference
+reviewed: 2026-07-12
 ---
 
 
@@ -147,7 +148,7 @@ Push executed commands onto a history stack. Undo pops and calls `undo()`; redo 
 A command is serialisable and self-contained. Drop it on a queue, execute it on a worker thread later, or retry on failure without touching the original caller. This is exactly what Celery, Sidekiq, and RQ do: your task function becomes a ConcreteCommand.
 
 ### Logging and Replay
-Persist the ordered list of executed commands to a write-ahead log. On crash recovery, replay them in order to rebuild system state. This is the core mechanic behind **event sourcing**, the command log **is** the source of truth.
+Persist the ordered list of executed commands to a write-ahead log. On crash recovery, replay them in order to rebuild system state. This append-only-log-as-source-of-truth idea is closely related to **event sourcing**, which logs the resulting *events* (facts that happened) rather than the commands (requests) themselves.
 
 ### Macros (Composite + Command)
 ```python
@@ -183,7 +184,7 @@ A "Save" action can be triggered by a menu item, a toolbar button, and `Ctrl+S`.
 The task payload is a serialised command: function name + arguments + routing metadata. The broker is the queue; workers are invokers; the task function body is the receiver logic.
 
 ### Event Sourcing
-Every state change is persisted as an immutable command (event). Current state is derived by replaying the log from the beginning (or from a snapshot). The command log replaces the mutable database row.
+Every state change is persisted as an immutable **event** (a fact that has already happened, as distinct from a command, which is a request that can still be validated or rejected). Current state is derived by replaying the event log from the beginning (or from a snapshot). The event log replaces the mutable database row. Command and event sourcing are close cousins: a command, once executed, produces the event that gets stored.
 
 ### CQRS (Command Query Responsibility Segregation)
 CQRS takes the insight of [[cqs|CQS]] to the architectural level: write-side operations become explicit Command objects dispatched to a command bus; read-side is a separate, optimised query model. The Command pattern is the "C" in CQRS.

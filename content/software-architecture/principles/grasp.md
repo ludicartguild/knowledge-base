@@ -1,12 +1,13 @@
 ---
 title: "GRASP (General Responsibility Assignment Software Patterns)"
-tags: [architecture]
+tags: [architecture, principles, oop]
 level: deep
 type: reference
+reviewed: 2026-07-12
 ---
 
 
-**GRASP**, **G*eneral *R*esponsibility *A*ssignment *S*oftware *P*atterns, was introduced by *Craig Larman** in _Applying UML and Patterns_ (1997).
+**GRASP**, **G**eneral **R**esponsibility **A**ssignment **S**oftware **P**atterns, was introduced by **Craig Larman** in _Applying UML and Patterns_ (1997).
 
 Where GoF design patterns answer "what shape should this collaboration have?", GRASP answers a more foundational question:
 

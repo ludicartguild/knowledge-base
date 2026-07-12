@@ -1,8 +1,9 @@
 ---
 title: "Cloud Fundamentals & GCP"
-tags: [cloud, gcp]
+tags: [platform, cloud]
 level: fundamentals
 type: reference
+reviewed: 2026-07-12
 ---
 
 

@@ -1,8 +1,9 @@
 ---
 title: "Environments & Promotion"
-tags: [platform, devops, environments, cicd]
+tags: [platform, cicd]
 level: deep
 type: concept
+reviewed: 2026-07-12
 ---
 
 ## TL;DR
@@ -77,7 +78,7 @@ A modern addition: spin up a short-lived environment per pull request (a "previe
 
 Environments are **dress rehearsals before opening night**. The cast, set, and script (the artifact) stay the same from the tech rehearsal through the dress rehearsal to opening; what changes is the venue and its settings (the config). You would never rewrite the play backstage on opening night, and you would never let an unrehearsed scene go straight to a paying audience. Promotion is walking the same production through progressively more realistic, more scrutinized rehearsals until it is trusted enough for the real crowd.
 
-## Cross-links
+## Related notes
 
 - [[secrets-and-supply-chain-security]]: per-environment secrets and why production credentials never reach non-prod.
 - [[cicd-and-github-actions]]: the pipeline that performs promotion and enforces environment gates.

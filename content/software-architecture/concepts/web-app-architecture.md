@@ -3,6 +3,7 @@ title: "How a Modern Web App Fits Together"
 tags: [architecture, web]
 level: fundamentals
 type: concept
+reviewed: 2026-07-12
 ---
 
 

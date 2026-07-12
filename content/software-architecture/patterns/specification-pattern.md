@@ -3,10 +3,11 @@ title: "Specification Pattern"
 tags: [architecture, patterns]
 level: deep
 type: reference
+reviewed: 2026-07-12
 ---
 
 
-A **Specification** encapsulates a single business rule, a yes/no predicate, as a named, reusable object so that rules can be tested in isolation, combined with boolean logic (AND, OR, NOT), and applied consistently across validation, selection, and querying. Introduced by **Eric Evans** in _Domain-Driven Design_ (2003) and formalised with **Martin Fowler** in their paper _Specifications_ (1997).
+A **Specification** encapsulates a single business rule, a yes/no predicate, as a named, reusable object so that rules can be tested in isolation, combined with boolean logic (AND, OR, NOT), and applied consistently across validation, selection, and querying. Popularised by **Eric Evans** in _Domain-Driven Design_ (2003) and detailed in Evans and **Martin Fowler**'s paper _Specifications_.
 
 A Specification is a predicate that determines whether an object does or does not satisfy some criteria. It is a separate object, not a method hidden inside another class.
 
@@ -180,6 +181,9 @@ print(service.is_eligible_for_discount(customers[0], is_premium))  # True
 ## Use case 2, querying via Repository
 
 A **query specification** extends the base to also describe which records to **fetch** from storage. This is the natural pairing with the Repository pattern: instead of proliferating `find_by_spend_and_years()` methods, the repository accepts a specification and delegates translation to it.
+
+> [!warning]
+> The boolean combinators shown earlier (`__and__`/`__or__`) return the in-memory `AndSpecification`/`OrSpecification`, which implement `is_satisfied_by` but **not** `to_sql()`. So composing two query specifications with `&`/`|` yields a spec that can filter in memory but cannot translate to SQL. Making composition work at the query layer requires query-aware composite specifications (an `AndSpecification` that builds its own SQL by combining its children's `to_sql()`), or translating the composite tree to SQL at the repository boundary.
 
 ```python
 from abc import abstractmethod

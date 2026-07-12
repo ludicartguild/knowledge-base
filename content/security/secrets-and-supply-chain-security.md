@@ -1,8 +1,9 @@
 ---
 title: "Secrets & Supply-Chain Security"
-tags: [security, secrets, supply-chain, cicd]
+tags: [security, devops]
 level: deep
 type: concept
+reviewed: 2026-07-12
 ---
 
 ## TL;DR
@@ -52,6 +53,8 @@ Even with no secrets to steal, the pipeline itself must be trustworthy:
 ### Provenance and the bigger picture
 
 **SLSA** (Supply-chain Levels for Software Artifacts) frames the whole problem: it guards against source tampering, unauthorized or compromised build platforms, and dependency compromise, and it introduces **build provenance**, a tamper-evident record of *which build system produced this artifact from which source*. The controls above are concrete steps up those levels.
+
+Two companions complete the picture. A **software bill of materials (SBOM)** lists every dependency that went into an artifact, so when a vulnerability is disclosed you can tell exactly which builds are affected instead of guessing. **Artifact signing** (for example Sigstore/cosign) lets a consumer verify an artifact was published by who they expect and has not been swapped in transit. Together: provenance attests *how* it was built, the SBOM records *what* went into it, and the signature proves *who* released it.
 
 ## Trade-offs & when to use
 

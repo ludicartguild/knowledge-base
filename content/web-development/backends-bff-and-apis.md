@@ -1,8 +1,9 @@
 ---
 title: "Backends, BFF & APIs"
-tags: [backend, apis, testing]
+tags: [web, backend]
 level: fundamentals
 type: concept
+reviewed: 2026-07-12
 ---
 
 
@@ -159,5 +160,6 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * [[web-app-architecture|Web app architecture]]: where the backend and BFF sit in the bigger picture.
 * [[frontend-and-spas|Frontend & SPAs]]: the client that calls these APIs.
 * [[databases|Databases]]: what the backend reads from and writes to.
+* Go deeper on API security: [[oauth2-and-oidc-flows|OAuth2 & OIDC flows]], [[jwt-validation|JWT validation]], and [[web-session-and-token-handling|web session & token handling]].
 * [[communication|Communication]]: how to talk about knowledge gaps in an interview.
 * [[glossary|Glossary]]: definitions for terms introduced here.

@@ -3,6 +3,7 @@ title: "Strategy Pattern"
 tags: [architecture, patterns]
 level: deep
 type: reference
+reviewed: 2026-07-12
 ---
 
 
@@ -85,7 +86,7 @@ class CryptoPayment(PaymentStrategy):
         self._wallet = wallet_address
 
     def pay(self, amount: Decimal) -> None:
-        print(f"Broadcast ${amount} BTC to {self._wallet}")
+        print(f"Broadcast {amount} BTC to {self._wallet}")
 
 
 # ── Context ───────────────────────────────────────────────────────────────────

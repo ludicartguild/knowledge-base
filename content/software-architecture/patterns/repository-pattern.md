@@ -3,6 +3,7 @@ title: "Repository Pattern"
 tags: [architecture, patterns]
 level: deep
 type: reference
+reviewed: 2026-07-12
 ---
 
 

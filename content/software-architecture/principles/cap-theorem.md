@@ -1,8 +1,9 @@
 ---
 title: "CAP Theorem"
-tags: [architecture, distributed-systems]
+tags: [architecture, principles]
 level: deep
 type: reference
+reviewed: 2026-07-12
 ---
 
 
@@ -53,7 +54,7 @@ Every node keeps answering, but some may return stale data until it reconciles.
 
 Daniel Abadi’s extension is what most architects actually reason with:
 
-If there is a **P*artition, choose *A** or **C**. Else, choose *L*atency or *C*onsistency.
+If there is a **P**artition, choose **A** or **C**. Else, choose **L**atency or **C**onsistency.
 
 PACELC captures the **everyday** tradeoff (latency vs. consistency on the happy path), not just the partition-time one.
 

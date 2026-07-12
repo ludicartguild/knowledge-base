@@ -1,8 +1,9 @@
 ---
 title: "SOLID Principles"
-tags: [architecture]
+tags: [architecture, principles, oop]
 level: deep
 type: reference
+reviewed: 2026-07-12
 ---
 
 
@@ -172,7 +173,7 @@ The fix: stop modelling `Square` as a **subtype** of `Rectangle`. They are diffe
 ### Common LSP smells
 
 * `if (obj instanceof Subtype)` checks scattered through the codebase: callers don’t trust substitution.
-* Subclass methods that throw `UnsupportedOperationException` / `NotImplementedError`: the subclass can’t honour the supertype’s contract. (This is also an [ISP](#_i_interface_segregation_principle_isp) smell.)
+* Subclass methods that throw `UnsupportedOperationException` / `NotImplementedError`: the subclass can’t honour the supertype’s contract. (This is also an [ISP](#i-interface-segregation-principle-isp) smell.)
 * Subclass methods that **silently** do less than the supertype did (weaker postcondition) or **demand** more setup (stronger precondition).
 
 ## [I] Interface Segregation Principle (ISP)

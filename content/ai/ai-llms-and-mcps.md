@@ -1,8 +1,9 @@
 ---
 title: "AI, LLMs & MCPs"
-tags: [ai, llm, mcp]
+tags: [ai]
 level: fundamentals
 type: concept
+reviewed: 2026-07-12
 ---
 
 
@@ -70,7 +71,7 @@ The practical value is standard plumbing: before MCP, connecting a model to a da
 
 ## How to talk about this in an interview
 
-It’s fine, and expected at a junior level, to not have deep hands-on experience with model internals or RAG pipelines. A strong answer names the pieces correctly, explains what problem each one solves in plain language, and is honest about the boundary of personal experience rather than bluffing: "I haven’t built a RAG pipeline myself, but I understand it’s about grounding a model’s answers in retrieved data, and I’d look at the vector search and prompt-assembly steps first if I had to build one." See [[communication|communication]] for more on framing gaps like this well.
+It’s fine, and expected at a junior level, to not have deep hands-on experience with model internals or RAG pipelines. A strong answer names the pieces correctly, explains what problem each one solves in plain language, and is honest about the boundary of personal experience rather than bluffing: "I haven’t built a RAG pipeline myself, but I understand it’s about grounding a model’s answers in retrieved data, and I’d look at the vector search and prompt-assembly steps first if I had to build one." See [[communication|Communication]] for more on framing gaps like this well.
 
 ## Key terms
 

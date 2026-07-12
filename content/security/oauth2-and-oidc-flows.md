@@ -1,8 +1,9 @@
 ---
 title: "OAuth2 & OIDC Flows"
-tags: [security, auth, oauth2, oidc]
+tags: [security, auth]
 level: deep
 type: concept
+reviewed: 2026-07-12
 ---
 
 ## TL;DR
@@ -36,6 +37,7 @@ A "grant" (or flow) is the procedure for getting a token. The right one depends 
 | Client credentials | No user; a service acting as itself | Service-to-service / machine-to-machine calls |
 | Token exchange (RFC 8693) | A user, upstream; a service acting for them downstream | Propagating user identity across service hops |
 | Refresh token | (renewal) | Getting a fresh access token without re-prompting |
+| Device authorization (RFC 8628) | A user, on an input-constrained device | Sign-in on TVs, CLIs, and IoT where typing a password is impractical |
 
 Two legacy grants are now discouraged and should not appear in new systems (see Pitfalls): the **implicit** grant and the **resource-owner password credentials** grant.
 
@@ -70,7 +72,7 @@ Token exchange solves this. Service A calls `/token` with `grant_type=urn:ietf:p
 
 ### Refresh tokens
 
-Access tokens are short-lived by design so that a leaked one expires quickly. A **refresh token** lets the client obtain a new access token without re-prompting the user, by calling `/token` with `grant_type=refresh_token`. Because a refresh token is long-lived and powerful, RFC 9700 requires it to be **sender-constrained or rotated** for public clients: rotation issues a new refresh token on each use and revokes the family if an old one is replayed, which detects theft.
+Access tokens are short-lived by design so that a leaked one expires quickly. A **refresh token** lets the client obtain a new access token without re-prompting the user, by calling `/token` with `grant_type=refresh_token`. Because a refresh token is long-lived and powerful, RFC 9700 requires it to be **sender-constrained or rotated** for public clients: rotation issues a new refresh token on each use and revokes the family if an old one is replayed, which detects theft. *Sender-constraining* instead binds the token to a key the client holds (via DPoP, RFC 9449, or mutual-TLS), so a stolen token is useless to anyone who lacks that key.
 
 ### OIDC: the identity layer
 

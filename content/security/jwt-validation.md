@@ -1,8 +1,9 @@
 ---
 title: "JWT Validation Done Right"
-tags: [security, auth, jwt, jwks]
+tags: [security, auth]
 level: deep
 type: reference
+reviewed: 2026-07-12
 ---
 
 ## TL;DR
@@ -72,6 +73,8 @@ Self-verified JWTs shine when many services must check auth cheaply and independ
 - **Enforce `exp`/`nbf`** with only minimal clock skew.
 - **Resolve keys by `kid` from a cached-but-refreshable JWKS**; never hardcode a single key.
 - **Fail closed**: any missing claim, unknown `kid`, fetch failure, or verification error rejects the request. Never "allow on error."
+- **Check `typ` / prevent cross-JWT confusion**: RFC 8725 recommends explicit typing (e.g. `at+jwt` for access tokens) so a token minted for one purpose (say an ID token) cannot be accepted where another (an access token) is expected.
+- **Treat `kid` as attacker-controlled**: use it only to *select* among keys in the trusted, issuer-pinned JWKS; never fetch a key from a URL or location the token itself supplies (a `kid`-injection / SSRF vector).
 - **Do not put secrets in the payload**; it is readable by anyone.
 
 ## Mental model

@@ -1,8 +1,9 @@
 ---
 title: "Coupling and Cohesion"
-tags: [architecture]
+tags: [architecture, principles]
 level: deep
 type: reference
+reviewed: 2026-07-12
 ---
 
 

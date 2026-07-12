@@ -1,8 +1,9 @@
 ---
 title: "Glossary & Acronym Dictionary"
-tags: [reference, glossary]
+tags: [reference]
 level: fundamentals
 type: reference
+reviewed: 2026-07-12
 ---
 
 
@@ -15,6 +16,8 @@ Definitions are deliberately plain-English, enough to follow a conversation or a
 
 * **Agile/Scrum**\
 A family of iterative project-management approaches for software teams. Instead of planning an entire project up front, work is broken into short cycles with regular check-ins and adjustments. Scrum is the most common specific framework for running Agile, see [[communication|team communication practices]].
+* **Angular**\
+A full-featured frontend framework (maintained by Google) for building single-page applications, opinionated about structure and built around TypeScript. See [[frontend-and-spas|frontend & SPAs]].
 * **API (Application Programming Interface)**\
 A defined set of rules that lets one piece of software talk to another, usually a set of URLs and data formats a client can call to read or change data on a server. See [[web-app-architecture|web app architecture]] and [[backends-bff-and-apis|backends & APIs]].
 * **API key**\
@@ -25,8 +28,6 @@ Two related but distinct concepts. **Authentication** answers "who are you?" (lo
 Amazon’s cloud computing platform, rents out servers, storage, databases, and managed services over the internet instead of requiring a company to buy its own hardware. See [[cloud-and-gcp|cloud platforms]].
 * **Azure**\
 Microsoft’s cloud computing platform, functionally similar to AWS and GCP but with its own product names and tight integration with Microsoft’s enterprise tools. See [[cloud-and-gcp|cloud platforms]].
-* **Angular**\
-A full-featured frontend framework (maintained by Google) for building single-page applications, opinionated about structure and built around TypeScript. See [[frontend-and-spas|frontend & SPAs]].
 
 ## B
 
@@ -59,7 +60,6 @@ A saved snapshot of changes in a Git repository, with a message describing what 
 A lightweight, self-contained package that bundles an application with everything it needs to run (code, dependencies, system tools) so it behaves the same on any machine. Docker is the most common tool for building and running containers.
 * **CRUD (Create, Read, Update, Delete)**\
 The four basic operations almost every application performs on data. Most APIs and database interactions map directly onto these four actions.
-
 * **CSRF (Cross-Site Request Forgery)**\
 An attack where a site the user is logged into is tricked into accepting a forged request the user did not intend, by riding on their existing session/cookie. Mitigated by the `SameSite` cookie attribute and anti-forgery tokens. See [[web-session-and-token-handling|web session & token handling]].
 
@@ -71,10 +71,13 @@ A structured system for storing, retrieving, and managing data. See [[databases|
 A piece of external code (a library or package) that a project relies on to work. Dependencies are typically installed and tracked via a package manager.
 * **Deploy**\
 The act of making a built version of an application available and running in a target environment (staging, production, etc.).
-* **Docker**\
-A tool for building, distributing, and running containers, the de facto standard for containerizing applications.
 * **DNS (Domain Name System)**\
 The internet’s system for translating human-readable domain names (like `example.com`) into the numeric IP addresses computers use to find each other.
+* **Docker**\
+A tool for building, distributing, and running containers, the de facto standard for containerizing applications.
+
+* **DTO (Data Transfer Object)**\
+A simple object used to carry data across a boundary (such as an API request or response), decoupling the external wire shape from internal domain models.
 
 ## E
 
@@ -84,7 +87,6 @@ A numeric representation (a vector of numbers) of a piece of text, image, or oth
 A specific URL (and HTTP method) that an API exposes for a particular operation, for example, `GET /users/42` is one endpoint. See [[backends-bff-and-apis|backends & APIs]].
 * **Environment / env var**\
 An **environment** is a particular deployed context an app runs in (local, staging, production). An **environment variable** (env var) is a configuration value set outside the code itself, like a database URL or API key, so the same code can behave differently depending on where it runs.
-
 * **Environments (dev / test / staging / prod) & non-prod**\
 The separate, isolated copies a system runs in: **dev** (build/integrate), **test/QA** (testing), **staging/pre-prod** (production-like final verification), and **production** (live users). Everything that is not production is **non-prod**. Isolated so change can be exercised safely before reaching real users and data. See [[environments-and-promotion|environments & promotion]]. (See also "Staging vs. production".)
 
@@ -104,6 +106,11 @@ Google’s cloud computing platform, offering compute, storage, databases, and m
 * **Gemini**\
 Google’s family of large language models, used both in consumer products and via API/Vertex AI for building AI-powered applications. See [[ai-llms-and-mcps|AI, LLMs & MCPs]].
 
+* **Git**\
+A distributed version-control system that tracks changes to files over time, letting many people work on the same codebase and merge their work. See [[git-and-github|Git & GitHub]].
+* **GitOps**\
+An operational model where the desired state of infrastructure and deployments is declared in Git, and automation continuously reconciles the running system to match. See [[environments-and-promotion|environments & promotion]].
+
 ## H
 
 * **HTTP/HTTPS (HyperText Transfer Protocol / Secure)**\
@@ -113,6 +120,10 @@ The protocol web browsers and servers use to exchange requests and responses. HT
 
 * **IaC (Infrastructure as Code)**\
 Defining infrastructure (servers, networks, databases) in version-controlled configuration files instead of clicking through a cloud console by hand, so environments are reproducible and reviewable like code. Terraform is a common tool for this.
+* **IAM (Identity and Access Management)**\
+The cloud/service system for defining who (users, service accounts) may perform which actions on which resources, via roles and policies. Least-privilege IAM is a core security practice. See [[secrets-and-supply-chain-security|secrets & supply-chain security]].
+* **Idempotency**\
+A property where performing an operation multiple times has the same effect as performing it once (e.g. a well-designed write API that a client can safely retry). Important for reliability under retries.
 * **IdP (Identity Provider)**\
 The service that authenticates users and issues tokens (the OAuth2/OIDC authorization server). Applications delegate "who is this user" to the IdP instead of storing passwords themselves. See [[oauth2-and-oidc-flows|OAuth2 & OIDC flows]].
 * **Image**\
@@ -163,7 +174,6 @@ Code that runs in between receiving a request and producing a response, commonly
 A fake stand-in for a real dependency (a database, an API, a service) used in tests so the test can run in isolation, quickly and predictably, without needing the real thing.
 * **Monolith**\
 An application built and deployed as a single unit, where all functionality lives in one codebase and one deployable, as opposed to being split into microservices.
-
 * **mTLS (mutual TLS)**\
 TLS where both sides present certificates, so the client and server each cryptographically verify the other's identity, not just the client verifying the server as in ordinary HTTPS. Common for service-to-service trust.
 
@@ -182,6 +192,8 @@ The default package manager for Node.js, used to install, publish, and manage Ja
 An industry-standard protocol that lets a user grant one application limited access to their data on another service, without sharing their password with the first application (e.g., "Sign in with Google").
 * **OIDC (OpenID Connect)**\
 A thin authentication layer on top of OAuth2. Where OAuth2 grants access, OIDC adds an ID token (a signed JWT of identity claims) so the client learns *who* the user is. See [[oauth2-and-oidc-flows|OAuth2 & OIDC flows]].
+* **OpenTelemetry (OTel)**\
+An open standard and set of libraries for generating and exporting telemetry, traces, metrics, and logs, in a vendor-neutral way, so observability data is not tied to one backend.
 * **ORM (Object-Relational Mapper)**\
 A library that lets developers interact with a database using the programming language’s native objects and methods instead of writing raw SQL by hand. See [[databases|databases]].
 
@@ -244,7 +256,6 @@ The standard language for querying and manipulating data in relational databases
 **Staging** is an environment that mirrors production as closely as possible, used to test changes before they go live. **Production** is the live environment real users interact with.
 * **Standup**\
 A short, regular team meeting (often daily) where each person briefly shares what they did, what they’re doing next, and any blockers. See [[communication|team communication practices]].
-
 * **STS (Security Token Service)**\
 A service that issues short-lived security tokens/credentials, typically in exchange for proof of identity, as when a CI job trades an OIDC token for a temporary cloud credential. See [[secrets-and-supply-chain-security|secrets & supply-chain security]].
 
@@ -254,6 +265,8 @@ A service that issues short-lived security tokens/credentials, typically in exch
 A widely used Infrastructure as Code tool that lets teams define cloud resources in configuration files and apply them consistently across environments and providers.
 * **TLS/SSL (Transport Layer Security / Secure Sockets Layer)**\
 Cryptographic protocols that encrypt data sent over a network connection. SSL is the older, deprecated predecessor to TLS, but the term "SSL" is still used colloquially to mean TLS.
+* **TTL (Time To Live)**\
+How long a piece of data (a cache entry, DNS record, or token) remains valid before it expires and must be refreshed.
 * **TypeScript**\
 A superset of JavaScript that adds static types, which are checked before the code runs, catching many bugs earlier and improving editor tooling.
 
@@ -275,7 +288,6 @@ An isolated, private network within a cloud provider where resources can communi
 
 * **Webhook**\
 A way for one system to notify another automatically when something happens, by sending an HTTP request to a URL the receiving system has registered in advance, the reverse of polling for updates.
-
 * **WIF (Workload Identity Federation)**\
 Letting a workload (e.g. a CI job) authenticate to a cloud using a short-lived, federated OIDC token instead of a stored long-lived key. The cloud trusts the token's issuer and claims and returns a temporary credential. See [[secrets-and-supply-chain-security|secrets & supply-chain security]].
 

@@ -1,8 +1,9 @@
 ---
 title: "Docker & Docker Compose"
-tags: [docker, containers]
+tags: [platform, devops]
 level: fundamentals
 type: concept
+reviewed: 2026-07-12
 ---
 
 

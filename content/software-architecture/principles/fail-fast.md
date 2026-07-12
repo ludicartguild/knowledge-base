@@ -1,8 +1,9 @@
 ---
 title: "Fail-Fast"
-tags: [architecture]
+tags: [architecture, principles]
 level: deep
 type: reference
+reviewed: 2026-07-12
 ---
 
 
@@ -32,7 +33,7 @@ Fail-safe is appropriate for **expected, recoverable conditions at system edges*
 
 ```python
 # FAIL-FAST - reject invalid input immediately, loudly, at the boundary
-def set_age(age: int) -> None:
+def set_age(self, age: int) -> None:
     if not isinstance(age, int):
         raise TypeError(f"age must be int, got {type(age).__name__!r}")
     if age < 0 or age > 150:
@@ -42,7 +43,7 @@ def set_age(age: int) -> None:
 
 ```python
 # FAIL-SILENT antipattern - silently coerces bad input into something "reasonable"
-def set_age(age) -> None:
+def set_age(self, age) -> None:
     try:
         age = int(age)          # silently converts "abc" → ValueError swallowed below
     except (ValueError, TypeError):
@@ -99,10 +100,10 @@ This is a canonical fail-fast design: rather than silently iterating over a half
 ```java
 List<String> list = new ArrayList<>(List.of("a", "b", "c"));
 for (String item : list) {
-    if (item.equals("b")) {
+    if (item.equals("a")) {
         list.remove(item);   // structural modification during iteration
     }
-    // → ConcurrentModificationException thrown immediately
+    // → ConcurrentModificationException thrown on the next iteration
 }
 ```
 

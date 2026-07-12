@@ -1,8 +1,9 @@
 ---
 title: "Full-Stack Developer: Interview Foundations"
-tags: [lesson-plan, full-stack]
+tags: [moc, lesson-plan]
 level: fundamentals
 type: moc
+reviewed: 2026-07-12
 ---
 
 
@@ -23,8 +24,8 @@ depth; the [[glossary|glossary]] is a companion for any unfamiliar term.
 * Prefer understanding the shape of a thing over memorising syntax.
 
 > [!tip]
-> If you can draw the picture in link:{web-app-architecture}[How a Modern Web App Fits
-> Together] and talk through where each topic below lives on it, you are most of the way there.
+> If you can draw the picture in [[web-app-architecture|How a Modern Web App Fits Together]]
+> and talk through where each topic below lives on it, you are most of the way there.
 
 ## Phase 1, Foundations & Communication
 

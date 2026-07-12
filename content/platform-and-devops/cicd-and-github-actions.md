@@ -1,8 +1,9 @@
 ---
 title: "CI/CD & GitHub Actions"
-tags: [cicd, devops]
+tags: [platform, cicd]
 level: fundamentals
 type: concept
+reviewed: 2026-07-12
 ---
 
 

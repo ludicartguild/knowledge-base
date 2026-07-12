@@ -1,8 +1,9 @@
 ---
 title: "Web Session & Token Handling"
-tags: [security, auth, sessions, cookies, bff]
+tags: [security, auth, web]
 level: deep
 type: concept
+reviewed: 2026-07-12
 ---
 
 ## TL;DR
@@ -29,7 +30,7 @@ The cookie is the browser's entire credential, so its attributes matter (per the
 
 - **`HttpOnly`**: JavaScript cannot read it via `document.cookie`. This is what defuses XSS token theft; a script can still trigger requests, but it cannot exfiltrate the cookie.
 - **`Secure`**: sent only over HTTPS, so it cannot leak over plaintext to a network attacker.
-- **`SameSite`** (`Lax` or `Strict`): limits or blocks the cookie on cross-site requests, mitigating CSRF. `None` requires `Secure` and should be used only when cross-site sending is genuinely needed.
+- **`SameSite`** (`Lax` or `Strict`): limits or blocks the cookie on cross-site requests, mitigating CSRF. `None` requires `Secure` and should be used only when cross-site sending is genuinely needed. Treat `SameSite` as **defense-in-depth, not a complete CSRF control**: `Lax` still permits top-level GET navigations and browser coverage varies, so a cookie-session app still needs an explicit anti-CSRF mechanism (a double-submit token, or requiring a custom header that cross-site forms cannot set) on state-changing requests.
 - **`__Host-` name prefix**: the browser enforces that the cookie was set over HTTPS, has `Path=/`, and has **no `Domain`**, binding it to the exact host and not its subdomains. It is the closest thing to treating the origin as a hard security boundary.
 
 Session data can exceed the roughly 4 KB per-cookie limit, so implementations sometimes **chunk** the cookie across several, reassembling server-side.
@@ -56,6 +57,7 @@ The deciding question is blast radius: if a stolen token would expose personal o
 - **Never store access or refresh tokens in `localStorage`** or any JavaScript-readable location.
 - **Set `HttpOnly`, `Secure`, `SameSite`** on the session cookie; prefer the **`__Host-`** prefix.
 - **Do not treat cookie presence as authorization**; validate server-side on every request and re-check roles on every mutation.
+- **Add explicit CSRF protection** (a double-submit token or a required custom header) on state-changing requests; do not rely on `SameSite` alone.
 - **Forward tokens server-side only**; the browser sees the cookie, never the bearer token.
 - **Use RP-initiated logout** so signing out actually ends the provider session, not just the local one.
 - **Scope cookies tightly** (host-bound, `Path=/`), and chunk rather than overflow the size limit.

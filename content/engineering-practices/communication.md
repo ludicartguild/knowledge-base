@@ -1,8 +1,9 @@
 ---
 title: "Communication"
-tags: [communication, career]
+tags: [practices]
 level: fundamentals
 type: concept
+reviewed: 2026-07-12
 ---
 
 

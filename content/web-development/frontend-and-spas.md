@@ -1,8 +1,9 @@
 ---
 title: "Frontend & SPAs"
-tags: [frontend, react, typescript]
+tags: [web]
 level: fundamentals
 type: concept
+reviewed: 2026-07-12
 ---
 
 

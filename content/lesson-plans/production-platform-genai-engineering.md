@@ -3,14 +3,14 @@ title: "Production Platform & GenAI Engineering"
 tags: [moc, lesson-plan]
 level: deep
 type: moc
+reviewed: 2026-07-12
 ---
 
 A curated learning path through the concerns of building and operating a modern
-cloud-native platform, from how services authenticate and authorize each other, through
+cloud-native platform: from how services authenticate and authorize each other, through
 data, infrastructure, delivery, and observability, up to running large-language-model
-agents in production. It is organized as a map: each entry links to a deep reference note
-you can read on its own, and the ordering is a suggested path rather than a strict
-sequence.
+agents in production. Each section links the notes that exist today and flags where
+deeper notes are planned; read in any order.
 
 The notes are deliberately generic and vendor-neutral where it matters: they teach the
 transferable pattern first, and name specific technologies only as concrete examples.
@@ -28,38 +28,56 @@ every other topic assumes it.
 ## Service architecture
 
 Structuring services so they stay changeable: boundaries, interfaces, and the reliability
-patterns that keep them honest. *(Notes in progress.)*
+patterns that keep them honest.
+
+* [[software-architecture-map|Software Architecture Map]]: the principles (SOLID, coupling & cohesion, IoC) and patterns (Strategy, Repository, Command) this builds on.
+
+*Deeper platform-specific notes planned: hexagonal / ports-and-adapters, anti-corruption layers, idempotency and retry patterns.*
 
 ## Data & persistence
 
-Talking to a relational store safely and correctly: async access, migrations,
-transactions, and idempotent writes. *(Notes in progress.)*
+Talking to a relational store safely and correctly.
+
+* [[databases|databases]]: relational vs NoSQL, transactions & ACID, indexing, normalization.
+
+*Deeper notes planned: async data access, migrations, and idempotent writes at scale.*
 
 ## Infrastructure as Code
 
-Defining infrastructure declaratively: module and state design, keeping environments DRY,
-and testing/scanning infrastructure like code. *(Notes in progress.)*
+Defining infrastructure declaratively and reproducibly.
+
+* [[infrastructure-as-code|infrastructure as code]]: what IaC is and why version-controlled, reviewable infrastructure matters.
+
+*Deeper notes planned: module & state design, keeping environments DRY, and testing/scanning infrastructure.*
 
 ## Cloud, networking & platform
 
-The runtime substrate: managed services, networking, identity and access management, and
-container orchestration basics. *(Notes in progress.)*
+The runtime substrate: managed services, networking, identity, and containers.
+
+* [[cloud-and-gcp|cloud & GCP]]: managed services and the cloud model.
+* [[docker-and-compose|Docker & Compose]]: containerizing an application and its dependencies.
+
+*Deeper notes planned: cloud networking, IAM & Workload Identity Federation, Kubernetes workload basics.*
 
 ## CI/CD & delivery
 
-Getting change to production safely: GitOps and environment promotion, and automated,
-convention-driven releases.
+Getting change to production safely.
 
-* [[environments-and-promotion|environments & promotion]]: dev / test / staging / prod and the non-prod tiers, build-once-promote-the-same-artifact, parity, and gates that tighten toward production.
+* [[cicd-and-github-actions|CI/CD with GitHub Actions]]: automated test/build/deploy pipelines.
+* [[environments-and-promotion|environments & promotion]]: dev / test / staging / prod, build-once-promote-the-same-artifact, parity, and gates that tighten toward production.
 
-More delivery notes in progress.
+*Deeper notes planned: GitOps reconciliation and convention-driven releases.*
 
 ## Observability & quality
 
-Knowing what the system is doing and trusting that it works: telemetry with OpenTelemetry,
-and a layered testing strategy. *(Notes in progress.)*
+Knowing what the system is doing and trusting that it works.
+
+*Planned: telemetry with OpenTelemetry, and a layered testing strategy.*
 
 ## GenAI & agents
 
-Running LLM agents in production: orchestration, tool use, retrieval and grounding, memory,
-evaluation, and observability. *(Notes in progress.)*
+Running LLM agents in production.
+
+* [[ai-llms-and-mcps|LLMs, RAG & MCP]]: the fundamentals, how a backend uses a model, retrieval, and tool protocols.
+
+*Deeper notes planned: agent orchestration, tool-use loops, grounding & citations, memory management, and evaluation.*

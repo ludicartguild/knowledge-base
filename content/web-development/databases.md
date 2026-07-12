@@ -1,8 +1,9 @@
 ---
 title: "Databases"
-tags: [databases, sql, nosql]
+tags: [data, backend]
 level: fundamentals
 type: concept
+reviewed: 2026-07-12
 ---
 
 
@@ -47,7 +48,7 @@ PostgreSQL and MySQL are the two relational databases most commonly seen in job 
 
 ### CRUD
 
-Almost every database interaction falls into one of four operations, **Create, Read, Update, Delete**, regardless of whether the backing store is SQL or NoSQL. In SQL these map to `INSERT`, `SELECT`, `UPDATE`, and `DELETE`.
+Almost every database interaction falls into one of four operations, **Create, Read, Update, Delete**, regardless of whether the backing store is SQL or NoSQL. In SQL these map to `INSERT`, `SELECT`, `UPDATE`, and `DELETE`. Application code often issues them through an ORM (Object-Relational Mapper, see Key terms) rather than hand-written SQL.
 
 ### Indexes
 
@@ -56,6 +57,17 @@ An index is a separate data structure that lets the database find rows without s
 ### Normalization, briefly
 
 Normalization is the practice of splitting data into separate tables to avoid storing the same fact in more than one place, a customer’s name lives once in `users`, and every order just references `user_id` rather than repeating the name on every row. This avoids update anomalies (changing a name in one place but not another) at the cost of needing joins to reassemble the full picture.
+
+### Transactions and ACID
+
+A **transaction** groups several operations so they all succeed or all fail as a unit: transfer money by debiting one account and crediting another, and if either step fails, neither is applied. Relational databases guarantee transactions are **ACID**:
+
+* **Atomicity**: all steps commit or none do (no half-applied transfers).
+* **Consistency**: a transaction moves the database from one valid state to another, respecting constraints (foreign keys, uniqueness).
+* **Isolation**: concurrent transactions do not see each other's uncommitted changes; the database behaves as if they ran one at a time (tunable via isolation levels).
+* **Durability**: once committed, the change survives a crash.
+
+ACID is a major reason to choose a relational database for money, orders, or inventory, anywhere a half-completed change would corrupt the data. Many NoSQL stores relax some of these guarantees (often isolation and immediate consistency) to scale horizontally, trading strictness for availability and partition tolerance (see [[cap-theorem|the CAP theorem]]).
 
 ## NoSQL fundamentals
 
@@ -122,4 +134,5 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * [[glossary|Glossary]]: full term list referenced across all foundational notes.
 * [[backends-bff-and-apis|Backends, BFF, and APIs]]: the backend layer is what actually talks to the database on behalf of a request.
 * [[cloud-and-gcp|Cloud and GCP]]: Cloud SQL and BigQuery are managed services within the broader GCP platform.
+* [[cap-theorem|CAP theorem]]: the consistency/availability tradeoff behind SQL vs NoSQL scaling choices.
 * [[communication|Communication]]: how to frame database knowledge gaps honestly instead of bluffing.

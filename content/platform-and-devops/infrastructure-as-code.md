@@ -1,8 +1,9 @@
 ---
 title: "Infrastructure as Code & Terraform"
-tags: [iac, terraform]
+tags: [platform, devops]
 level: fundamentals
 type: concept
+reviewed: 2026-07-12
 ---
 
 
