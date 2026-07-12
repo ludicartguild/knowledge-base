@@ -141,7 +141,7 @@ The invoker (`RemoteButton`) never imports `Light`. Swap the light for a fan, a 
 Because actions are objects, the following fall out naturally:
 
 ### Undo / Redo
-Push executed commands onto a history stack. Undo pops and calls `undo()`; redo re-executes. Every text editor, IDE, and drawing application relies on this. The trick is that each command must capture enough state to reverse itself (or pair with a [[mediator-pattern|Memento]] snapshot).
+Push executed commands onto a history stack. Undo pops and calls `undo()`; redo re-executes. Every text editor, IDE, and drawing application relies on this. The trick is that each command must capture enough state to reverse itself (or pair with a Memento snapshot).
 
 ### Queuing and Scheduling
 A command is serialisable and self-contained. Drop it on a queue, execute it on a worker thread later, or retry on failure without touching the original caller. This is exactly what Celery, Sidekiq, and RQ do: your task function becomes a ConcreteCommand.
