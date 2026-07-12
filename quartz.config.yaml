@@ -20,26 +20,29 @@ configuration:
       body: Source Sans Pro
       code: IBM Plex Mono
     colors:
+      # Solarized (Ethan Schoonover). lightMode = Solarized Light, darkMode =
+      # Solarized Dark; the dark-mode toggle flips between them. lightgray is the
+      # border + graph-edge colour, kept high-contrast (base1/base01) so edges show.
       lightMode:
-        light: "#faf8f8"
-        lightgray: "#cbcbcb"
-        gray: "#b8b8b8"
-        darkgray: "#4e4e4e"
-        dark: "#2b2b2b"
-        secondary: "#284b63"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#fff23688"
+        light: "#fdf6e3"          # base3  - background
+        lightgray: "#93a1a1"      # base1  - borders + graph edges
+        gray: "#839496"           # base0  - muted text/UI
+        darkgray: "#586e75"       # base01 - body text
+        dark: "#073642"           # base02 - headings / strong
+        secondary: "#268bd2"      # blue   - links + current graph node
+        tertiary: "#2aa198"       # cyan   - hover / accents
+        highlight: rgba(38, 139, 210, 0.10)
+        textHighlight: "#b5890066"
       darkMode:
-        light: "#161618"
-        lightgray: "#4e4a4e"
-        gray: "#646464"
-        darkgray: "#d4d4d4"
-        dark: "#ebebec"
-        secondary: "#7b97aa"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#b3aa0288"
+        light: "#002b36"          # base03 - background
+        lightgray: "#586e75"      # base01 - borders + graph edges
+        gray: "#657b83"           # base00 - muted text/UI
+        darkgray: "#93a1a1"       # base1  - body text
+        dark: "#eee8d5"           # base2  - headings / strong
+        secondary: "#268bd2"      # blue   - links + current graph node
+        tertiary: "#2aa198"       # cyan   - hover / accents
+        highlight: rgba(38, 139, 210, 0.15)
+        textHighlight: "#b5890088"
 plugins:
   - source: github:quartz-community/created-modified-date
     enabled: true
@@ -54,8 +57,8 @@ plugins:
     enabled: true
     options:
       theme:
-        light: github-light
-        dark: github-dark
+        light: solarized-light
+        dark: solarized-dark
       keepBackground: false
     order: 20
   - source: github:quartz-community/obsidian-flavored-markdown
