@@ -175,6 +175,8 @@ without a leap of faith?
 **Learn:**
 * [[cicd-and-github-actions|CI/CD with GitHub Actions]]: automated test/build/deploy pipelines.
 * [[environments-and-promotion|environments & promotion]]: dev / test / staging / prod, build-once-promote-the-same-artifact, parity, and gates.
+* [[gitops|GitOps]]: git as the single source of truth, with a reconciler that continuously converges the live system to the declared state.
+* [[release-automation|release automation]]: semantic versioning and conventional commits driving automatic versions, changelogs, and releases.
 
 **Practice:** Build a pipeline that tests and builds an artifact once, deploys it to a
 staging environment automatically, and requires a manual approval before production. Make
@@ -186,8 +188,6 @@ required-reviewer gate protects against.
 **Ask yourself:**
 * If I rebuilt the artifact for production instead of promoting it, what could differ from what I tested?
 * Which secret or permission in this pipeline would I least want leaked, and is it scoped tightly?
-
-*Deeper notes planned: GitOps reconciliation and convention-driven releases.*
 
 ## Observability & quality
 
