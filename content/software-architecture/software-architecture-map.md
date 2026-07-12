@@ -38,6 +38,9 @@ Named, reusable solutions to recurring design problems.
 * [[decorator-pattern|Decorator]]: wrap an object to add behaviour without subclassing.
 * [[repository-pattern|Repository]]: abstract data access behind a collection-like interface.
 * [[specification-pattern|Specification]]: encapsulate a business rule as a composable, testable object.
+* [[hexagonal-architecture|Hexagonal (Ports & Adapters)]]: isolate the domain core from I/O behind interfaces.
+* [[anti-corruption-layer|Anti-Corruption Layer]]: translate at a boundary so an external model cannot corrupt yours.
+* [[reliability-patterns|Reliability Patterns]]: idempotency, retries with backoff and jitter, timeouts, circuit breakers.
 
 ## Concepts
 

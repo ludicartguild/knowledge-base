@@ -80,6 +80,9 @@ operation safe to retry?
 
 **Learn:**
 * [[software-architecture-map|Software Architecture Map]]: the principles (SOLID, coupling & cohesion, IoC) and patterns (Strategy, Repository, Command) this builds on.
+* [[hexagonal-architecture|hexagonal architecture]]: isolate the domain core from I/O behind ports and adapters.
+* [[anti-corruption-layer|anti-corruption layer]]: a translation boundary that stops an external model corrupting yours.
+* [[reliability-patterns|reliability patterns]]: idempotency, retries with backoff and jitter, timeouts, and circuit breakers.
 
 **Practice:** Take a small service and push one external dependency (a database or [[glossary#h|HTTP]]
 client) behind an interface, so the core logic can be tested with a fake. Then make one
@@ -91,8 +94,6 @@ in your code where the real adapter is swapped for a test double.
 **Ask yourself:**
 * Which part of this service would hurt most to change, and is that because of a missing boundary?
 * If a client retried this request after a timeout, would anything go wrong?
-
-*Deeper notes planned: hexagonal / ports-and-adapters, anti-corruption layers, retry and backoff patterns.*
 
 ## Data & persistence
 
