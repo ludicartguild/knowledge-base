@@ -46,6 +46,21 @@ A common failure mode is _half-YAGNI_: the developer adds the speculative scaffo
 
 This is worse than either extreme. Either add the feature fully (and prove it works) or don’t add the scaffolding at all.
 
+## Practice & self-check
+
+**Practice**
+
+* Run the three-question smell test on a piece of code you are tempted to add "for later": is there a named, committed requirement; is adding it later materially more expensive; does the carrying cost exceed the savings? Add it only if all three are a clear yes.
+* Spot a Yagni-Done Trap in a codebase: an interface, abstract base class, or config key with a single concrete implementation and no caller. Decide whether to complete the feature or delete the scaffolding.
+* Take a change described as "applying YAGNI" and check it did not skip something YAGNI does not cover (a test, a real error case, a genuine refactor).
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is the canonical one-sentence statement of YAGNI?
+* What are the three reasons speculative code is a bad bet?
+* What does YAGNI explicitly NOT tell you to skip?
+* What is the Yagni-Done Trap, and why is it worse than either fully building or not building the feature?
+
 ## Relation to other foundational concepts
 
 * [[kiss|KISS]]: YAGNI is "don’t build it yet"; KISS is "and when you do, don’t make it complicated".

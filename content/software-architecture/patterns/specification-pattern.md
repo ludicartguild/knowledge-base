@@ -262,6 +262,21 @@ A single concrete specification behaves as a **Strategy**: it encapsulates a dec
 
 The query specification variant is designed to pair with a **Repository**. The repository exposes a `find(spec)` method and delegates predicate evaluation (or SQL generation) to the specification, keeping the repository interface narrow and the filter logic co-located with the rule rather than buried in a query method.
 
+## Practice & self-check
+
+**Practice**
+
+* Implement the `Specification` base with `__and__`/`__or__`/`__invert__` and two concrete rules (`HighSpender`, `LoyalCustomer`), then compose `is_premium = HighSpender(1000) & LoyalCustomer(2)` and use the one object for both in-memory filtering and an eligibility check.
+* Take the three drifting copies of the premium-customer rule from the anti-pattern section and consolidate them into a single specification; confirm changing the threshold now happens in exactly one place.
+* Reproduce the query-layer trap: compose two `QueryableSpecification` objects with `&` and observe that the resulting `AndSpecification` has no `to_sql()`. State when NOT to use the pattern (a one-off rule used in a single place that will never change).
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What single method defines a specification, and what are the pattern's two primary use cases?
+* Which pattern do the AND/OR/NOT combinators implement, and why can callers treat a leaf and a composite identically?
+* Why is `to_sql()` translation the genuinely hard part, and what must composite specs do recursively?
+* How does a single specification relate to the Strategy pattern, and how does it pair with a Repository's `find(spec)` method?
+
 ## Relation to other foundational concepts
 
 * [[repository-pattern|Repository Pattern]]: the natural pairing: the repository exposes `find(spec)` and the specification handles both in-memory filtering and query translation, keeping the repository interface narrow.

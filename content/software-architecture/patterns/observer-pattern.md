@@ -152,6 +152,21 @@ Always pair `subscribe` with a guaranteed `unsubscribe` (e.g. in a destructor, `
 
 Use **Observer** when you want open-ended fan-out with unknown consumers. Use **Mediator** when you need to coordinate specific interactions between a known set of colleagues. When components need both broadcast and coordination, compose both: the mediator is the subject, components are observers.
 
+## Practice & self-check
+
+**Practice**
+
+* Implement a minimal subject/observer pair like `WeatherStation` with two concrete observers, then deliberately reproduce the "list changed size during iteration" bug by unsubscribing an observer inside its own `update`, and fix it with the `list(self._observers)` copy shown here.
+* Add a guaranteed `unsubscribe` path (destructor, `dispose`, or a `WeakRef` registry) and explain how its absence causes the lapsed-listener memory leak.
+* Identify a real system where Observer applies (a DOM `addEventListener`, React/Redux `subscribe`, or spreadsheet recalculation) and one where you would reach for Mediator instead because a known set of peers must coordinate rather than fan out to anonymous listeners.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What does the subject know about its observers, and what is the difference between push and pull notification?
+* Name three of the four cons and, for the lapsed-listener leak, why neither object gets garbage-collected.
+* On which axes does Observer differ from Mediator (communication shape, direction, transparency)?
+* Why is Observer described as a concrete instance of Inversion of Control / the Hollywood Principle?
+
 ## Relation to other foundational concepts
 
 * [[mediator-pattern|Mediator Pattern]]: the natural complement; Mediator replaces the web of observer-to-observer references with a central coordinator. Often implemented on top of Observer internally.

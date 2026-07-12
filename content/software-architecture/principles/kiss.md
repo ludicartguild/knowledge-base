@@ -43,6 +43,21 @@ KISS does not forbid abstraction, it forbids **premature** abstraction. The righ
 
 The test: does the abstraction make the **call sites** easier to read, or harder? If the abstraction’s interface is more confusing than the duplication it replaced, the duplication was simpler.
 
+## Practice & self-check
+
+**Practice**
+
+* Scan a module for the common KISS violations listed here (configurability for a single case, an interface with one implementation, a framework feature where a plain function would do, a plug-in system with no plug-ins) and remove one, then confirm the flow got easier to follow.
+* Take a proposed abstraction and apply the note's test: do the call sites read more easily with it, or without it? Keep whichever is simpler.
+* Rewrite a "terse" one-liner into obvious, standard code and argue why the longer version is actually simpler by KISS's definition.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is the core claim of KISS in one sentence?
+* Why is terseness (fewest lines) not the same as simplicity?
+* Name three things "simple" means according to this note.
+* Does KISS forbid abstraction? What test tells you whether a given abstraction is a simplification or added complexity?
+
 ## Relation to other foundational concepts
 
 * [[yagni|YAGNI]]: KISS’s close sibling. YAGNI says "don’t build it yet"; KISS says "and when you do, don’t make it complicated".

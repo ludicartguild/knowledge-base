@@ -37,6 +37,21 @@ By the third repetition you usually understand which parts are truly invariant a
 
 DRY is about **knowledge**, not about **characters that happen to be identical**. Two functions that look identical but represent two unrelated business rules are **not** a DRY violation, they will diverge in the future and should be left alone.
 
+## Practice & self-check
+
+**Practice**
+
+* Find two functions in a codebase that look nearly identical, then decide whether they represent the same piece of knowledge or two unrelated business rules; only unify them if they encode the same knowledge.
+* Take a block of duplicated logic and rate it on the "likely to change" axis: if it is stable and rarely touched, leave it; if it is volatile, extract it. Justify your call.
+* Apply the Rule of Three to a real duplication: on the second occurrence, resist generalising and note what you still don't know about the invariant; on a hypothetical third, describe the abstraction you would now build.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What does the "single, unambiguous, authoritative representation" in DRY actually refer to: identical characters or a piece of knowledge?
+* Why does the cost of duplication scale with how likely the code is to change?
+* What are the three steps of the Rule of Three, and why does waiting until the third repetition give you a better abstraction?
+* Why can two functions that look identical still not be a DRY violation?
+
 ## Relation to other foundational concepts
 
 * [[kiss|KISS]]: premature de-duplication often violates KISS by introducing abstractions before they’re justified.

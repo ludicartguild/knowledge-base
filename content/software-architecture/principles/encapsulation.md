@@ -124,6 +124,21 @@ You cannot have a useful abstraction without encapsulation: exposing the impleme
 * **Excessive encapsulation** can produce objects so opaque they are hard to test or inspect. Prefer testable, inspectable behaviour over hiding for its own sake. Encapsulation should protect **invariants**, not prevent **understanding**.
 * **Python’s `_` convention** is advisory, not enforced. Discipline at the team level matters more than language enforcement.
 
+## Practice & self-check
+
+**Practice**
+
+* Refactor the "Before" `Order` (where the caller appends items, does the tax arithmetic, and sets `is_locked` itself) into the "After" form, moving the "total includes tax" rule and the "locked order cannot be modified" invariant inside the object. State where each rule now lives.
+* Spot the Tell/Ask violation: `if order.status == "pending" and order.item_count > 0: order.status = "confirmed"`. Rewrite it in Tell-Don't-Ask style and explain why reading a property only to branch and write back is the smell.
+* Given a class with a `private` field plus a public getter and setter for it, argue whether it is really encapsulated. Then name two other smells from the Common Violations table that leave state exposed despite access modifiers.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* How does encapsulation differ from information hiding, and where do access modifiers fit relative to both?
+* Why is a getter/setter pair for every field described as "a public field with extra indirection"?
+* What is the relationship between encapsulation and abstraction: which is the mechanism and which is the goal?
+* Name two legitimate cases where relaxing encapsulation (exposed attributes) is acceptable, and say what protects the invariant in each.
+
 ## Relation to other foundational concepts
 
 * [[coupling-and-cohesion|Coupling & Cohesion]]: encapsulation directly lowers **content coupling** (the worst kind: reaching into another object’s state) and raises **functional cohesion** within the object.

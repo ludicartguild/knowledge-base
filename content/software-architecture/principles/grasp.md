@@ -152,6 +152,22 @@ This is the meta-principle behind **OCP** and behind every plug-in architecture.
 
 GRASP feels like **building**. SOLID feels like **auditing**. Used together, GRASP guides the original assignment and SOLID checks the result.
 
+## Practice & self-check
+
+**Practice**
+
+* You need `getTotal()` for an `Order` that knows its line items and their prices. Name the GRASP pattern that decides where the method goes, and explain why `OrderTotalCalculator` would be the wrong home.
+* Spot the smell: a Controller class is doing the work of a system operation itself instead of delegating. Name the pattern being violated and state what the Controller should do instead.
+* Persistence logic (`Order.save()`) is polluting a domain class. Name the GRASP pattern that resolves this and the kind of class it tells you to invent, then give two real-world artifacts (repository, service, mapper, validator) that descend from it.
+* Contrast Indirection and Protected Variations for a swappable payment provider: which one is the mechanism and which is the intent?
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What are the two forms a responsibility can take under GRASP?
+* Which two GRASP patterns are the "evaluative" ones, applied after the others to check the design?
+* Which GRASP pattern is the direct precursor to SRP, and which precedes OCP and LSP?
+* What distinguishes GRASP's spirit ("constructive") from SOLID's ("constraining")?
+
 ## Relation to other foundational concepts
 
 * [[solid|SOLID]]: see mapping above.

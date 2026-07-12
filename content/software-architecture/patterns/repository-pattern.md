@@ -216,6 +216,21 @@ Infrastructure (adapters)
   └── InMemoryOrderRepository
 ```
 
+## Practice & self-check
+
+**Practice**
+
+* Define an `OrderRepository` abstract interface in domain terms, then write two implementations behind it (a Postgres one and an `InMemoryOrderRepository`) and a service that is injected with either. Verify the `cancel_order` test runs with no database, as in this note's example.
+* Identify where the pattern does NOT apply: given a Django/Rails Active Record model, argue why wrapping it in another Repository usually adds pointless indirection, and name the two conditions under which you would apply it anyway.
+* Spot a leaky abstraction: given a repository that returns an unexecuted query object (`IQueryable`/lazy SQLAlchemy `Query`), explain what it leaks and rewrite it to return a materialised collection.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* Who owns the repository interface and who implements it, and which SOLID principle does that split embody?
+* What distinguishes a Repository from a DAO in granularity and language?
+* How does the Repository map onto Ports and Adapters (which piece is the port, which is the adapter)?
+* Why does the pattern make tests fast and storage swappable, and how does it pair with the Specification pattern to avoid `find_by_*` proliferation?
+
 ## Relation to other foundational concepts
 
 * [[inversion-of-control|Inversion of Control / Dependency Injection]]: the Repository is injected into services; the domain owns the interface, the infrastructure owns the implementation. This is the Dependency Inversion Principle in concrete form.

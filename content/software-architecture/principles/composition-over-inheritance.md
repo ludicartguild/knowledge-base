@@ -177,6 +177,21 @@ Inheritance is the right tool when **all** of the following hold:
 > [!tip]
 > A quick field test: if you ever find yourself overriding a parent method **just to prevent it from doing something**, the is-a relationship is wrong. Use composition instead.
 
+## Practice & self-check
+
+**Practice**
+
+* Explain the `Stack extends Vector` leak: name at least two inherited methods a caller can use to break the LIFO invariant, then show how the composition-based `GoodStack` prevents them by hiding the internal list.
+* Refactor the `FlyingDuck(Duck)` inheritance example into the composition (Strategy) form, then construct a "rubber duck" that swims and is silent without adding a new class. Explain what composition made cheap that inheritance made expensive.
+* Apply the field test: you find yourself overriding a parent method just to stop it from doing something. State what this tells you about the is-a relationship and what to do instead.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* Name the three main ways inheritance fails at scale (rigidity, fragile base class, combinatorial explosion) and give the one-line reason for each.
+* Why is composition's coupling looser than inheritance's? Frame the answer in terms of interface versus internal implementation details.
+* What four conditions must all hold for inheritance to still be the correct choice?
+* How are "composition over inheritance" and the Strategy pattern related, according to this note?
+
 ## Relation to other foundational concepts
 
 * [[strategy-pattern|Strategy Pattern]]: the canonical behavioral implementation of this principle: a family of interchangeable algorithm objects injected into a context.

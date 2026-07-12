@@ -144,6 +144,21 @@ These three terms are frequently conflated. They are related but distinct:
 
 **Constructor telescoping.** Ten-argument constructors signal that the class itself needs splitting ([[solid#s-single-responsibility-principle-srp|SRP]] violation), not that you need a better container.
 
+## Practice & self-check
+
+**Practice**
+
+* Refactor the "without IoC" `OrderService` (which does `PostgresDatabase()` and `SmtpMailer()` in its constructor) into the injected form, then write test wiring that passes a `FakeDatabase` and `FakeMailer`. State what became testable and why no monkey-patching is needed.
+* For each of these, name the IoC mechanism from the table: `button.on_click(handler)`; a base class calling a subclass `setUp()` hook; a VSCode extension declaring itself to the host. Explain what "Don't call us, we'll call you" means for each.
+* Spot the failure mode: a class has a ten-argument constructor after adopting DI. Say which caveat this is and what the real fix is (hint: it is not a better container).
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What does the Hollywood Principle capture about the reversal of control?
+* Distinguish IoC, Dependency Injection, and the Dependency Inversion Principle: which is the principle, which is the technique, and what is DIP specifically about?
+* Can you apply IoC without DIP, and DIP without a container? Explain each case.
+* Name two caveats of IoC (over-injection, magic/hard-to-trace flow, or abstraction for its own sake) and the guidance the note gives for each.
+
 ## Relation to other foundational concepts
 
 * [[solid|SOLID (DIP)]]: DIP specifies that injected dependencies should be **abstractions**, completing the IoC picture: not only is the object handed in, it’s typed against an interface the high-level module owns.

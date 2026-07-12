@@ -220,6 +220,21 @@ Apply Command when you concretely need at least one of: undo/redo, job queuing, 
 
 Command and Memento are natural partners for undo: the Command captures **what was done**; the Memento captures **what the state was before**. Use Memento when a command cannot store enough delta information to reverse itself cleanly.
 
+## Practice & self-check
+
+**Practice**
+
+* Implement the four roles (Command, ConcreteCommand, Receiver, Invoker) for a domain other than the light: for example a `TextDocument` receiver with `InsertText`/`DeleteText` commands, and confirm the invoker never imports the receiver. Then add a history stack and make `undo()` restore the prior state correctly.
+* Build a `MacroCommand` from your commands and verify undo runs its children in reverse order; explain why reverse order is required for correct semantics.
+* Decide when NOT to use Command: given a request that needs pluggable behaviour but no undo, queueing, logging, or macros, argue why Strategy is the simpler choice here.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What are the four roles in Command, and which role is the only one the invoker talks to?
+* Which four "killer features" fall out of turning a request into an object, and which one does Celery/Sidekiq/RQ rely on?
+* What distinguishes a command from an event in event sourcing (a request that can be rejected vs a fact that already happened)?
+* When would you pair Command with Memento, and what does each capture?
+
 ## Relation to other foundational concepts
 
 * [[strategy-pattern|Strategy Pattern]]: both patterns wrap behaviour in an object, but Strategy selects one algorithm from a family; Command encapsulates a one-shot request with optional reversal. Prefer Strategy when you need pluggability without undo or queueing.

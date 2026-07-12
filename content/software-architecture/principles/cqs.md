@@ -57,6 +57,21 @@ CQS is the conceptual ancestor of **CQRS** (Command Query Responsibility **Segre
 * **CQS**: method-level discipline.
 * **CQRS**: system-level architecture.
 
+## Practice & self-check
+
+**Practice**
+
+* Take a method that both mutates and returns (for example "return the next ID and increment the counter") and split it into a separate command and query, as the stack example does.
+* Scan an interface for CQS violations: flag any method that returns data yet also changes observable state, then decide for each whether it is a deliberate atomic idiom (like `pop()` or `compareAndSwap`) or an accidental mix worth separating.
+* Point at a pure query in some code and explain what now becomes safe (calling it in a log, repeatedly, in a cache) precisely because it has no side effects.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What are the two kinds of method under CQS, and what does each return?
+* Why does making a method a pure query make it safe to call in assertions, logs, and caches?
+* Name two common idioms that break CQS on purpose, and why they are allowed.
+* How do CQS and CQRS differ in scope (method-level vs. system-level)?
+
 ## Relation to other foundational concepts
 
 * [[solid#s-single-responsibility-principle-srp|SRP]] asks "who can demand changes?" CQS asks "does this method mutate or observe?": two different axes of separation, both reducing coupling.

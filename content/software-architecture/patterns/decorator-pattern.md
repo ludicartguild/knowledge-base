@@ -188,6 +188,21 @@ All four patterns below involve wrapping an object and forwarding calls. The dif
 > [!note]
 > Decorator and Proxy look identical in code. The distinction is intent: a Proxy controls **access**, a Decorator adds **behavior**. A caching proxy that also adds logging is blurring both, at that point, naming it clearly and documenting its role matters more than which pattern label you apply.
 
+## Practice & self-check
+
+**Practice**
+
+* Implement the `Coffee` component with `Milk`, `Sugar`, and `Whip` decorators, then produce three combinations by stacking; confirm three decorator classes cover all seven combinations rather than seven subclasses.
+* Construct a case where stacking order is load-bearing (a discount decorator applied before a surcharge decorator) and show that `A(B(C()))` differs from `B(A(C()))`. Then check that `isinstance` against the concrete component fails through the wrapper and explain why.
+* Contrast Decorator with Strategy and Proxy: state when responsibilities are cumulative (Decorator) vs mutually exclusive (Strategy), and how Proxy shares identical code but differs in intent (control access vs add behavior).
+
+**Check yourself** (you should be able to answer these from this note):
+
+* How does Decorator avoid the combinatorial subclass explosion, and what is the class count for n orthogonal features?
+* Walk the delegation chain for `Whip(Milk(Espresso())).cost()`: which object holds the combined logic?
+* Which four cons does heavy decorator use incur, and why do identity/type checks break?
+* Across Decorator, Proxy, Adapter, and Composite, which keep the same interface as the wrapped object and which changes it?
+
 ## Relation to other foundational concepts
 
 * [[composition-over-inheritance|Composition over Inheritance]]: Decorator is the canonical structural example of why composition wins: three decorator classes replace seven subclasses, and the count never explodes again.

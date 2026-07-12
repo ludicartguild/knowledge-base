@@ -159,6 +159,21 @@ A web server that panics on one bad request has conflated a user error (expected
 > [!tip]
 > If the violation can happen in correct, well-tested code given realistic input, degrade gracefully. If it **cannot** happen in correct code, fail fast, its presence is evidence of a bug that must be fixed, not a condition to work around.
 
+## Practice & self-check
+
+**Practice**
+
+* Find a fail-silent setter or config lookup (one that coerces bad input to a default, like `age = 0` or a fallback `sqlite:///dev.db`) and rewrite it to reject the bad state loudly at the boundary; note what downstream symptom you have just prevented.
+* For a given error, classify it as a programming error / broken invariant or an expected recoverable edge condition, then pick the correct response: fail fast, or degrade gracefully.
+* Move a value's validation into its constructor (as in the `EmailAddress` example) so that an existing instance is by construction a proof of validity, then remove a now-redundant downstream re-check.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is the core claim about how long a system runs past a violated invariant?
+* How do fail-fast and fail-safe / fail-silent differ, and which is an antipattern for internal programming errors?
+* What is the rule of thumb that decides whether to fail fast or degrade gracefully?
+* Why are assertions not a substitute for an explicit `raise` in production code?
+
 ## Relation to other foundational concepts
 
 * [[encapsulation|Encapsulation]]: constructor validation and private invariants are the structural mechanism that makes fail-fast possible inside an object: the object enforces its own invariants at every mutation boundary rather than trusting callers.

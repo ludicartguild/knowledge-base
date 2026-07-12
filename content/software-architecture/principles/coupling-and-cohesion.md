@@ -87,6 +87,21 @@ These two metrics are not independent, they tend to move together. Splitting a l
 
 This is the deep reason [[grasp|GRASP]] places **Low Coupling** and **High Cohesion** as the two **evaluative** patterns, you apply the others, then check the design against these two.
 
+## Practice & self-check
+
+**Practice**
+
+* Classify the coupling: a function called as `doThing(mode=2)` where the flag steers B's internal branching. Name the coupling type and its severity, then propose a looser form from the hierarchy.
+* A module has Ca = 1 and Ce = 9. Compute its instability I, say whether it is a good candidate for a core abstraction or leaf/UI code, and check it against the Stable Dependencies Principle if a stable module depends on it.
+* Spot the cohesion level: a `Utils` class whose methods have no real relationship to each other, versus an `init()` that opens a file, starts a timer, and seeds an RNG. Name each level and explain why neither reaches functional cohesion.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is the difference between afferent (Ca) and efferent (Ce) coupling, and what does the mnemonic "A = Arriving, E = Exiting" capture?
+* What does an instability value of I = 0 versus I = 1 tell you about a module?
+* Rank content, common, data, and message coupling from worst to best, and state the rule of thumb for which to prefer, tolerate, or eliminate.
+* Why do coupling and cohesion tend to move together, so that raising cohesion inside a unit usually lowers coupling between the resulting pieces?
+
 ## Relation to other foundational concepts
 
 * [[solid#s-single-responsibility-principle-srp|SRP]]: the modern restatement of "high cohesion" at the class level: one class, one actor, one reason to change.

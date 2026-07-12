@@ -65,6 +65,21 @@ Systems describe themselves with two pairs, one per regime:
 | PA / EL | Cassandra, chooses availability during partitions and latency the rest of the time. |
 | PC / EC | HBase, chooses consistency during partitions and consistency the rest of the time. |
 
+## Practice & self-check
+
+**Practice**
+
+* Take a datastore you use (or one from the CP / AP lists here) and state what it does when a partition occurs: refuse to answer, or serve possibly stale data? Then classify it with a PACELC pair.
+* Design a small feature (say, order creation) for an AP system and describe the domain-level consequence you must handle, for example making the operation idempotent because an order may be created twice during a partition.
+* Given a requirement like "reads must never be stale" versus "every request must get an answer during an outage", decide whether you need CP or AP and justify it.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What do C, A, and P each mean, and why is P treated as non-negotiable in a real distributed system?
+* During a partition, what is the actual choice CAP forces you to make?
+* How does the CAP meaning of "Consistency" (linearizability) differ from the C in ACID?
+* What does PACELC add to CAP, and why do architects find it more useful?
+
 ## Relation to other foundational concepts
 
 * [[solid|DIP / Clean Architecture]] says high-level policy shouldn’t depend on storage details: but CAP forces architectural decisions that **leak** into the domain (e.g. "an order may be created twice during a partition; the domain must be idempotent"). You can’t fully hide CAP behind an abstraction.

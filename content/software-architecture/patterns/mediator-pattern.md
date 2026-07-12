@@ -138,6 +138,21 @@ A chat room is often cited as a Mediator example, but if messages simply fan out
 
 Facade reduces **interface complexity** for a caller. Mediator reduces **coupling complexity** among peers. They solve different problems and are often used together.
 
+## Practice & self-check
+
+**Practice**
+
+* Extend the `SignupDialog` example: add a third rule (for example a terms-of-service radio button that must also be selected) and confirm the only file you change is the mediator's `notify`, not any `Component` subclass.
+* Take a small set of widgets that currently reference each other directly and refactor them so each knows only the mediator; verify the many-to-many mesh has collapsed into many-to-one spokes and each widget is now reusable in another dialog.
+* Decide whether a given "chat room" is really a Mediator or just Observer/pub-sub, using this note's test: does the hub make routing decisions based on participant state, or does it fan messages out uniformly?
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What does a Colleague know about, and where do the "when X then Y" interaction rules live?
+* How does Mediator differ from Observer in direction and coupling, and how are the two often combined?
+* How does Mediator differ from Facade (bidirectional vs unidirectional, whether the subsystem knows the intermediary)?
+* What is the main risk as a mediator grows, and which GRASP patterns does it embody?
+
 ## Relation to other foundational concepts
 
 * [[observer-pattern|Observer Pattern]]: Observer is a one-to-many broadcast; Mediator uses it internally and adds multidirectional coordination logic on top.

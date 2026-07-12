@@ -160,6 +160,21 @@ Injecting a `PaymentStrategy` into `Checkout` is dependency injection. The strat
 
 This means Strategy, composition-over-inheritance, and IoC/DI are not separate ideas, they are three framings of the same move.
 
+## Practice & self-check
+
+**Practice**
+
+* Implement a minimal `PricingStrategy` family from the table above: a `StandardPricing` and a `BulkPricing` behind one interface, injected into an `Order` context whose `calculate_price` never branches on the pricing type. Confirm adding `LoyaltyPricing` touches no existing class.
+* Take the `Checkout.pay` if/elif block at the top of this note and refactor it into context plus concrete strategies. Verify each strategy is now unit-testable in isolation and that `Checkout` no longer imports any concrete payment class.
+* Name a case where Strategy is NOT worth it (a two-variant, never-changing choice where a plain function suffices, per the "class proliferation" con), and contrast with State: when would you reach for State instead because the variants must trigger transitions between each other?
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What are the three structural roles in Strategy, and which one is forbidden from knowing the concrete algorithm type?
+* How does Strategy differ from Template Method in mechanism (composition vs inheritance) and from Command in intent (how to compute vs what to do and to whom)?
+* Why does adding a new algorithm variant satisfy the Open/Closed Principle here?
+* In what sense is injecting a `PaymentStrategy` the same move as dependency injection and Inversion of Control?
+
 ## Relation to other foundational concepts
 
 * [[composition-over-inheritance|Composition over Inheritance]]: Strategy is the canonical behavioral instantiation of this principle: behavior is assembled from injected objects, not inherited from a superclass.

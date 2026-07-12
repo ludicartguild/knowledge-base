@@ -323,6 +323,21 @@ const service = new OrderService(new MySQLOrderRepository());
 service.placeOrder("Book");
 ```
 
+## Practice & self-check
+
+**Practice**
+
+* Take the `Employee` class in the SRP-violation example and name each actor it answers to, then sketch the split (which behavior moves to `PayCalculator`, `HourReporter`, `EmployeeRepository`). Justify the split using the "Who would ask me to change this class?" heuristic.
+* Spot the smell: a subclass method throws `NotImplementedError`, and callers guard usage with `if (obj instanceof Subtype)`. Name which two principles this violates (LSP and ISP) and explain why the fat interface is the root cause.
+* Refactor the DIP-violation `OrderService` (which does `new MySQLOrderRepository()` internally) so a fake repository can be injected in tests. Draw the dependency arrow before and after, and say which module owns the abstraction.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is an "actor" under SRP, and why is "one class = one method" the wrong way to state the principle?
+* Why does making `Square` a subtype of `Rectangle` break LSP? Which of the four behavioural rules is violated?
+* What is the "inversion" in the Dependency Inversion Principle, and which direction does the dependency arrow from the low-level module point after applying it?
+* How does adhering to ISP make LSP violations less likely?
+
 ## Relation to other foundational concepts
 
 * [[coupling-and-cohesion|Coupling & Cohesion]]: SRP and ISP are direct attacks on coupling; DIP redirects it; OCP and LSP make it survivable as the system grows.
