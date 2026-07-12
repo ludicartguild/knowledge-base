@@ -103,6 +103,9 @@ Talking to a relational store safely and correctly.
 
 **Learn:**
 * [[databases|databases]]: relational vs [[glossary#n|NoSQL]], transactions & ACID, indexing, normalization.
+* [[async-data-access|async data access, pooling & ORMs]]: non-blocking DB access, connection pools, and when to drop to raw SQL.
+* [[database-migrations|database migrations]]: versioned schema evolution and zero-downtime expand/contract.
+* [[concurrency-and-idempotent-writes|concurrency & idempotent writes]]: optimistic vs pessimistic locking, upserts, and idempotency keys.
 
 **Practice:** Wrap a two-step change (e.g. debit one row, credit another) in a transaction
 and prove that a failure midway leaves the data untouched. Add an index and observe the
@@ -114,8 +117,6 @@ transaction protects a multi-step change.
 **Ask yourself:**
 * What would break if two of these operations ran at the same time without isolation?
 * Which of my writes are safe to retry, and which would double-charge someone?
-
-*Deeper notes planned: async data access, migrations, and idempotent writes at scale.*
 
 ## Infrastructure as Code
 
