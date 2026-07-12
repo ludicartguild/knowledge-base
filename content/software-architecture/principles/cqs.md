@@ -58,6 +58,6 @@ CQS is the conceptual ancestor of **CQRS** (Command Query Responsibility **Segre
 
 ## Relation to other foundational concepts
 
-* [[solid|SRP]] asks "who can demand changes?" CQS asks "does this method mutate or observe?": two different axes of separation, both reducing coupling.
+* [[solid#s-single-responsibility-principle-srp|SRP]] asks "who can demand changes?" CQS asks "does this method mutate or observe?": two different axes of separation, both reducing coupling.
 * [[coupling-and-cohesion|Coupling]]: pure queries can be depended on more safely (lower instability cost for consumers), since they don’t propagate hidden state changes.
-* [[solid|OCP]]: pure queries are ideal candidates for strategy injection: they can’t surprise the caller with side effects.
+* [[solid#o-open-closed-principle-ocp|OCP]]: pure queries are ideal candidates for strategy injection: they can’t surprise the caller with side effects.

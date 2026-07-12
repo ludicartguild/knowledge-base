@@ -88,8 +88,8 @@ This is the deep reason [[grasp|GRASP]] places **Low Coupling** and **High Cohes
 
 ## Relation to other foundational concepts
 
-* [[solid|SRP]]: the modern restatement of "high cohesion" at the class level: one class, one actor, one reason to change.
-* [[solid|DIP]]: converts efferent coupling on a concrete class into efferent coupling on an abstraction the high-level module owns, which inverts the **direction** of dependency without removing it.
+* [[solid#s-single-responsibility-principle-srp|SRP]]: the modern restatement of "high cohesion" at the class level: one class, one actor, one reason to change.
+* [[solid#d-dependency-inversion-principle-dip|DIP]]: converts efferent coupling on a concrete class into efferent coupling on an abstraction the high-level module owns, which inverts the **direction** of dependency without removing it.
 * [[grasp|GRASP]]: Low Coupling and High Cohesion are the explicit evaluative patterns; Pure Fabrication and Indirection are the constructive techniques used to improve them.
 * [[dry|DRY]]: duplication often signals low cohesion across modules (the same idea lives in multiple places). But mis-applied DRY can **increase** coupling by forcing two unrelated callers to share an abstraction.
 * [[kiss|KISS]]: most complexity is coupling in disguise. Reducing complexity usually means **moving** a responsibility (raising cohesion) rather than rewriting it.

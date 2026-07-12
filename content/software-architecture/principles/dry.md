@@ -41,4 +41,4 @@ DRY is about **knowledge**, not about **characters that happen to be identical**
 * [[kiss|KISS]]: premature de-duplication often violates KISS by introducing abstractions before they’re justified.
 * [[yagni|YAGNI]]: the Rule of Three is essentially YAGNI applied to abstraction: don’t build the generalised version until you actually need it.
 * [[coupling-and-cohesion|Coupling]]: a bad de-duplication can **increase** coupling by forcing two unrelated callers to share an abstraction they shouldn’t.
-* [[solid|SRP]]: duplication that crosses actor boundaries is often a sign that two different responsibilities have been merged. Separating them resolves both the duplication and the SRP violation at once.
+* [[solid#s-single-responsibility-principle-srp|SRP]]: duplication that crosses actor boundaries is often a sign that two different responsibilities have been merged. Separating them resolves both the duplication and the SRP violation at once.

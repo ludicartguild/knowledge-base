@@ -34,7 +34,7 @@ KISS is not "use the least lines of code", that’s **terseness**, which often m
 * Introducing an interface with one implementation "in case we add more later".
 * Using a framework feature when a plain function would do.
 * Building a plug-in system before there are two plug-ins.
-* Generalising the second occurrence rather than waiting for the third (see [[dry|Rule of Three]]).
+* Generalising the second occurrence rather than waiting for the third (see [[dry#the-rule-of-three|Rule of Three]]).
 
 ## KISS vs. abstraction
 
@@ -46,5 +46,5 @@ The test: does the abstraction make the **call sites** easier to read, or harder
 
 * [[yagni|YAGNI]]: KISS’s close sibling. YAGNI says "don’t build it yet"; KISS says "and when you do, don’t make it complicated".
 * [[dry|DRY]]: DRY pushes toward unification; KISS pushes back against unification that costs more than it saves. The two are in productive tension.
-* [[solid|OCP]]: OCP wants extensibility points; KISS wants you to add them only where variation is actually expected. See also _Protected Variations_ in [[grasp|GRASP]].
+* [[solid#o-open-closed-principle-ocp|OCP]]: OCP wants extensibility points; KISS wants you to add them only where variation is actually expected. See also _Protected Variations_ in [[grasp|GRASP]].
 * [[coupling-and-cohesion|Coupling]]: complexity is usually a coupling problem in disguise. Reducing complexity often means moving a responsibility, not rewriting it.

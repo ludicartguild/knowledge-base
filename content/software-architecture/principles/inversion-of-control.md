@@ -141,7 +141,7 @@ These three terms are frequently conflated. They are related but distinct:
 
 **Abstraction for its own sake.** Extracting an interface just to enable injection, when there is and will only ever be one implementation, is [[yagni|YAGNI]]. Introduce the abstraction when you have a concrete second use (testing counts).
 
-**Constructor telescoping.** Ten-argument constructors signal that the class itself needs splitting ([[solid|SRP]] violation), not that you need a better container.
+**Constructor telescoping.** Ten-argument constructors signal that the class itself needs splitting ([[solid#s-single-responsibility-principle-srp|SRP]] violation), not that you need a better container.
 
 ## Relation to other foundational concepts
 

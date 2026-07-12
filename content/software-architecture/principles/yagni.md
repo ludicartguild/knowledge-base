@@ -49,4 +49,4 @@ This is worse than either extreme. Either add the feature fully (and prove it wo
 
 * [[kiss|KISS]]: YAGNI is "don’t build it yet"; KISS is "and when you do, don’t make it complicated".
 * [[dry|DRY (Rule of Three)]]: the Rule of Three is YAGNI applied specifically to abstraction: don’t generalise until you’ve seen the pattern three times.
-* [[solid|OCP]]: OCP says be open for extension at the points where you **predict** variation. YAGNI tightens that: predict less, and only at points already confirmed to vary. See also _Protected Variations_ in [[grasp|GRASP]].
+* [[solid#o-open-closed-principle-ocp|OCP]]: OCP says be open for extension at the points where you **predict** variation. YAGNI tightens that: predict less, and only at points already confirmed to vary. See also _Protected Variations_ in [[grasp|GRASP]].
