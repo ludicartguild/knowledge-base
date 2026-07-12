@@ -110,6 +110,21 @@ The `interface` describes the exact shape `User` must have; passing an object mi
 
 See [[glossary|the glossary]] for the full list of terms used across these notes.
 
+## Practice & self-check
+
+**Practice**
+
+* Explain out loud why a SPA feels faster to navigate than a traditional multi-page site, and name the tradeoff it makes in return.
+* Sketch React's one-way data flow: props passed down, state owned by a component, and a child calling a function the parent passed instead of mutating the parent's state.
+* Talk through the `Greeting` example: point to what arrives as a prop, what is local state, and what triggers a re-render.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is the difference between props and state in React?
+* What does one-way data flow mean, and how does a child component update a parent's state?
+* What tradeoff does a SPA accept in exchange for feeling faster after the first load?
+* How does Angular's component/module/service structure differ from React's more compose-it-yourself approach?
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=Dorf8i6lCuk)

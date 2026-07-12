@@ -82,6 +82,21 @@ It’s fine to not have hands-on production Terraform experience as a junior can
 
 See [[glossary|the glossary]] for the full list of terms used across these notes.
 
+## Practice & self-check
+
+**Practice**
+
+* Write a single Terraform resource block for one piece of infrastructure (for example a storage bucket, following the `google_storage_bucket` example in this note), declaring the provider it needs.
+* Walk the `init` -> `plan` -> `apply` workflow on paper for that resource, saying what each command does and which one is only a preview.
+* Read a sample `plan` output and point out the line that would tell you a resource is about to be destroyed.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What problem does Infrastructure as Code solve compared to "click-ops"?
+* What do `terraform init`, `plan`, and `apply` each do, and why does the two-step plan-then-apply matter?
+* What is the state file, and why is it stored remotely in a team setting?
+* What does it mean that Terraform is declarative and idempotent?
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=7xngnjfIlK4)

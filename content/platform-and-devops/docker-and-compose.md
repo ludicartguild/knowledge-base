@@ -110,6 +110,21 @@ Why this matters day to day: it eliminates "works on my machine." If the app, da
 
 See [[glossary|the glossary]] for the full list of terms used across these notes.
 
+## Practice & self-check
+
+**Practice**
+
+* Write a small Dockerfile for a simple app using the instructions in this note (`FROM`, `WORKDIR`, `COPY`, `RUN`, `CMD`), then `docker build -t my-app .` and `docker run my-app` to confirm it starts.
+* Write a `compose.yml` with two services (an app plus a Postgres database) that has the app reach the database by its service name, add a named volume so the database survives a restart, and run it with `docker compose up`.
+* Stop and restart the stack, then confirm the database data is still there because of the named volume.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* In one sentence, how does a container differ from a VM, and why is a container faster and lighter?
+* What is the difference between an image and a container?
+* What do `RUN` and `CMD` each do, and at which stage (build versus run) does each execute?
+* In Compose, how does the `web` service reach the `db` service without any IP configuration, and what does the named volume protect?
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=SXwC9fSwct8)

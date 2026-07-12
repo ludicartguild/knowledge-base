@@ -79,6 +79,21 @@ Junior candidates aren’t expected to know every Git command or how to resolve 
 
 See [[glossary|the glossary]] for more terms across all foundational notes.
 
+## Practice & self-check
+
+**Practice**
+
+* In a scratch folder, run the full everyday loop end to end: `git switch -c feature/try-it`, edit a file, `git add` it, `git commit -m "..."`, and `git status` at each step so you can see a change move through working directory, staging area, and committed history.
+* Push that branch and open a Pull Request against main, then read the diff the PR shows the way a reviewer would.
+* Deliberately create a merge conflict: on two branches, edit the same line of the same file differently, merge one into the other, and resolve the conflict markers by hand.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is the difference between Git and GitHub?
+* Name the three zones a change passes through, and which command moves it into each.
+* Walk through the branch -> PR -> merge workflow in order, and say what an Issue is versus a PR.
+* What causes a merge conflict, and why is one not a sign that something went wrong?
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=tRZGeaHPoaw)

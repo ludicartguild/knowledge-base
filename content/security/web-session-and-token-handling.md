@@ -67,6 +67,21 @@ The deciding question is blast radius: if a stolen token would expose personal o
 
 Think of a **coat check**. You hand your coat and valuables (the tokens) to the cloakroom (the BFF) and walk around holding only a numbered ticket (the session cookie). The ticket is worthless to a pickpocket: it is not your coat, and only the cloakroom can turn it back into your coat, and only from behind the counter. `HttpOnly` is the rule that you cannot photograph the ticket to hand around; `__Host-` is that the ticket works only at this one cloakroom. Logout is telling the cloakroom to forget the ticket, and RP-initiated logout is also telling the building's front desk you have left.
 
+## Practice & self-check
+
+**Practice**
+
+* Configure a session cookie with `HttpOnly`, `Secure`, `SameSite`, and the `__Host-` prefix, then verify in browser dev tools that `document.cookie` cannot read it and that the cookie is rejected if set without `Path=/` or with a `Domain` attribute.
+* Build a minimal backend-for-frontend that runs the authorization-code flow at login, keeps the access and refresh tokens server-side keyed to the session, hands the browser only an opaque cookie, and attaches the real bearer token to upstream calls.
+* Add explicit CSRF protection (a double-submit token or a required custom header) on a state-changing endpoint and confirm a cross-site form submission is rejected even though the cookie is sent.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* Why is storing an access token in `localStorage` unsafe under the XSS threat model, and how does keeping it server-side remove that surface?
+* What does the `HttpOnly` attribute defend against, and what does it not stop?
+* Why is `SameSite` treated as defense-in-depth rather than a complete CSRF control?
+* What does RP-initiated logout accomplish that simply deleting the local session cookie does not?
+
 ## Cross-links
 
 - [[oauth2-and-oidc-flows]]: the flow the BFF runs at login to obtain the tokens it stores.

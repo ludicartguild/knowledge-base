@@ -119,6 +119,21 @@ The cost of OAuth2/OIDC is real complexity (redirects, key rotation, token lifet
 
 OAuth2 is a **valet key**. You do not hand the valet your house keys (your password); you hand over a key that only starts the car, only for now, and that you can invalidate. The *grant type* is how you decide which valet key to cut: one for a person standing at the door (authorization-code), one for a trusted machine with its own key (client-credentials), and one that says "act for this person, but on my authority" (token-exchange). OIDC clips a **photo ID** to the valet key so the client also learns *who* the person is, not just what door the key opens.
 
+## Practice & self-check
+
+**Practice**
+
+* Trace an authorization-code + PKCE sign-in end to end against any standard OIDC provider: generate a `code_verifier` and its `code_challenge`, build the `/authorize` URL with `state` and the challenge, complete consent, then exchange the code plus verifier at `/token`. Confirm the code alone cannot be redeemed without the verifier.
+* Fetch a provider's `/.well-known/openid-configuration`, follow the `jwks_uri` to its JWKS, and identify the `/authorize`, `/token`, and keys endpoints from discovery alone rather than hardcoding them.
+* Configure a confidential client to obtain a client-credentials token, then add caching with a single-flight lock so concurrent callers trigger one refresh, plus a forced refresh on a `401`.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* Which grant type fits each of: a user signing in to a mobile app, a cron job calling an API as itself, and a service calling downstream as the calling user?
+* Why is the authorization code delivered through the back channel rather than the browser URL, and what does PKCE add on top of that?
+* What is the difference between an ID token and an access token, and which one should never be sent to an API?
+* Why must a resource server validate the audience, and what failure mode occurs if it does not?
+
 ## Cross-links
 
 - [[jwt-validation]]: how a resource server actually verifies the tokens these flows issue.

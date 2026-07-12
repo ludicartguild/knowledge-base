@@ -125,6 +125,20 @@ The key distinction for an interview: **Cloud SQL** (GCP’s managed Postgres/My
 
 See [[glossary|the glossary]] for the full list of terms used across these notes.
 
+## Practice & self-check
+
+**Practice**
+
+* Design a minimal schema for a small app (e.g. `users` and `orders`) with a primary key and a foreign key, then write a SQL `JOIN` that lists each order alongside its customer's name.
+* Pick one feature and decide SQL vs NoSQL for it; write one sentence justifying the choice.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What does a foreign key express, and what does a `JOIN` actually do?
+* When would you choose a document store over a relational database?
+* What do the four letters of ACID stand for, and why would a money transfer need them?
+* Why does an index speed up reads but slightly slow down writes?
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=Q5aTUc7c4jg)

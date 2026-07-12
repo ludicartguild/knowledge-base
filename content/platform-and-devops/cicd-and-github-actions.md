@@ -104,6 +104,21 @@ See [[communication|the communication note]] for more on framing honest gaps in 
 
 See [[glossary|the glossary]] for the full list of terms used across these notes.
 
+## Practice & self-check
+
+**Practice**
+
+* Sketch a pipeline as the four stages in this note (build, test, lint/scan, deploy) and, for each stage, write one line naming what it protects against.
+* Write a minimal workflow YAML under `.github/workflows/` that triggers on `push` to main and on `pull_request`, checks out the code, sets up a runtime, and runs the test suite.
+* Take that workflow and label each line as a trigger, job, step, action (`uses:`), or plain command (`run:`).
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is the difference between Continuous Delivery and Continuous Deployment?
+* Name the four pipeline stages in order and what each one is protecting against.
+* What is the difference between a `uses:` step and a `run:` step?
+* Where do workflow files live, and how is a secret referenced inside one instead of being hardcoded?
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=R8_veQiYBjI)

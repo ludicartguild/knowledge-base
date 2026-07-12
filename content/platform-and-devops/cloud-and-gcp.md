@@ -82,6 +82,21 @@ The job posting for this role lists GCP, AWS, and Azure as acceptable, the under
 
 See [[glossary|the glossary]] for the full list of terms used across these notes.
 
+## Practice & self-check
+
+**Practice**
+
+* For a simple app (a containerized API with a database and some events), sketch a GCP deployment that names which service handles each part: Cloud Run, Cloud SQL, and Pub/Sub.
+* For each service in that sketch, label the layer it sits at (IaaS, PaaS, or SaaS) and say why that layer fits.
+* Take the same design and map each GCP service to its AWS and Azure equivalent using the comparison table in this note.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is the difference between IaaS, PaaS, and SaaS, and where does "serverless" fit?
+* What does a GCP project contain, and how do regions and zones differ?
+* What is IAM for, and what does "least privilege" mean in that context?
+* When would a team reach for GKE over Cloud Run?
+
 ## Official documentation
 
 Authoritative, always-current references for the services above (verified against Google Cloud docs):

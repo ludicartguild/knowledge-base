@@ -77,6 +77,21 @@ A strong answer:
 
 See [[glossary|the glossary]] for the full list of terms used across these notes.
 
+## Practice & self-check
+
+**Practice**
+
+* Whiteboard the chain from browser to database and back, naming each layer's one job in a single sentence.
+* Trace a single button click end to end out loud, following the request down through the layers and the response back up.
+* Explain in one or two sentences why a BFF exists rather than having each frontend call the backend services directly.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is the BFF's one job, and what problem does it exist to solve?
+* Which layers run on the client, which on the server, and which on the cloud provider?
+* If a page loads its data slowly or not at all, how do you narrow down which layer is at fault?
+* What does the word "full-stack" actually claim: range across the chain, or depth in every layer?
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=viaDjz68dg0)

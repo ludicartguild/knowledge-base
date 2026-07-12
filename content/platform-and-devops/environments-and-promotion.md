@@ -78,6 +78,21 @@ A modern addition: spin up a short-lived environment per pull request (a "previe
 
 Environments are **dress rehearsals before opening night**. The cast, set, and script (the artifact) stay the same from the tech rehearsal through the dress rehearsal to opening; what changes is the venue and its settings (the config). You would never rewrite the play backstage on opening night, and you would never let an unrehearsed scene go straight to a paying audience. Promotion is walking the same production through progressively more realistic, more scrutinized rehearsals until it is trusted enough for the real crowd.
 
+## Practice & self-check
+
+**Practice**
+
+* Describe a promotion flow for one change from dev to production: name each tier it passes through, the gate at each step, and what stays the same (the artifact) versus what changes (the injected config).
+* Take a system you know and map it onto the build, release, run separation: identify what the immutable build is, what a release combines it with, and where it runs.
+* Walk the "done-right checklist" in this note against that same system and note where it would fall short (for example rebuilding per environment, or weak parity in a backing service).
+
+**Check yourself** (you should be able to answer these from this note):
+
+* Name the common tiers, and what "non-prod" refers to.
+* Why is the same artifact promoted up the chain instead of rebuilt per environment?
+* Why does parity matter, and what is the risk of using SQLite in dev but managed Postgres in prod?
+* How do the gates change as a change moves closer to production, and when are environment-scoped secrets released?
+
 ## Related notes
 
 - [[secrets-and-supply-chain-security]]: per-environment secrets and why production credentials never reach non-prod.

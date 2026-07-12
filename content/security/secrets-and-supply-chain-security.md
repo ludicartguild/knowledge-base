@@ -79,6 +79,21 @@ Pipeline hardening (SHA pinning, least privilege, scanning) is close to free and
 
 Two shifts capture it. First, **from keys to passports**: a static secret is a copied house key anyone can use forever; a federated credential is a passport checked at the border, tied to who you are, stamped for this trip only, and worthless afterward. Second, **the factory, not just the product**: securing the app but not its build pipeline is guarding the storefront while leaving the loading dock open. Provenance is the tamper-evident "made in this factory, from these parts" seal that lets you trust what came off the line.
 
+## Practice & self-check
+
+**Practice**
+
+* Set up OIDC workload-identity federation conceptually for a CI-to-cloud path: define the trust so the cloud accepts only OIDC tokens whose claims (repository, branch, environment) match a policy, then trace how the job presents its token and receives a short-lived credential that expires after the run, with no static key stored.
+* Take a pipeline that references a third-party build step by a moving tag and pin it to a full-length commit SHA instead; verify the SHA belongs to the real upstream repository rather than a fork.
+* Add a secret-scanning pre-commit hook and set the automation token to read-only by default, granting write scope only to the job that needs it.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* Rank the secret-handling hierarchy from worst to best, and explain why short-lived federated credentials sit at the top.
+* Why does pinning build steps to a full commit SHA defend against a compromised upstream tag?
+* In workload identity federation, what proves the job's identity and what stops the returned credential from being replayed later?
+* What do provenance, an SBOM, and artifact signing each attest, and how do they differ?
+
 ## Cross-links
 
 - [[cicd-and-github-actions]]: the pipeline where these controls are configured.

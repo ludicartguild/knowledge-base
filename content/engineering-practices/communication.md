@@ -84,6 +84,21 @@ Most engineering teams organize work using Agile/Scrum vocabulary. A junior deve
 
 See [[glossary|the glossary]] for the full list of terms used across these notes.
 
+## Practice & self-check
+
+**Practice**
+
+* Take a request you received recently, restate it back in different words, then draft one clarifying question that passes the "what would I build differently depending on the answer?" test.
+* Rehearse the three-step honesty pattern out loud for something you genuinely don't know: say you don't know, state how you'll find out, give a timeframe.
+* Explain, in one or two sentences, when "I'll figure it out" is a confident answer versus when it reads as unprepared.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is the dividing line that decides whether "I'll figure it out" is acceptable or not?
+* What are the three steps of the reliable pattern for admitting you don't know something?
+* What quick test tells you whether a clarifying question is worth asking before you start coding?
+* What happens in a retrospective, and how does it differ from a standup?
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=nj1AZoczVvg)

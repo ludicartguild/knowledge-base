@@ -151,6 +151,21 @@ A strong answer:
 
 See [[glossary|the glossary]] for the full list of terms used across these notes.
 
+## Practice & self-check
+
+**Practice**
+
+* List the four main REST verbs with what each does, then name the status codes for a success, invalid input, an auth failure, and a missing resource.
+* Sketch a single REST endpoint out loud (for example `GET /users/:id`), including what it returns when the resource isn't found.
+* State the difference between authentication and authorization in one sentence each, and say where OAuth2 and JWT fit around them.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What do GET, POST, PUT, and DELETE each do, and which status code follows a successful POST?
+* Why does a BFF exist, in one sentence, and what is it not responsible for?
+* What is the difference between authentication and authorization, and how do OAuth2 and JWT relate to each?
+* What is the difference between a unit test and an integration test?
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=-mN3VyJuCjM)

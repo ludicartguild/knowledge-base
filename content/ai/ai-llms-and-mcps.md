@@ -86,6 +86,21 @@ It’s fine, and expected at a junior level, to not have deep hands-on experienc
 
 See [[glossary|the glossary]] for the full list of terms used across these notes.
 
+## Practice & self-check
+
+**Practice**
+
+* Explain in plain language what an LLM is and why it can produce a confident, wrong answer.
+* Walk through how RAG answers a question, from embedding and vector search over a company's own data to feeding the retrieved documents into the prompt.
+* Pick a feature and decide between prompting, RAG, and fine-tuning, then justify the choice in one sentence.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* What is a hallucination, and why does an LLM produce one rather than looking a fact up?
+* What problem does RAG solve, and what are its rough steps?
+* When would you reach for fine-tuning instead of prompting or RAG?
+* What does MCP standardize, and what is the difference between a "tool" and a "resource" in that context?
+
 ## Official documentation
 
 Authoritative references (verified against Google’s developer docs):

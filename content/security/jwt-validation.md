@@ -81,6 +81,21 @@ Self-verified JWTs shine when many services must check auth cheaply and independ
 
 A JWT is a **tamper-evident sealed envelope**, not a locked box. Anyone can read what is written on it (the claims are just encoded), but the wax seal (the signature) proves who sent it and that it was not altered. Validation is checking the seal against a seal-stamp you already trust (the issuer's public key), then reading the letter. The classic failures are all forms of not really checking the seal: accepting an envelope stamped "no seal needed" (`alg: none`), or letting the sender tell you which stamp to compare against (trusting the header `alg`).
 
+## Practice & self-check
+
+**Practice**
+
+* Implement a minimal JWT validator that takes an explicit algorithm allowlist, rejects `alg: none`, resolves the key by `kid` from a cached JWKS, and then checks `exp`, `nbf`, `iss`, and `aud`. Feed it a token with a tampered payload and confirm it fails closed.
+* Demonstrate the RS/HS algorithm-confusion attack against a naive verifier: sign a token with `HS256` using the RSA public key as the HMAC secret, show a header-trusting verifier accepts it, then pin the algorithm to the key and show the fixed verifier rejects it.
+* Simulate key rotation: publish two keys in a JWKS with different `kid` values, sign with the new one, and confirm verifiers refresh the JWKS on an unknown `kid` rather than failing.
+
+**Check yourself** (you should be able to answer these from this note):
+
+* Why must the verifier pin the accepted algorithm instead of trusting the token's `alg` header?
+* Why is asymmetric signing (RS256/ES256) a better fit than HS256 for multi-service verification?
+* How does publishing old and new keys in a JWKS at the same time let key rotation happen without breaking valid tokens?
+* What is the cost of self-verified JWTs compared to opaque tokens plus introspection, and when would you reach for introspection?
+
 ## Cross-links
 
 - [[oauth2-and-oidc-flows]]: where these tokens come from and what `iss`/`aud`/`client_id` mean.
