@@ -124,6 +124,9 @@ Defining infrastructure declaratively and reproducibly.
 
 **Learn:**
 * [[infrastructure-as-code|infrastructure as code]]: version-controlled, reviewable infrastructure.
+* [[terraform-module-and-state-design|module & state design]]: reusable modules, remote state and locking, workspaces vs directory-per-environment.
+* [[iac-orchestration-and-layered-config|orchestration & layered config]]: keeping many environments DRY with a root-to-instance precedence cascade.
+* [[iac-testing-and-security|testing & securing IaC]]: the validation ladder from fmt through policy-as-code to security scanning.
 
 **Practice:** Write a small Terraform config that provisions one resource (e.g. an object
 storage bucket) with **remote state**. Change it, run `plan`, and read the diff before you
@@ -135,8 +138,6 @@ and why infrastructure defined as code is safer than manual changes.
 **Ask yourself:**
 * If two people applied this at once, what would remote state protect me from?
 * What in my infrastructure is still changed by hand, and what risk does that carry?
-
-*Deeper notes planned: module & state design, keeping environments DRY, and testing/scanning infrastructure.*
 
 ## Cloud, networking & platform
 
