@@ -42,8 +42,8 @@ Each section follows the same rhythm:
 * **Self-check:** you understand it when you can do these.
 * **Ask yourself:** heuristic questions to test real understanding.
 
-Some sections link a fundamentals note today with deeper notes still planned; the practice
-is scoped to what exists.
+Each section pairs a fundamentals note with deeper notes that implement the ideas; the
+practice is hands-on and builds toward the capstone.
 
 ## Security
 
@@ -59,11 +59,11 @@ without trusting the attacker? Where do tokens and secrets actually live?
 * [[web-session-and-token-handling|web session & token handling]]: keeping tokens off the browser, secure cookies, real logout.
 * [[secrets-and-supply-chain-security|secrets & supply-chain security]]: short-lived federated credentials and pipeline hardening.
 
-**Practice:** Implement a [[glossary#j|JWT]] validation function that fetches a JWKS, resolves the key by
+**Practice:** Implement a [[glossary#j|JWT]] validation function that fetches a [[glossary#j|JWKS]], resolves the key by
 `kid`, **pins the expected algorithm**, rejects `alg: none`, and checks `iss`/`aud`/`exp`.
 Feed it a tampered token and a wrong-audience token and confirm both are rejected.
 
-**Self-check:** you can validate a JWT correctly by hand, name the grant for user sign-in
+**Self-check:** you can validate a [[glossary#j|JWT]] correctly by hand, name the grant for user sign-in
 vs service-to-service vs on-behalf-of, and explain why a token belongs on the server.
 
 **Ask yourself:**
@@ -103,7 +103,7 @@ Talking to a relational store safely and correctly.
 
 **Learn:**
 * [[databases|databases]]: relational vs [[glossary#n|NoSQL]], transactions & ACID, indexing, normalization.
-* [[async-data-access|async data access, pooling & ORMs]]: non-blocking DB access, connection pools, and when to drop to raw SQL.
+* [[async-data-access|async data access, pooling & ORMs]]: non-blocking DB access, connection pools, and when to drop to raw [[glossary#s|SQL]].
 * [[database-migrations|database migrations]]: versioned schema evolution and zero-downtime expand/contract.
 * [[concurrency-and-idempotent-writes|concurrency & idempotent writes]]: optimistic vs pessimistic locking, upserts, and idempotency keys.
 
@@ -151,7 +151,7 @@ workload?
 **Learn:**
 * [[cloud-and-gcp|cloud & GCP]]: managed services and the cloud model.
 * [[docker-and-compose|Docker & Compose]]: containerizing an application and its dependencies.
-* [[cloud-networking|cloud networking]]: VPC/subnets, load balancers, DNS, TLS, and private connectivity.
+* [[cloud-networking|cloud networking]]: [[glossary#v|VPC]]/subnets, load balancers, [[glossary#d|DNS]], [[glossary#t|TLS]], and private connectivity.
 * [[iam-and-workload-identity|cloud IAM & workload identity]]: principals, roles, least privilege, and short-lived federated credentials.
 * [[kubernetes-workload-basics|Kubernetes workload basics]]: pods, deployments, services, probes, and hardened security contexts.
 
@@ -212,26 +212,31 @@ right level of the pyramid.
 
 ## GenAI & agents
 
-Running LLM agents in production.
+Running [[glossary#l|LLM]] agents in production.
 
 **Focus:** How does a backend actually use a model? What are [[glossary#r|RAG]], tool-calling, and
 grounding for?
 
 **Learn:**
 * [[ai-llms-and-mcps|LLMs, RAG & MCP]]: the fundamentals, how a backend calls a model, retrieval, and tool protocols.
+* [[llm-agent-architecture|LLM agent architecture & orchestration]]: the model-in-a-loop, perceive-reason-act, planning, single vs multi-agent, and human-in-the-loop.
+* [[tool-calling-and-mcp|tool calling & MCP]]: how a model requests actions, and the open protocol that makes tools pluggable.
+* [[rag-and-grounding|RAG & grounding]]: retrieval at query time, chunking, hybrid search, and citations that keep answers checkable.
+* [[agent-memory-and-context|agent memory & context management]]: the context window as a budget, compaction, and retrieval-based memory.
+* [[llm-evaluation-and-observability|LLM evaluation & observability]]: measuring quality, tracing every call, and failing toward safe behaviour with guardrails.
 
 **Practice:** Build a tiny retrieval-augmented feature: embed a handful of documents, and
 on a question, retrieve the closest ones and pass them into the prompt. Notice how the
-answer changes with and without retrieval.
+answer changes with and without retrieval. Then wrap a model call in a minimal
+perceive-reason-act loop with one tool, and trace each step so you can see what it did.
 
-**Self-check:** you can explain RAG end to end and describe why grounding an answer in
-retrieved context reduces hallucination.
+**Self-check:** you can explain [[glossary#r|RAG]] end to end, describe why grounding an answer in
+retrieved context reduces hallucination, and sketch the agent loop that lets a model call
+a tool and act on the result.
 
 **Ask yourself:**
 * Where would this agent give a confidently wrong answer, and how would I catch it?
 * What would I need to log to debug a bad response after the fact?
-
-*Deeper notes planned: agent orchestration, tool-use loops, grounding & citations, memory management, and evaluation.*
 
 ## Capstone
 
@@ -246,7 +251,7 @@ Optionally add a small retrieval-augmented endpoint to fold in the GenAI section
 
 ## Self-assessment checklist
 
-- [ ] I can validate a JWT correctly (JWKS, pinned algorithm, claim checks) and choose the right OAuth2 grant.
+- [ ] I can validate a JWT correctly (JWKS, pinned algorithm, claim checks) and choose the right [[glossary#o|OAuth2]] grant.
 - [ ] I can keep tokens and secrets off the client and prefer short-lived federated credentials.
 - [ ] I can wrap a multi-step change in a transaction and reason about idempotency.
 - [ ] I can provision a resource with Terraform + remote state and read a plan before applying.
