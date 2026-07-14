@@ -1,0 +1,110 @@
+/* "Ask this wiki" widget — theme-aware via Quartz CSS variables. */
+#kb-chat-root .kbc-open {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1000;
+  padding: 0.6rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--secondary);
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+#kbc-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(420px, 92vw);
+  z-index: 1001;
+  background: var(--light);
+  border-left: 1px solid var(--lightgray);
+  transform: translateX(100%);
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  color: var(--darkgray);
+}
+#kbc-drawer.open {
+  transform: translateX(0);
+}
+.kbc-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--lightgray);
+}
+.kbc-head strong {
+  color: var(--dark);
+}
+.kbc-head .kbc-close {
+  margin-left: auto;
+  background: none;
+  border: 0;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--gray);
+}
+.kbc-body {
+  padding: 1rem;
+  overflow-y: auto;
+}
+.kbc-q {
+  width: 100%;
+  min-height: 4rem;
+  background: var(--lightgray);
+  color: var(--dark);
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.kbc-ts {
+  margin: 0.5rem 0;
+}
+.kbc-send {
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background: var(--secondary);
+  color: #fff;
+  cursor: pointer;
+}
+.kbc-answer {
+  margin-top: 1rem;
+  line-height: 1.5;
+}
+.kbc-cites {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.kbc-cites p {
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+}
+.kbc-loading {
+  opacity: 0.7;
+}
+.kbc-err {
+  color: var(--tertiary);
+}
+@media (max-width: 600px) {
+  #kbc-drawer {
+    width: 100vw;
+    height: 80vh;
+    top: auto;
+    bottom: 0;
+    border-left: 0;
+    border-top: 1px solid var(--lightgray);
+    transform: translateY(100%);
+  }
+  #kbc-drawer.open {
+    transform: translateY(0);
+  }
+}

@@ -106,6 +106,11 @@ export default (() => {
             return resource
           }
         })}
+
+        {/* "Ask this wiki" chat widget (site-wide). Only public values ship to the browser. */}
+        <link rel="stylesheet" href={joinSegments(baseDir, "static/chat.css")} />
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+        <script src={joinSegments(baseDir, "static/chat.js")} defer></script>
       </head>
     )
   }
