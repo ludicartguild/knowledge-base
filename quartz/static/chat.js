@@ -6,7 +6,6 @@
   var WORKER_URL = "https://knowledge-base-chat.ludicartguild.workers.dev";
   var SITE_KEY = "0x4AAAAAAD1ZPJFSkixgcU8V";
   var tsWidgetId = null;
-  var tokenResolver = null;
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -35,25 +34,26 @@
     return '<div class="kbc-cites"><p>Sources</p><ul>' + items + "</ul></div>";
   }
 
-  function renderTS(root) {
-    if (tsWidgetId !== null || !window.turnstile) return;
-    var el = root.querySelector(".kbc-ts");
-    if (!el) return;
-    tsWidgetId = window.turnstile.render(el, {
-      sitekey: SITE_KEY,
-      size: "invisible",
-      execution: "execute",
-      callback: function (t) { if (tokenResolver) { tokenResolver(t); tokenResolver = null; } },
-      "error-callback": function () { if (tokenResolver) { tokenResolver(""); tokenResolver = null; } },
-    });
-  }
-
+  // Render a fresh invisible widget each time and let it auto-run; resolve the token via
+  // its callback. The sitekey's server-side "invisible" mode keeps it silent.
   function getToken(root) {
-    renderTS(root);
     return new Promise(function (resolve) {
-      if (tsWidgetId === null || !window.turnstile) { resolve(""); return; }
-      tokenResolver = resolve;
-      try { window.turnstile.execute(tsWidgetId); } catch (_) { tokenResolver = null; resolve(""); }
+      if (!window.turnstile) { resolve(""); return; }
+      var el = root.querySelector(".kbc-ts");
+      if (!el) { resolve(""); return; }
+      if (tsWidgetId !== null) { try { window.turnstile.remove(tsWidgetId); } catch (_) {} tsWidgetId = null; }
+      el.innerHTML = "";
+      var done = false;
+      function finish(t) { if (!done) { done = true; resolve(t || ""); } }
+      try {
+        tsWidgetId = window.turnstile.render(el, {
+          sitekey: SITE_KEY,
+          callback: function (t) { finish(t); },
+          "error-callback": function () { finish(""); },
+          "timeout-callback": function () { finish(""); },
+        });
+      } catch (_) { finish(""); }
+      setTimeout(function () { finish(""); }, 10000);
     });
   }
 
@@ -84,7 +84,6 @@
       drawer.classList.toggle("open", o);
       drawer.setAttribute("aria-hidden", String(!o));
       openBtn.setAttribute("aria-expanded", String(o));
-      if (o) renderTS(root);
     }
     openBtn.addEventListener("click", function () { setOpen(true); });
     root.querySelector(".kbc-close").addEventListener("click", function () { setOpen(false); });
