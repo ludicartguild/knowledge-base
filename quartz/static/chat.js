@@ -1,10 +1,12 @@
 // "Ask this wiki" widget: a labeled button + right-side drawer on every page, calling the
 // knowledge-base-chat Worker. Only public values here (Worker URL + Turnstile SITE key).
+// Turnstile runs in INVISIBLE mode: no visible widget; a token is fetched silently on submit.
 // Re-injects on Quartz's SPA "nav" event so it survives client-side navigation.
 (function () {
   var WORKER_URL = "https://knowledge-base-chat.ludicartguild.workers.dev";
-  var SITE_KEY = "0x4AAAAAAD1WvGGAinbVCTtf";
+  var SITE_KEY = "0x4AAAAAAD1ZPJFSkixgcU8V";
   var tsWidgetId = null;
+  var tokenResolver = null;
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -16,7 +18,7 @@
     switch (code) {
       case "daily_limit": return "The assistant hit its usage limit for now. Please try again later.";
       case "rate_limited": return "You're sending requests too quickly — please wait a moment.";
-      case "challenge_failed": return "Please complete the verification and try again.";
+      case "challenge_failed": return "Couldn't verify you're human — please try again.";
       case "forbidden": return "This assistant only works from the wiki site.";
       default: return "Something went wrong. Please try again.";
     }
@@ -31,6 +33,28 @@
       })
       .join("");
     return '<div class="kbc-cites"><p>Sources</p><ul>' + items + "</ul></div>";
+  }
+
+  function renderTS(root) {
+    if (tsWidgetId !== null || !window.turnstile) return;
+    var el = root.querySelector(".kbc-ts");
+    if (!el) return;
+    tsWidgetId = window.turnstile.render(el, {
+      sitekey: SITE_KEY,
+      size: "invisible",
+      execution: "execute",
+      callback: function (t) { if (tokenResolver) { tokenResolver(t); tokenResolver = null; } },
+      "error-callback": function () { if (tokenResolver) { tokenResolver(""); tokenResolver = null; } },
+    });
+  }
+
+  function getToken(root) {
+    renderTS(root);
+    return new Promise(function (resolve) {
+      if (tsWidgetId === null || !window.turnstile) { resolve(""); return; }
+      tokenResolver = resolve;
+      try { window.turnstile.execute(tsWidgetId); } catch (_) { tokenResolver = null; resolve(""); }
+    });
   }
 
   function build() {
@@ -55,15 +79,12 @@
     var openBtn = root.querySelector(".kbc-open");
     var drawer = root.querySelector("#kbc-drawer");
     var out = root.querySelector(".kbc-answer");
-    var tsEl = root.querySelector(".kbc-ts");
 
     function setOpen(o) {
       drawer.classList.toggle("open", o);
       drawer.setAttribute("aria-hidden", String(!o));
       openBtn.setAttribute("aria-expanded", String(o));
-      if (o && tsWidgetId === null && window.turnstile) {
-        tsWidgetId = window.turnstile.render(tsEl, { sitekey: SITE_KEY });
-      }
+      if (o) renderTS(root);
     }
     openBtn.addEventListener("click", function () { setOpen(true); });
     root.querySelector(".kbc-close").addEventListener("click", function () { setOpen(false); });
@@ -72,8 +93,8 @@
       e.preventDefault();
       var q = root.querySelector(".kbc-q").value.trim();
       if (!q) return;
-      var token = window.turnstile && tsWidgetId !== null ? window.turnstile.getResponse(tsWidgetId) : "";
       out.innerHTML = '<p class="kbc-loading">Thinking…</p>';
+      var token = await getToken(root);
       try {
         var r = await fetch(WORKER_URL, {
           method: "POST",
@@ -89,21 +110,18 @@
       } catch (_) {
         out.innerHTML = '<p class="kbc-err">Something went wrong. Please try again.</p>';
       }
-      if (window.turnstile && tsWidgetId !== null) window.turnstile.reset(tsWidgetId);
+      if (tsWidgetId !== null && window.turnstile) {
+        try { window.turnstile.reset(tsWidgetId); } catch (_) {}
+      }
     });
   }
 
-  // Escape closes the drawer (attached once).
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
     var d = document.getElementById("kbc-drawer");
-    if (d) {
-      d.classList.remove("open");
-      d.setAttribute("aria-hidden", "true");
-    }
+    if (d) { d.classList.remove("open"); d.setAttribute("aria-hidden", "true"); }
   });
 
-  // Quartz SPA morphs the body on navigation, removing our node -> rebuild + reset Turnstile.
   document.addEventListener("nav", function () {
     tsWidgetId = null;
     build();
