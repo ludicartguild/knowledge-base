@@ -1,11 +1,13 @@
 // "Ask this wiki" widget: a labeled button + right-side drawer on every page, calling the
 // knowledge-base-chat Worker. Only public values here (Worker URL + Turnstile SITE key).
-// Turnstile runs in INVISIBLE mode: no visible widget; a token is fetched silently on submit.
+// Turnstile (managed): the check shows when the drawer opens; once cleared it hides and the
+// token is stored, then silently re-verifies after each answer.
 // Re-injects on Quartz's SPA "nav" event so it survives client-side navigation.
 (function () {
   var WORKER_URL = "https://knowledge-base-chat.ludicartguild.workers.dev";
-  var SITE_KEY = "0x4AAAAAAD1ZPJFSkixgcU8V";
+  var SITE_KEY = "0x4AAAAAAD1aCZsis-PIlXSA";
   var tsWidgetId = null;
+  var tsToken = "";
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -17,7 +19,7 @@
     switch (code) {
       case "daily_limit": return "The assistant hit its usage limit for now. Please try again later.";
       case "rate_limited": return "You're sending requests too quickly — please wait a moment.";
-      case "challenge_failed": return "Couldn't verify you're human — please try again.";
+      case "challenge_failed": return "Couldn't verify you're human — please complete the check and try again.";
       case "forbidden": return "This assistant only works from the wiki site.";
       default: return "Something went wrong. Please try again.";
     }
@@ -34,26 +36,19 @@
     return '<div class="kbc-cites"><p>Sources</p><ul>' + items + "</ul></div>";
   }
 
-  // Render a fresh invisible widget each time and let it auto-run; resolve the token via
-  // its callback. The sitekey's server-side "invisible" mode keeps it silent.
-  function getToken(root) {
-    return new Promise(function (resolve) {
-      if (!window.turnstile) { resolve(""); return; }
-      var el = root.querySelector(".kbc-ts");
-      if (!el) { resolve(""); return; }
-      if (tsWidgetId !== null) { try { window.turnstile.remove(tsWidgetId); } catch (_) {} tsWidgetId = null; }
-      el.innerHTML = "";
-      var done = false;
-      function finish(t) { if (!done) { done = true; resolve(t || ""); } }
-      try {
-        tsWidgetId = window.turnstile.render(el, {
-          sitekey: SITE_KEY,
-          callback: function (t) { finish(t); },
-          "error-callback": function () { finish(""); },
-          "timeout-callback": function () { finish(""); },
-        });
-      } catch (_) { finish(""); }
-      setTimeout(function () { finish(""); }, 10000);
+  function renderTS(root) {
+    if (tsWidgetId !== null || !window.turnstile) return;
+    var el = root.querySelector(".kbc-ts");
+    if (!el) return;
+    tsWidgetId = window.turnstile.render(el, {
+      sitekey: SITE_KEY,
+      callback: function (t) { tsToken = t; el.style.display = "none"; },
+      "error-callback": function () { tsToken = ""; el.style.display = ""; },
+      "expired-callback": function () {
+        tsToken = "";
+        el.style.display = "";
+        try { window.turnstile.reset(tsWidgetId); } catch (_) {}
+      },
     });
   }
 
@@ -77,23 +72,32 @@
     var openBtn = root.querySelector(".kbc-open");
     var drawer = root.querySelector("#kbc-drawer");
     var out = root.querySelector(".kbc-answer");
+    var qEl = root.querySelector(".kbc-q");
 
     function setOpen(o) {
       drawer.classList.toggle("open", o);
       drawer.setAttribute("aria-hidden", String(!o));
       openBtn.setAttribute("aria-expanded", String(o));
+      if (o) renderTS(root);
     }
     openBtn.addEventListener("click", function () { setOpen(true); });
     root.querySelector(".kbc-close").addEventListener("click", function () { setOpen(false); });
 
-    var qEl = root.querySelector(".kbc-q");
     async function ask() {
       var q = qEl.value.trim();
       if (!q) return;
+      renderTS(root);
+      var tsEl = root.querySelector(".kbc-ts");
+      if (!tsToken) {
+        if (tsEl) tsEl.style.display = "";
+        out.innerHTML = '<p class="kbc-hint">Please complete the quick check below, then Ask.</p>';
+        return;
+      }
       qEl.value = "";
+      var token = tsToken;
+      tsToken = "";
       var qHtml = '<div class="kbc-you">' + esc(q) + "</div>";
       out.innerHTML = qHtml + '<p class="kbc-loading">Thinking…</p>';
-      var token = await getToken(root);
       try {
         var r = await fetch(WORKER_URL, {
           method: "POST",
@@ -109,6 +113,11 @@
       } catch (_) {
         out.innerHTML = qHtml + '<p class="kbc-err">Something went wrong. Please try again.</p>';
       }
+      // token is single-use: silently re-verify for the next question
+      if (tsWidgetId !== null && window.turnstile) {
+        try { window.turnstile.reset(tsWidgetId); } catch (_) {}
+      }
+      if (tsEl) tsEl.style.display = "";
     }
     root.querySelector(".kbc-form").addEventListener("submit", function (e) { e.preventDefault(); ask(); });
     qEl.addEventListener("keydown", function (e) {
@@ -124,6 +133,7 @@
 
   document.addEventListener("nav", function () {
     tsWidgetId = null;
+    tsToken = "";
     build();
   });
   if (document.readyState !== "loading") build();
