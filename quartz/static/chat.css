@@ -39,6 +39,9 @@
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--lightgray);
 }
+.kbc-head {
+  flex: 0 0 auto;
+}
 .kbc-head strong {
   color: var(--dark);
 }
@@ -50,35 +53,56 @@
   cursor: pointer;
   color: var(--gray);
 }
-.kbc-body {
-  padding: 1rem;
+/* answer/conversation area fills the drawer and scrolls */
+.kbc-answer {
+  flex: 1 1 auto;
   overflow-y: auto;
+  padding: 1rem;
+  line-height: 1.5;
+}
+.kbc-hint {
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+.kbc-you {
+  background: var(--highlight);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+  color: var(--dark);
+}
+/* composer pinned to the bottom, chatbot-style */
+.kbc-form {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--lightgray);
 }
 .kbc-q {
   width: 100%;
-  min-height: 4rem;
+  resize: none;
   background: var(--lightgray);
   color: var(--dark);
   border: 0;
   border-radius: 0.5rem;
   padding: 0.5rem;
   font-family: inherit;
+  font-size: 0.95rem;
   box-sizing: border-box;
 }
-.kbc-ts {
-  margin: 0.5rem 0;
+.kbc-ts:empty {
+  display: none;
 }
 .kbc-send {
-  padding: 0.5rem 1rem;
+  align-self: flex-end;
+  padding: 0.4rem 1.1rem;
   border: 0;
   border-radius: 0.4rem;
   background: var(--secondary);
   color: #fff;
   cursor: pointer;
-}
-.kbc-answer {
-  margin-top: 1rem;
-  line-height: 1.5;
 }
 .kbc-cites {
   margin-top: 1rem;

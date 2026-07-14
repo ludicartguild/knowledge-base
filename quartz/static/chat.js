@@ -66,14 +66,12 @@
       '<aside id="kbc-drawer" class="kbc-drawer" aria-hidden="true" aria-label="Ask this wiki">' +
       '<div class="kbc-head"><strong>Ask this wiki</strong>' +
       '<button class="kbc-close" aria-label="Close">✕</button></div>' +
-      '<div class="kbc-body">' +
+      '<div class="kbc-answer" aria-live="polite"><p class="kbc-hint">Ask a question and get an answer grounded in this wiki, with sources.</p></div>' +
       '<form class="kbc-form">' +
-      '<textarea class="kbc-q" maxlength="600" placeholder="Ask a question about this wiki…" required></textarea>' +
+      '<textarea class="kbc-q" maxlength="600" rows="2" placeholder="Ask a question about this wiki…" required></textarea>' +
       '<div class="kbc-ts"></div>' +
       '<button type="submit" class="kbc-send">Ask</button>' +
-      "</form>" +
-      '<div class="kbc-answer" aria-live="polite"></div>' +
-      "</div></aside>";
+      "</form></aside>";
     document.body.appendChild(root);
 
     var openBtn = root.querySelector(".kbc-open");
@@ -88,11 +86,13 @@
     openBtn.addEventListener("click", function () { setOpen(true); });
     root.querySelector(".kbc-close").addEventListener("click", function () { setOpen(false); });
 
-    root.querySelector(".kbc-form").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      var q = root.querySelector(".kbc-q").value.trim();
+    var qEl = root.querySelector(".kbc-q");
+    async function ask() {
+      var q = qEl.value.trim();
       if (!q) return;
-      out.innerHTML = '<p class="kbc-loading">Thinking…</p>';
+      qEl.value = "";
+      var qHtml = '<div class="kbc-you">' + esc(q) + "</div>";
+      out.innerHTML = qHtml + '<p class="kbc-loading">Thinking…</p>';
       var token = await getToken(root);
       try {
         var r = await fetch(WORKER_URL, {
@@ -102,16 +102,17 @@
         });
         var j = await r.json();
         if (!r.ok || j.error) {
-          out.innerHTML = '<p class="kbc-err">' + esc(errMsg(j.error)) + "</p>";
+          out.innerHTML = qHtml + '<p class="kbc-err">' + esc(errMsg(j.error)) + "</p>";
         } else {
-          out.innerHTML = '<div class="kbc-text">' + esc(j.answer).replace(/\n/g, "<br>") + "</div>" + renderCitations(j.citations);
+          out.innerHTML = qHtml + '<div class="kbc-text">' + esc(j.answer).replace(/\n/g, "<br>") + "</div>" + renderCitations(j.citations);
         }
       } catch (_) {
-        out.innerHTML = '<p class="kbc-err">Something went wrong. Please try again.</p>';
+        out.innerHTML = qHtml + '<p class="kbc-err">Something went wrong. Please try again.</p>';
       }
-      if (tsWidgetId !== null && window.turnstile) {
-        try { window.turnstile.reset(tsWidgetId); } catch (_) {}
-      }
+    }
+    root.querySelector(".kbc-form").addEventListener("submit", function (e) { e.preventDefault(); ask(); });
+    qEl.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(); }
     });
   }
 
