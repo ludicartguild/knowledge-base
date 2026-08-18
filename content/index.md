@@ -15,6 +15,7 @@ idea, the "why" and the trade-offs, not just a definition.
 
 - [[full-stack-interview-foundations|Full-Stack Interview Foundations]]: a sequenced path through the core of full-stack engineering, framed for interviews.
 - [[production-platform-genai-engineering|Production Platform & GenAI Engineering]]: deeper platform, security, and GenAI topics.
+- [[blender-game-character|Blender: Low-Poly Game Character for Defold]]: a beginner path from opening Blender to an animated character running in a game engine.
 - [[software-architecture-map|Software Architecture Map]]: the principles, patterns, and concepts, in one place.
 
 ## Reference library (by subject)
