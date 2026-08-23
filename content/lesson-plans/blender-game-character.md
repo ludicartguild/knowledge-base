@@ -3,7 +3,7 @@ title: "Blender: Low-Poly Game Character for Defold"
 tags: [moc, lesson-plan]
 level: fundamentals
 type: moc
-reviewed: 2026-07-14
+reviewed: 2026-08-22
 ---
 
 A beginner path from opening Blender for the first time to shipping a **low-poly,
@@ -56,9 +56,9 @@ Getting comfortable inside the 3D viewport before you build anything.
 you constrain them to an axis? What is the difference between Object Mode and Edit Mode?
 
 **Learn:**
-* [Blender Fundamentals (official)](https://www.youtube.com/playlist?list=PLa1F2ddGya_-UvuAqHAksYnB0qL9yWDO6): the interface and navigation from the source.
-* [Blender Guru: Donut beginner series](https://www.youtube.com/playlist?list=PLjEaoINr3zgEq0u2MzVgAaHEBt--xLB6U): the classic first project; the early parts teach the interface, navigation, and basic editing.
-* [Blender User Manual](https://docs.blender.org/manual/en/latest/): reference for anything the videos gloss over.
+* [Blender Guru: the Donut tutorial](https://www.blenderguru.com/): the classic first project. Linking his site rather than a version-pinned playlist so you always land on the current-Blender edition; the early parts teach the interface, navigation, and basic editing.
+* [CG Cookie: Blender Basics](https://cgcookie.com/courses/blender-basics-an-introduction-to-blender-4-x): a structured, up-to-date beginner course through the interface and first models.
+* [Blender User Manual (latest)](https://docs.blender.org/manual/en/latest/): the version-current reference (the `/latest/` URL always tracks the newest Blender, e.g. 5.x).
 
 **Practice:** Open Blender, delete the default cube, add a few primitives, and move, rotate,
 and scale them along specific axes (press G then X, Y, or Z). Orbit and frame the scene until
@@ -79,8 +79,7 @@ Blocking out a humanoid body from simple shapes, with animation in mind.
 at the joints matter for something that will bend?
 
 **Learn:**
-* [CG Boost: Blender beginner series](https://www.youtube.com/playlist?list=PL3UWN2F2M2C8-zUjbFlbgtWPQa0NXBsp0) or [CG Geek: complete beginner course](https://www.youtube.com/playlist?list=PLrjIgEdKLivgpCMmFC0_sV60Y_Ftp-WLD): fuller modeling walkthroughs.
-* [Modeling a Sword for Complete Beginners (YanSculpts)](https://www.youtube.com/playlist?list=PLvPwLecDlWRD_VK_2INC1VQ18dZdpDwLi): a short, pure-modeling warm-up before the figure.
+* [Grant Abbitt: course library](https://www.gabbitt.co.uk/courses): current, beginner-friendly modeling courses, and he specializes in **low-poly game characters**, exactly your goal. Start with his absolute-beginner and low-poly character material; his large free YouTube library is linked from there.
 * [awesome-blender: Modeling resources](https://github.com/agmmnn/awesome-blender): a curated list to go deeper on any tool.
 
 **Practice:** Block out a low-poly humanoid: head, torso, arms, and legs from primitives and
