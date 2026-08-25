@@ -178,18 +178,23 @@ Packaging the model and its animations in a form Defold reads.
 
 **Focus:** Why apply transforms (scale and rotation) before export? Why must the animations be
 **baked** (sampled to per-bone matrices) rather than left as separate position, rotation, and
-scale keys? Which glTF options matter: Skinning on, animation sampling on, and **Export
-Deformation Bones Only** to drop the control and IK bones a Rigify or Mixamo rig adds?
+scale keys? Which glTF options matter: exporting the skinned armature, including animations
+with sampling on, and exporting only the deformation bones so the control and IK bones a
+Rigify or Mixamo rig adds are dropped? (The exact option labels live in the export panel's
+Animation and Armature sections; confirm them in the manual link below for your Blender version,
+since labels shift between releases.)
 
 **Learn:**
+* [Blender manual: glTF 2.0 export options (latest)](https://docs.blender.org/manual/en/latest/addons/import_export/scene_gltf2.html): the authoritative, version-current list of export settings. The `/latest/` page tracks your installed Blender (5.2), so confirm the exact Animation and Armature option labels here.
 * [Defold: importing models](https://defold.com/manuals/importing-models/): the accepted formats and requirements.
-* [Blender to Defold 3D animation guide (Defold forum)](https://forum.defold.com/t/blender-to-defold-3d-animation-guide/73771): a step-by-step of the exact export settings.
+* [Blender to Defold 3D animation guide (Defold forum)](https://forum.defold.com/t/blender-to-defold-3d-animation-guide/73771): a community step-by-step of the export settings and the single-root-bone note.
 
-**Practice:** Apply transforms, then export as glTF with **Skinning** on, **Animation** included
-with **sampling on**, and **Export Deformation Bones Only** enabled so only the deforming bones
-ship (Rigify and Mixamo add control and IK bones you do not want in-game). Recent Blender and
-Defold let you keep all animation clips in a single glTF file. Confirm the file contains the
-mesh, a single-root skeleton, and your named animations.
+**Practice:** Apply transforms, then in `File > Export > glTF 2.0` turn on skinned-armature
+export, include animations with sampling on, and enable exporting only the deformation bones so
+the control and IK bones a Rigify or Mixamo rig adds are dropped (check the manual link for the
+exact labels in your version). Recent Blender and Defold let you keep all animation clips in a
+single glTF file. Confirm the file contains the mesh, a single-root skeleton, and your named
+animations.
 
 **Self-check:** you produce one glTF that includes the mesh, a single-root skeleton, and both
 animations baked in.
