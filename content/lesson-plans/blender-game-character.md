@@ -83,8 +83,10 @@ at the joints matter for something that will bend?
 * [awesome-blender: Modeling resources](https://github.com/agmmnn/awesome-blender): a curated list to go deeper on any tool.
 
 **Practice:** Block out a low-poly humanoid: head, torso, arms, and legs from primitives and
-extrusions. Keep the polygon count low and add edge loops where limbs will bend (shoulders,
-elbows, hips, knees). Prefer quads.
+extrusions. Add edge loops where limbs will bend (shoulders, elbows, hips, knees), avoid long
+thin triangles, and prefer quads while modeling. Aim for a modest budget, roughly a couple
+thousand triangles and up to about 8,000 for a more detailed stylized character. The engine
+triangulates your quads on export, so model in quads for clean deformation but budget in triangles.
 
 **Self-check:** you can extrude and loop-cut deliberately, and you can point to the edge
 loops that will let the elbows and knees bend without collapsing.
@@ -150,16 +152,18 @@ mesh follow without ugly pinching.
 Making the character move, in clips your game can play.
 
 **Focus:** How do keyframes and the timeline work? What makes a walk cycle read as a walk?
-Why should each animation be its own **action** rather than one long timeline?
+Why should each animation be its own **action**, and how do you organize those actions (pushed
+to named NLA strips) so the exporter and Defold see them as separate, named clips?
 
 **Learn:**
 * [Blender User Manual: animation (latest)](https://docs.blender.org/manual/en/latest/): keyframes, the dope sheet, and the Action Editor. The animation editors were streamlined in Blender 5.0, but these concepts are unchanged.
+* **Organizing clips for export:** keep one Action per animation, then push each down to a named strip in the Nonlinear Animation (NLA) editor so it exports as a distinct, named glTF animation. Note that Blender 4.4 and later use a new "slotted actions" system, so the Action-assignment UI looks a little different from older tutorials.
 * [awesome-blender: Animation resources](https://github.com/agmmnn/awesome-blender): curated walk-cycle and animation-principle tutorials.
 * If you rigged in Mixamo, you can download ready idle, walk, and run animations from its library instead of hand-animating. That is the fast path; hand-animating even one cycle yourself teaches the most, so consider doing at least one by hand.
 
 **Practice:** Create two separate actions: an **idle** (a small, looping breathing or sway)
-and a **walk cycle** (contact, down, passing, up poses, looped). Name the actions clearly so
-they export cleanly.
+and a **walk cycle** (contact, down, passing, up poses, looped). Name them clearly, then push
+each down to a named NLA strip so the export produces two separate, named animations.
 
 **Self-check:** you have at least an idle and a walk as named actions, each loops, and you can
 switch between them in the Action Editor.
@@ -174,16 +178,18 @@ Packaging the model and its animations in a form Defold reads.
 
 **Focus:** Why apply transforms (scale and rotation) before export? Why must the animations be
 **baked** (sampled to per-bone matrices) rather than left as separate position, rotation, and
-scale keys? What glTF export settings matter?
+scale keys? Which glTF options matter: Skinning on, animation sampling on, and **Export
+Deformation Bones Only** to drop the control and IK bones a Rigify or Mixamo rig adds?
 
 **Learn:**
 * [Defold: importing models](https://defold.com/manuals/importing-models/): the accepted formats and requirements.
 * [Blender to Defold 3D animation guide (Defold forum)](https://forum.defold.com/t/blender-to-defold-3d-animation-guide/73771): a step-by-step of the exact export settings.
 
-**Practice:** Apply transforms, then export the character as glTF with the armature and
-animations included and animation **sampling/baking on**. As of recent Blender and Defold you
-can keep all animation tracks in a single glTF file. Confirm the file contains the mesh, the
-skeleton, and your actions.
+**Practice:** Apply transforms, then export as glTF with **Skinning** on, **Animation** included
+with **sampling on**, and **Export Deformation Bones Only** enabled so only the deforming bones
+ship (Rigify and Mixamo add control and IK bones you do not want in-game). Recent Blender and
+Defold let you keep all animation clips in a single glTF file. Confirm the file contains the
+mesh, a single-root skeleton, and your named animations.
 
 **Self-check:** you produce one glTF that includes the mesh, a single-root skeleton, and both
 animations baked in.
