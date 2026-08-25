@@ -3,7 +3,7 @@ title: "Blender: Low-Poly Game Character for Defold"
 tags: [moc, lesson-plan]
 level: fundamentals
 type: moc
-reviewed: 2026-08-22
+reviewed: 2026-08-24
 ---
 
 A beginner path from opening Blender for the first time to shipping a **low-poly,
@@ -122,16 +122,21 @@ Giving the character a skeleton it can be posed and animated with.
 
 **Focus:** What is an armature, and how does a mesh follow its bones? Why does Defold require
 a **single root bone** at the top of the hierarchy, and how do you build the rig that way?
-What does weight painting fix?
+What does weight painting fix? Which rigging route fits a beginner making a game character:
+hand-built with Rigify (most learning), auto-rigged with Mixamo (fastest, plus ready
+animations), or a paid tool like Auto-Rig Pro?
 
 **Learn:**
-* [Blender User Manual: Rigging and armatures](https://docs.blender.org/manual/en/latest/): bones, parenting, and weight paint.
-* Rigify (Blender's built-in add-on): a ready-made biped rig you can generate and adapt, a gentler on-ramp than building bones by hand. Enable it in Preferences, Add-ons.
-* [Defold: importing models](https://defold.com/manuals/importing-models/): the single-root-bone and hierarchy requirements to keep in mind while you rig.
+* [Blender User Manual: rigging and armatures (latest)](https://docs.blender.org/manual/en/latest/): bones, parenting, and weight paint, always current with your Blender version.
+* **Rigify** (built-in, free): still the standard free rigger in Blender 5.x, not obsolete. Enable it in Preferences, Add-ons; it generates an editable meta-rig you shape to your character, and it is the best way to actually learn how a rig is built. The Blender Studio's CloudRig extends it if you want to go further.
+* [Mixamo](https://www.mixamo.com/) (free, browser): the fastest route for a first humanoid, upload your model, get an auto-rig plus a large free library of ready animations (idle, walk, run). Two Defold caveats: it uses Mixamo-specific bone names, and you must ensure the exported skeleton has a single root bone.
+* Auto-Rig Pro (paid add-on, on the Blender/Superhive market): what many professionals reach for, with smart auto-rigging and game-engine export presets. Worth knowing about, not required for a first character.
+* [Defold: importing models](https://defold.com/manuals/importing-models/): the single-root-bone and hierarchy requirements to keep in mind whichever rigger you choose.
 
-**Practice:** Build (or generate with Rigify) a biped rig with one root bone, parent the mesh
-to the armature with automatic weights, then weight-paint the shoulders, hips, and any spot
-that deforms badly until posing looks clean.
+**Practice:** Rig your character one of two ways: generate a Rigify rig and adapt it (you learn
+the most), or auto-rig it in Mixamo (fastest). Either way, make sure there is a single root
+bone, skin the mesh to the armature, and weight-paint the shoulders, hips, and any spot that
+deforms badly until posing looks clean.
 
 **Self-check:** your rig has a single root bone, and you can pose an arm or leg and watch the
 mesh follow without ugly pinching.
@@ -148,8 +153,9 @@ Making the character move, in clips your game can play.
 Why should each animation be its own **action** rather than one long timeline?
 
 **Learn:**
-* [Blender User Manual: Animation](https://docs.blender.org/manual/en/latest/): keyframes, the dope sheet, and the Action Editor.
+* [Blender User Manual: animation (latest)](https://docs.blender.org/manual/en/latest/): keyframes, the dope sheet, and the Action Editor. The animation editors were streamlined in Blender 5.0, but these concepts are unchanged.
 * [awesome-blender: Animation resources](https://github.com/agmmnn/awesome-blender): curated walk-cycle and animation-principle tutorials.
+* If you rigged in Mixamo, you can download ready idle, walk, and run animations from its library instead of hand-animating. That is the fast path; hand-animating even one cycle yourself teaches the most, so consider doing at least one by hand.
 
 **Practice:** Create two separate actions: an **idle** (a small, looping breathing or sway)
 and a **walk cycle** (contact, down, passing, up poses, looped). Name the actions clearly so
