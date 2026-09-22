@@ -92,6 +92,31 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * If a page loads its data slowly or not at all, how do you narrow down which layer is at fault?
 * What does the word "full-stack" actually claim: range across the chain, or depth in every layer?
 
+> [!question]- Answers
+> **The BFF's one job.** Orchestration and reshaping: taking what the backend services
+> return and presenting it the way one particular frontend wants it. It exists because a
+> mobile app, a web app, and a public API often want the same data shaped differently, and
+> without it every frontend negotiates with every backend service directly. It is explicitly
+> **not** where core business logic lives; it does not own domain rules.
+>
+> **Where each layer runs.** The browser and frontend run on the **client**. The BFF and the
+> backend services run on the **server**. The database, managed services, and the
+> infrastructure underneath all of it run at the **cloud provider**. The security
+> consequence follows directly: the browser is untrusted, so real authorization checks
+> happen at the BFF and services, never in the client.
+>
+> **Narrowing down a slow page.** Walk the request the same way it travels, layer by layer,
+> rather than guessing. Is the browser even issuing the call, and what does the network tab
+> say? Did the BFF respond slowly, or respond fast with nothing? Which downstream service
+> did it call, and was that the slow one? Was the query slow, or was it a third-party
+> timeout? Each arrow in the chain is a place things go wrong, and the point of knowing the
+> layers is that it narrows the search fast.
+>
+> **What "full-stack" claims.** Range across the chain, not depth in every layer. It means
+> you can reason from frontend through BFF, services, data, and cloud, while still being
+> strongest in one or two. Claiming depth everywhere is the version that does not survive an
+> interview.
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=viaDjz68dg0)

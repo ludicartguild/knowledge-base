@@ -72,6 +72,22 @@ CQS is the conceptual ancestor of **CQRS** (Command Query Responsibility **Segre
 * Name two common idioms that break CQS on purpose, and why they are allowed.
 * How do CQS and CQRS differ in scope (method-level vs. system-level)?
 
+> [!question]- Answers
+> **The two kinds.** A command changes state and returns nothing. A query returns data and
+> has no observable side effects. Every method should be one or the other, never both.
+>
+> **Why a pure query is safe.** Because calling it cannot change anything, you can call it
+> freely and repeatedly without altering behaviour. That makes it safe inside assertions,
+> logs, and debuggers, where an accidental mutation would produce a bug that disappears when
+> you remove the logging. It also makes it safe to cache or memoize, since the result
+> depends only on state the call did not modify. Mixing the two, such as returning the next
+> ID while incrementing the counter, removes all of those guarantees at once.
+>
+> **CQS against CQRS.** Scope. CQS is a method-level rule: this method either mutates or
+> returns. CQRS applies the same separation at the system level, with distinct models and
+> often distinct stores for the write side and the read side. CQS is nearly free; CQRS buys
+> independent optimisation and scaling at the cost of keeping two models in sync.
+
 ## Relation to other foundational concepts
 
 * [[solid#s-single-responsibility-principle-srp|SRP]] asks "who can demand changes?" CQS asks "does this method mutate or observe?": two different axes of separation, both reducing coupling.

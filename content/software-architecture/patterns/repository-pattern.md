@@ -231,6 +231,31 @@ Infrastructure (adapters)
 * How does the Repository map onto Ports and Adapters (which piece is the port, which is the adapter)?
 * Why does the pattern make tests fast and storage swappable, and how does it pair with the Specification pattern to avoid `find_by_*` proliferation?
 
+> [!question]- Answers
+> **Who owns what.** The **domain** defines the repository interface; the **infrastructure**
+> implements it. That split is the **Dependency Inversion Principle** applied directly: both
+> the high-level domain and the low-level storage code depend on an abstraction, and the
+> abstraction belongs to the domain rather than to the database layer.
+>
+> **Against DAO.** Granularity: a Repository is domain-level and may aggregate several tables
+> or sources into one rich object, while a DAO is table-level, typically one per table
+> exposing CRUD. Language: a Repository speaks domain concepts such as
+> `find_active_subscriptions`, while a DAO speaks storage concepts such as
+> `select_by_status("active")`. The field test: if your repository's method names look like
+> column names and SQL clauses, you have a DAO, which is a different pattern rather than a
+> mistake.
+>
+> **As a port.** In Hexagonal Architecture the abstract `OrderRepository` is the **port** and
+> `PostgresOrderRepository` is the **adapter**. Different vocabulary, identical structure:
+> the domain defines a boundary and the infrastructure plugs into it.
+>
+> **Tests and swapping.** Because the domain depends only on the interface, an in-memory
+> implementation substitutes for the real one, so tests run without a database and are fast
+> and deterministic. The same seam lets you replace Postgres without touching business
+> logic. Pairing with **Specification** avoids `find_by_*` proliferation: instead of a new
+> repository method per query shape, the repository exposes `find(spec)` and the caller
+> composes the rule, so the query vocabulary grows without the interface growing.
+
 ## Relation to other foundational concepts
 
 * [[inversion-of-control|Inversion of Control / Dependency Injection]]: the Repository is injected into services; the domain owns the interface, the infrastructure owns the implementation. This is the Dependency Inversion Principle in concrete form.

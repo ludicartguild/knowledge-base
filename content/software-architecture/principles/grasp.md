@@ -168,6 +168,32 @@ GRASP feels like **building**. SOLID feels like **auditing**. Used together, GRA
 * Which GRASP pattern is the direct precursor to SRP, and which precedes OCP and LSP?
 * What distinguishes GRASP's spirit ("constructive") from SOLID's ("constraining")?
 
+> [!question]- Answers
+> **Indirection against Protected Variations, for a swappable payment provider.**
+> Indirection is the **mechanism**: put an intermediate object between your code and the
+> provider so the two are not directly coupled. Protected Variations is the **intent**:
+> you identified payment providers as a predicted point of variation and assigned
+> responsibility for a stable interface around it. You reach for Protected Variations
+> because you expect change, and you implement it with Indirection.
+>
+> **Two forms of responsibility.** Doing something, which is behaviour, and knowing
+> information. Most "where does this method go" questions resolve by asking which class
+> already holds the information, which is Information Expert and the most-applied pattern
+> in the set.
+>
+> **The evaluative pair.** Low Coupling and High Cohesion. You apply the other patterns to
+> decide where a responsibility goes, then check the resulting design against these two.
+> They answer "is this arrangement good" rather than "where does this belong".
+>
+> **The precursors.** High Cohesion is the direct GRASP-era precursor to SRP, written years
+> before Martin formalised "one reason to change". Polymorphism precedes OCP and is the
+> foundation for LSP, since it says variants in behaviour become variants in subtype rather
+> than branches in an `if`-chain.
+>
+> **Spirit.** GRASP is constructive: it tells you where to put a responsibility when you are
+> designing. SOLID is constraining: it tells you what a design must not violate. One helps
+> you build, the other helps you check.
+
 ## Relation to other foundational concepts
 
 * [[solid|SOLID]]: see mapping above.

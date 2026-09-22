@@ -58,6 +58,22 @@ The test: does the abstraction make the **call sites** easier to read, or harder
 * Name three things "simple" means according to this note.
 * Does KISS forbid abstraction? What test tells you whether a given abstraction is a simplification or added complexity?
 
+> [!question]- Answers
+> **The core claim.** The more complex something is, the more likely it is to fail.
+> Simpler code is faster to write, faster to debug, easier to maintain, and easier to
+> onboard onto, and complexity is the dominant long-term cost in software.
+>
+> **Terseness is not simplicity.** Fewest lines often makes code harder to understand.
+> Simple means few moving parts, an obvious flow where a reader can answer "what happens
+> when X is called" without grepping, no speculative generality, and boring standard tools
+> readers already know over clever ones they do not.
+>
+> **Abstraction.** KISS does not forbid abstraction, it forbids **premature** abstraction.
+> The right abstraction at the right time is itself a simplification, because it hides
+> irrelevant detail. The wrong one adds complexity disguised as cleanliness. The test: does
+> the abstraction make the **call sites** easier to read, or harder? If its interface is
+> more confusing than the duplication it replaced, the duplication was simpler.
+
 ## Relation to other foundational concepts
 
 * [[yagni|YAGNI]]: KISS’s close sibling. YAGNI says "don’t build it yet"; KISS says "and when you do, don’t make it complicated".

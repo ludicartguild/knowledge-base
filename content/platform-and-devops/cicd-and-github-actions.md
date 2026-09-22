@@ -119,6 +119,26 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * What is the difference between a `uses:` step and a `run:` step?
 * Where do workflow files live, and how is a secret referenced inside one instead of being hardcoded?
 
+> [!question]- Answers
+> **Continuous Delivery against Continuous Deployment.** Delivery means CI plus automatically
+> packaging the app so it is always in a deployable state, with a human still clicking the
+> button to release. Deployment takes the same idea one step further: passing changes go to
+> production automatically, with no manual approval. The difference is entirely whether a
+> person is in the loop, and moving from one to the other is a question of confidence in
+> your tests and your rollback rather than of tooling.
+>
+> **`uses:` against `run:`.** A `run:` step executes a shell command you wrote on the
+> runner. A `uses:` step pulls in a reusable packaged action someone else wrote, referenced
+> by name and version, such as checking out code or setting up a language runtime. Reach for
+> `uses:` when the work is a solved, common problem and `run:` when it is specific to your
+> project.
+>
+> **Workflow files and secrets.** Workflows live in `.github/workflows/`, one YAML file per
+> workflow, such as `.github/workflows/ci.yml`. Secrets are stored encrypted in the
+> repository settings and referenced as `${{ secrets.NAME }}`, never written into the YAML.
+> The file is in version control and readable by anyone with repository access, so a
+> hardcoded credential is a published credential.
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=R8_veQiYBjI)

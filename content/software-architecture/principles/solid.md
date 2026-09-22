@@ -338,6 +338,39 @@ service.placeOrder("Book");
 * What is the "inversion" in the Dependency Inversion Principle, and which direction does the dependency arrow from the low-level module point after applying it?
 * How does adhering to ISP make LSP violations less likely?
 
+> [!question]- Answers
+> **The `Employee` split.** Three actors can demand changes to it. Finance owns how pay is
+> calculated. HR, or operations, owns how hours are reported. The DBA owns how the record is
+> persisted. Ask "who would ask me to change this class" and you get three different
+> answers, which is the violation. `calculatePay` moves to `PayCalculator` answering to
+> finance, `reportHours` moves to `HourReporter` answering to HR, and `save` moves to
+> `EmployeeRepository` answering to the DBA. `Employee` keeps only the data. The point is
+> that a change requested by finance can no longer break the report HR depends on, because
+> the two no longer share a file.
+>
+> **What an actor is.** A group of stakeholders who request changes for the same reason:
+> the finance team, the HR team, the DBA. SRP says a module should be responsible to one,
+> and only one, actor. "One class = one method" is wrong because SRP is not about size, it
+> is about reasons to change; a class with twenty methods serving one actor is fine, and a
+> class with two methods serving two actors is not.
+>
+> **Square and Rectangle.** `Rectangle` carries an implicit invariant that width and height
+> can be set independently. `Square` cannot honour it, since setting one must change the
+> other. That breaks rule three, **invariants of the supertype must be preserved**. The
+> mathematical is-a relationship holds and the behavioural contract does not, which is
+> exactly the distinction LSP is about.
+>
+> **The inversion in DIP.** Normally high-level policy calls low-level utility, so the
+> dependency arrow points downward. DIP puts an interface between them that both sides
+> depend on, and the abstraction is owned by the high-level module. After applying it, the
+> arrow from the low-level module points **up** toward that abstraction.
+>
+> **How ISP reduces LSP violations.** Fat interfaces force implementers to provide methods
+> they cannot honour, which they usually do by throwing. A subtype that throws on part of
+> its supertype's contract is not substitutable, which is precisely the break LSP warns
+> about. Segregating the interface means each implementer only promises what it can
+> actually deliver, so the situation never arises.
+
 ## Relation to other foundational concepts
 
 * [[coupling-and-cohesion|Coupling & Cohesion]]: SRP and ISP are direct attacks on coupling; DIP redirects it; OCP and LSP make it survivable as the system grows.

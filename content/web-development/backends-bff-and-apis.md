@@ -166,6 +166,32 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * What is the difference between authentication and authorization, and how do OAuth2 and JWT relate to each?
 * What is the difference between a unit test and an integration test?
 
+> [!question]- Answers
+> **The verbs and the code.** GET reads a resource or a list, with no side effects. POST
+> creates a new resource. PUT replaces or fully updates an existing one. DELETE removes it. A
+> successful POST returns **`201 Created`**, not `200`, because the useful information is
+> that something new now exists.
+>
+> **Why a BFF exists.** To orchestrate and reshape backend responses for one particular
+> frontend, so each client gets data in the shape it wants without every frontend talking to
+> every service. It is **not** responsible for core business logic or domain rules; those
+> stay in the services behind it.
+>
+> **Authentication against authorization.** Authentication proves **identity**, meaning
+> logging in. Authorization decides what an already-identified user **may do**, meaning
+> permissions. OAuth2 is a protocol for **delegated authorization**, letting a user grant an
+> app limited access to their data elsewhere without handing over a password, as with "Sign
+> in with Google". JWT is a **token format**, a compact signed token carrying identity and
+> claims, sent back as `Authorization: Bearer <token>`. OAuth2 is the process; JWT is often
+> the thing that process hands you.
+>
+> **Unit against integration tests.** A unit test checks one small piece of code, typically a
+> single function in isolation with dependencies mocked, and is fast enough to run
+> constantly. An integration test checks that several parts work together, such as an API
+> endpoint against a real or realistic database, and catches what unit tests cannot see: a
+> wrong query, a misconfigured route, a serialisation mismatch. The mocks that make unit
+> tests fast are exactly what hides those failures.
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=-mN3VyJuCjM)

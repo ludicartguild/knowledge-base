@@ -93,6 +93,31 @@ Environments are **dress rehearsals before opening night**. The cast, set, and s
 * Why does parity matter, and what is the risk of using SQLite in dev but managed Postgres in prod?
 * How do the gates change as a change moves closer to production, and when are environment-scoped secrets released?
 
+> [!question]- Answers
+> **The tiers.** Commonly dev, test or QA, staging, and production. Everything that is not
+> production is loosely called non-prod.
+>
+> **Why promote rather than rebuild.** Rebuilding for production means the thing you tested
+> is not the thing you shipped. The artifact that passed in staging must be the exact
+> artifact that runs in production, with only injected config differing. This follows the
+> build, release, run separation: the build is immutable, so changes cannot be made at
+> runtime because there is no way to propagate them back to the build stage.
+>
+> **Why parity matters.** If a test environment differs materially from production, whether
+> by database engine, config, or data shape, then "it passed in test" tells you little.
+> SQLite in dev against managed Postgres in prod is the classic case: they differ on type
+> handling, concurrency, constraint enforcement, and SQL dialect, so code that passes locally
+> can fail in production on a query the dev database happily accepted. Environments earn
+> their keep only as faithful stand-ins.
+>
+> **How the gates tighten.** Dev and test usually deploy automatically on merge, so feedback
+> is fast. Staging is often automatic once tests pass, or behind a lightweight approval.
+> Production takes an explicit gate: required reviewers, sometimes a wait timer, and
+> deployment branch or tag restrictions so only a release tag or main can deploy.
+> **Environment-scoped secrets are released only after those protection rules are
+> satisfied**, which is what stops a workflow on an unapproved branch from reaching
+> production credentials.
+
 ## Related notes
 
 - [[secrets-and-supply-chain-security]]: per-environment secrets and why production credentials never reach non-prod.

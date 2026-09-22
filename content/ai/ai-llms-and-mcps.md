@@ -101,6 +101,35 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * When would you reach for fine-tuning instead of prompting or RAG?
 * What does MCP standardize, and what is the difference between a "tool" and a "resource" in that context?
 
+> [!question]- Answers
+> **Hallucination.** A confident-sounding but incorrect or fabricated answer. It happens
+> because an LLM **predicts plausible text** rather than retrieving verified facts: nothing
+> in the mechanism distinguishes "true" from "reads like the kind of thing that follows
+> here". That is why the output can be wrong in a way that sounds completely assured, and
+> why it should be treated like an answer from a knowledgeable but occasionally unreliable
+> colleague.
+>
+> **RAG.** It solves the problem that a model only knows what it absorbed during training,
+> so it cannot answer about your private data or anything recent, and it will invent an
+> answer rather than decline. The steps: embed your documents and store the vectors, embed
+> the incoming question, retrieve the nearest documents by vector search, feed those into
+> the model's context alongside the question, and have it answer from that supplied text.
+> The answer becomes grounded in specific current information rather than memory.
+>
+> **When to fine-tune.** Last, after prompting and RAG have both been tried and still fall
+> short. Fine-tuning is the most expensive and least flexible of the three, and it teaches
+> **behaviour and style** rather than facts, so it is the wrong tool for "the model does not
+> know about our data", which is a RAG problem. Reach for it when you need a consistent
+> output format, a particular tone, or a specialised task the base model handles poorly.
+>
+> **MCP.** It standardises how an AI assistant connects to external tools and data, so each
+> system exposes one server instead of every assistant needing a bespoke integration. A
+> **tool** is an action the model can call, such as "search issues" or "read a file". A
+> **resource** is data the model can read. The distinction is do against read. Before MCP,
+> connecting a model to a database, a ticketing system, and a file store meant three custom
+> integrations; with it, each exposes one server and any compliant assistant plugs into all
+> three the same way.
+
 ## Official documentation
 
 Authoritative references (verified against Google’s developer docs):

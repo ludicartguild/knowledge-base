@@ -102,6 +102,27 @@ This is the deep reason [[grasp|GRASP]] places **Low Coupling** and **High Cohes
 * Rank content, common, data, and message coupling from worst to best, and state the rule of thumb for which to prefer, tolerate, or eliminate.
 * Why do coupling and cohesion tend to move together, so that raising cohesion inside a unit usually lowers coupling between the resulting pieces?
 
+> [!question]- Answers
+> **Afferent against efferent.** Ca counts incoming dependencies, the modules that depend on
+> this one, so high Ca means many things break when it changes. Ce counts outgoing
+> dependencies, the modules this one depends on, so high Ce means this module is fragile to
+> changes elsewhere. The mnemonic captures the direction: **A = Arriving (in), E = Exiting
+> (out)**.
+>
+> **I = 0 against I = 1.** Instability is Ce / (Ca + Ce). At I = 0 a module is maximally
+> stable: everything depends on it and it depends on nothing, which is what you want from
+> core abstractions. At I = 1 it is maximally unstable: it depends on everything and nothing
+> depends on it, which is appropriate for leaf and UI code. The Stable Dependencies
+> Principle follows directly: depend only on things more stable than yourself.
+>
+> **Why they move together.** They are mirror images of the same question about where
+> boundaries belong. A unit with low cohesion is doing several unrelated jobs, so everything
+> those jobs touch is reachable from one place and the dependency count is inflated.
+> Splitting it so each piece has one reason to exist raises cohesion inside each piece, and
+> each piece now needs only the dependencies its own job requires, which lowers coupling
+> between them. Putting the boundary in the right place improves both at once, which is why
+> they are treated as one concern rather than two.
+
 ## Relation to other foundational concepts
 
 * [[solid#s-single-responsibility-principle-srp|SRP]]: the modern restatement of "high cohesion" at the class level: one class, one actor, one reason to change.

@@ -203,6 +203,32 @@ All four patterns below involve wrapping an object and forwarding calls. The dif
 * Which four cons does heavy decorator use incur, and why do identity/type checks break?
 * Across Decorator, Proxy, Adapter, and Composite, which keep the same interface as the wrapped object and which changes it?
 
+> [!question]- Answers
+> **Avoiding the explosion.** Each add-on becomes its own decorator adding one
+> responsibility and delegating the rest, stacked freely at runtime. For *n* orthogonal
+> features you write **n decorator classes** rather than the **2ⁿ** subclass combinations
+> that enumerate every mix.
+>
+> **The delegation chain.** `Whip(Milk(Espresso())).cost()` calls `Whip.cost`, which adds its
+> own charge and delegates to `Milk.cost`, which adds its own and delegates to
+> `Espresso.cost`, which returns the base. The total assembles as the stack unwinds.
+> **No single object holds the combined logic**; the chain of delegation produces it at call
+> time, which is exactly why no combined class is needed.
+>
+> **The four cons.** Many small classes that are individually trivial and collectively hard
+> to trace. Deep nesting that makes stack traces and step-through debugging tedious. Order
+> mattering, since `A(B(C()))` can behave differently from `B(A(C()))` and the type system
+> does not enforce the correct stacking. And identity and type checks breaking:
+> `isinstance(Whip(Espresso()), Espresso)` is `False`, because the outermost wrapper is a
+> different concrete class. Any code branching on concrete type rather than interface cannot
+> see through the wrapper.
+>
+> **Same interface or different.** Decorator, Proxy, and Composite all keep the **same**
+> interface; Adapter **changes** it. The intents differ: Decorator adds responsibilities and
+> is substitutable for what it wraps, Proxy controls access and pretends to be the real
+> object, Composite treats a part-whole tree uniformly for structure rather than added
+> behaviour, and Adapter translates between two incompatible contracts.
+
 ## Relation to other foundational concepts
 
 * [[composition-over-inheritance|Composition over Inheritance]]: Decorator is the canonical structural example of why composition wins: three decorator classes replace seven subclasses, and the count never explodes again.

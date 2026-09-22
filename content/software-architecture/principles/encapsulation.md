@@ -139,6 +139,27 @@ You cannot have a useful abstraction without encapsulation: exposing the impleme
 * What is the relationship between encapsulation and abstraction: which is the mechanism and which is the goal?
 * Name two legitimate cases where relaxing encapsulation (exposed attributes) is acceptable, and say what protects the invariant in each.
 
+> [!question]- Answers
+> **Encapsulation against information hiding.** Encapsulation is a design discipline: an
+> object owns its state and behaviour and exposes a stable interface. Information hiding via
+> access modifiers is a language mechanism that **enforces** it. Encapsulation exists
+> independently of what the compiler permits, which is why a class with everything private
+> can still be unencapsulated. Access modifiers sit under encapsulation as one enforcement
+> tool, not as the thing itself.
+>
+> **Why a getter and setter pair is a public field with extra indirection.** If callers can
+> read and overwrite the field freely, the class has no control over its own state. The
+> `private` keyword prevents nothing, because the accessor pair restores exactly the access
+> it removed. No invariant can be enforced, so the class becomes an anemic data holder with
+> methods attached, and the rules that should live in it end up duplicated across every
+> caller.
+>
+> **Mechanism and goal.** Encapsulation is the mechanism; abstraction is the goal it serves.
+> Abstraction identifies **what** an object does, meaning its interface and contract.
+> Encapsulation hides **how** it does it, meaning its implementation. You encapsulate in
+> order to be able to present an abstraction that callers can rely on while the internals
+> change.
+
 ## Relation to other foundational concepts
 
 * [[coupling-and-cohesion|Coupling & Cohesion]]: encapsulation directly lowers **content coupling** (the worst kind: reaching into another object’s state) and raises **functional cohesion** within the object.

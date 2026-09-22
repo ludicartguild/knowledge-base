@@ -4,6 +4,7 @@ tags: [lesson-plan, game-dev]
 level: fundamentals
 type: moc
 reviewed: 2026-09-22
+needs: [lua-for-js-developers, component-and-message-architecture, game-loop-and-state]
 ---
 
 Learn the Defold engine by building one complete 2D game. Every section leaves you with

@@ -80,6 +80,32 @@ Systems describe themselves with two pairs, one per regime:
 * How does the CAP meaning of "Consistency" (linearizability) differ from the C in ACID?
 * What does PACELC add to CAP, and why do architects find it more useful?
 
+> [!question]- Answers
+> **C, A, P.** Consistency means every read sees the most recent write, which is
+> linearizability. Availability means every request gets a non-error response. Partition
+> tolerance means the system keeps operating when messages between nodes are lost or
+> delayed. P is non-negotiable because partitions will happen in any real distributed
+> system: links flap, switches die, zones isolate. You do not get to choose whether
+> partitions occur, only how you behave during one.
+>
+> **The actual choice.** During a partition, sacrifice consistency or availability. A CP
+> system refuses to answer on the side that cannot confirm the latest write, returning
+> errors rather than stale data. An AP system keeps answering everywhere and reconciles
+> later, so some reads are stale. Outside a partition a CP system can be perfectly
+> available, which is why CAP describes behaviour during a partition rather than at all
+> times.
+>
+> **CAP C against ACID C.** They share a letter and mean different things. CAP consistency
+> is linearizability, meaning all nodes agree on the latest value. ACID consistency means a
+> transaction preserves the database's invariants. A system can satisfy one and not the
+> other.
+>
+> **What PACELC adds.** If there is a Partition, choose A or C, Else choose Latency or
+> Consistency. It is more useful because the partition case is rare and the else case is
+> every day: the latency against consistency trade runs constantly on the happy path, and
+> CAP says nothing about it. Systems then describe themselves with two pairs, so Cassandra
+> is PA/EL and HBase is PC/EC.
+
 ## Relation to other foundational concepts
 
 * [[solid|DIP / Clean Architecture]] says high-level policy shouldn’t depend on storage details: but CAP forces architectural decisions that **leak** into the domain (e.g. "an order may be created twice during a partition; the domain must be idempotent"). You can’t fully hide CAP behind an abstraction.

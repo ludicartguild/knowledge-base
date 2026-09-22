@@ -175,6 +175,40 @@ This means Strategy, composition-over-inheritance, and IoC/DI are not separate i
 * Why does adding a new algorithm variant satisfy the Open/Closed Principle here?
 * In what sense is injecting a `PaymentStrategy` the same move as dependency injection and Inversion of Control?
 
+> [!question]- Answers
+> **When Strategy is not worth it.** A two-variant choice that will never grow, such as
+> ascending or descending sort. The class proliferation con applies: you would write an
+> interface and two classes where a plain function or a boolean parameter is clearer, and
+> the scaffolding buys nothing because there is no third variant coming.
+>
+> **When to reach for State instead.** When the variants must trigger transitions between
+> each other. Strategies are **passive** and do not know about one another; the caller picks
+> one and it stays picked. States **actively** drive the move to the next state, so an
+> object changes its own behaviour as its internal state changes. A payment method is a
+> Strategy; an order moving through pending, paid, shipped, and delivered is State.
+>
+> **The three roles.** The Strategy interface declaring the common operation, the concrete
+> strategies each encapsulating one variant, and the Context holding a strategy reference
+> and delegating to it. The **Context** is forbidden from knowing the concrete type; the
+> moment it branches on which strategy it has, the pattern has been defeated.
+>
+> **Against Template Method and Command.** Template Method has a base class define the
+> skeleton with subclasses filling in steps, so it uses **inheritance** and bakes the variant
+> in at class-definition time; Strategy uses **composition** and injects at runtime. Same
+> intent, different mechanism. Against Command the difference is intent: a Command
+> encapsulates **what to do and to whom**, often queued, logged, or undone, while a Strategy
+> encapsulates **how to compute something** and is rarely stored beyond current use.
+>
+> **Why it satisfies Open/Closed.** Adding an algorithm means adding one class. The context
+> never branches on payment type, so its source is never edited: closed to modification,
+> open to extension.
+>
+> **Why injecting a strategy is IoC.** The context does not construct its own collaborator
+> and does not decide which one it gets; both are supplied from outside through the
+> constructor. That is dependency injection, and dependency injection is the most common
+> technique for implementing Inversion of Control. The strategy parameter is the context's
+> variation point made visible in its signature.
+
 ## Relation to other foundational concepts
 
 * [[composition-over-inheritance|Composition over Inheritance]]: Strategy is the canonical behavioral instantiation of this principle: behavior is assembled from injected objects, not inherited from a superclass.

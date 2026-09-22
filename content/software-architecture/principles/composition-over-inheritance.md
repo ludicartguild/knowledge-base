@@ -192,6 +192,27 @@ Inheritance is the right tool when **all** of the following hold:
 * What four conditions must all hold for inheritance to still be the correct choice?
 * How are "composition over inheritance" and the Strategy pattern related, according to this note?
 
+> [!question]- Answers
+> **Why composition couples more loosely.** A composed object depends only on its
+> collaborator's **interface**. A subclass depends on the parent's **internal
+> implementation details**, which is what makes the fragile base class problem possible: a
+> well-meaning refactor inside the parent silently breaks every subclass, none of which was
+> touched. Inheritance is tight coupling disguised as reuse, and it is fixed at compile time
+> where composition can be swapped at runtime.
+>
+> **The four conditions for inheritance.** All must hold. The is-a relationship is genuine
+> and stable, with LSP holding. You need polymorphism through a shared type. The base class
+> is explicitly designed and documented for extension, so if it is not documented for
+> extension you do not extend it. And the hierarchy stays shallow, one or two levels,
+> because three or more levels of concrete subclassing means composition should have been
+> used earlier.
+>
+> **The Strategy relationship.** Strategy is what composition over inheritance looks like in
+> practice. Instead of a subclass per behaviour combination, each behaviour becomes an
+> independent object held by the composing class and swappable at runtime. The animal
+> example makes this concrete: inheritance needs a new class for every combination such as
+> FlyingDog, while composition mixes movement and sound freely with no new classes.
+
 ## Relation to other foundational concepts
 
 * [[strategy-pattern|Strategy Pattern]]: the canonical behavioral implementation of this principle: a family of interchangeable algorithm objects injected into a context.

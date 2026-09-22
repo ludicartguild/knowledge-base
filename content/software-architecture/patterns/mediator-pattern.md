@@ -153,6 +153,38 @@ Facade reduces **interface complexity** for a caller. Mediator reduces **couplin
 * How does Mediator differ from Facade (bidirectional vs unidirectional, whether the subsystem knows the intermediary)?
 * What is the main risk as a mediator grows, and which GRASP patterns does it embody?
 
+> [!question]- Answers
+> **Mediator or just pub/sub.** Apply the test. A hub that fans every message out to every
+> participant uniformly, with no decision based on who is in the room or what state they are
+> in, is Observer with a broker in the middle. It becomes a Mediator when it makes routing
+> decisions from participant state: muting a user, routing a direct message, refusing to
+> deliver to someone who has blocked the sender. The distinction is whether the hub holds
+> interaction rules or merely a subscriber list.
+>
+> **What a Colleague knows.** Only the mediator. It sends all requests there and reacts to
+> events the mediator sends back, knowing nothing about its peers. Every "when X then Y"
+> rule lives in the mediator, which is why Colleagues become reusable: a `Checkbox` that
+> knows only `Mediator` drops into any dialog.
+>
+> **Against Observer.** Direction: Mediator is multidirectional and coordinates mutually
+> dependent peers who can trigger each other through it, while Observer is one-to-many
+> broadcast to subscribers who know nothing of each other. Coupling: Colleagues know the
+> mediator and the mediator knows all Colleagues, whereas a subject knows only the Observer
+> interface and concrete observers stay anonymous. They combine often, with a Mediator using
+> Observer internally to receive events from its Colleagues.
+>
+> **Against Facade.** Direction: Mediator is bidirectional, since Colleagues call it and it
+> calls them back, while Facade is unidirectional, since the caller talks to the facade and
+> the subsystem never talks back through it. Knowledge: Colleagues hold a reference to the
+> mediator and are aware of it, while subsystem components are unaware the facade exists.
+> Purpose: coordinating peer interaction against simplifying a complex subsystem.
+>
+> **The main risk.** The mediator becoming a god object, absorbing every rule and growing in
+> complexity as Colleagues multiply. It can also become a bottleneck, since everything
+> funnels through one point. It embodies **Indirection**, by placing an intermediate object
+> between components so they are not directly coupled, and **Low Coupling**, by collapsing
+> the many-to-many mesh into many-to-one spokes.
+
 ## Relation to other foundational concepts
 
 * [[observer-pattern|Observer Pattern]]: Observer is a one-to-many broadcast; Mediator uses it internally and adds multidirectional coordination logic on top.

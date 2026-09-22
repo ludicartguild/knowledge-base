@@ -134,6 +134,34 @@ OAuth2 is a **valet key**. You do not hand the valet your house keys (your passw
 * What is the difference between an ID token and an access token, and which one should never be sent to an API?
 * Why must a resource server validate the audience, and what failure mode occurs if it does not?
 
+> [!question]- Answers
+> **Grant per caller.** A user signing in to a mobile app: **authorization code + PKCE**, the
+> default whenever a human logs in through a browser. A cron job calling an API as itself:
+> **client credentials**, since no user is present and the service acts on its own authority.
+> A service calling downstream as the calling user: **token exchange** (RFC 8693), which
+> propagates user identity across a service hop.
+>
+> **The back channel and PKCE.** The authorization code comes back through the browser
+> redirect, but the code is exchanged for tokens over a server-to-server call, so tokens
+> never appear in a URL, browser history, referrer header, or server log. PKCE adds
+> protection for the code itself: the client generates a random `code_verifier`, sends its
+> hash as `code_challenge` when starting the flow, and reveals the verifier at redemption.
+> An attacker who intercepts the code cannot redeem it without the verifier. It was created
+> for public clients such as SPAs and mobile apps that cannot hold a secret, and current best
+> practice applies it to confidential clients too.
+>
+> **ID token against access token.** The ID token proves **authentication** to the **client**,
+> which validates it and reads who the user is. The access token grants **authorization** at
+> the **resource server**, and the client treats it as opaque and forwards it. **The ID token
+> should never be sent to an API**: it is minted for the client as its audience, so a
+> resource server accepting one is accepting a credential that was never scoped to it.
+>
+> **Why validate the audience.** A resource server that skips the `aud` check accepts tokens
+> minted for somebody else, which makes it a **confused deputy**: a token legitimately issued
+> for a low-value service is replayed against a high-value one, and the second service
+> performs privileged actions on the strength of a credential that was never intended for
+> it. The signature verifies fine, because the token is genuine; it is simply not for you.
+
 ## Cross-links
 
 - [[jwt-validation]]: how a resource server actually verifies the tokens these flows issue.

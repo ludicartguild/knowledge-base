@@ -125,6 +125,33 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * What tradeoff does a SPA accept in exchange for feeling faster after the first load?
 * How does Angular's component/module/service structure differ from React's more compose-it-yourself approach?
 
+> [!question]- Answers
+> **Props against state.** Props are data passed **into** a component from its parent, and
+> are read-only from that component's own perspective. State is data the component **owns
+> and can change** over time, managed with `useState`. The test is ownership: if the
+> component decides when the value changes, it is state; if someone above decided, it is a
+> prop.
+>
+> **One-way data flow.** Data flows down from parent to child through props, and a child
+> never mutates a parent's state directly. To update a parent, the child **calls a function
+> the parent passed down**, so the parent still performs the change. The benefit is
+> traceability: when a value is wrong you look at whoever owns it, rather than searching
+> everywhere that could have written to it.
+>
+> **What a SPA trades away.** More upfront JavaScript to download before anything renders,
+> and more client-side complexity to manage, including routing, state, and cache. In
+> exchange, after the first load navigation swaps components without a server round trip, so
+> it feels faster. A traditional multi-page site is simpler and pays a round trip on every
+> navigation instead.
+>
+> **Angular against React.** Angular is opinionated and batteries-included: components are
+> declared with a `@Component` decorator and a separate HTML template, modules group related
+> pieces with `@NgModule`, and services hold logic that does not belong in a component,
+> delivered through built-in dependency injection. React ships the component model and
+> leaves routing, state management, and structure to you, which means more decisions and
+> more flexibility. The trade is consistency against freedom, and it usually resolves on
+> team size rather than on technical merit.
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=Dorf8i6lCuk)

@@ -174,6 +174,30 @@ A web server that panics on one bad request has conflated a user error (expected
 * What is the rule of thumb that decides whether to fail fast or degrade gracefully?
 * Why are assertions not a substitute for an explicit `raise` in production code?
 
+> [!question]- Answers
+> **The core claim.** The longer a system runs past a violated invariant, the harder the
+> resulting failure is to diagnose. A crash at the point of corruption tells you exactly
+> where the bug is; a silent corruption surfacing three layers up tells you almost nothing.
+> Crash now, near the cause.
+>
+> **Fail-fast against fail-safe.** Fail-fast detects a broken invariant and halts
+> immediately, so the bug is obvious and locatable: development pain now, confidence later.
+> Fail-safe, or fail-silent, swallows the error, substitutes a default, and limps forward,
+> so the system keeps running in an undefined state and the real cause surfaces somewhere
+> unrelated much later, usually in production. Fail-safe is an **antipattern for internal
+> programming errors and broken invariants**.
+>
+> **The rule of thumb.** It turns on where the problem comes from. Expected, recoverable
+> conditions at a system edge, such as a malformed request or a flaky downstream, should
+> degrade gracefully, since those are situations the system was built to encounter. Internal
+> programming errors and violated invariants should fail fast, because they mean the code is
+> wrong and continuing produces output nobody can trust.
+>
+> **Why assertions are not a substitute.** Assertions are invariant checks for development
+> and are disabled in optimised builds, so under `python -O` the check silently disappears
+> and you are left with the fail-silent behaviour you were trying to avoid. Anything that
+> must be enforced in production needs an explicit `raise`.
+
 ## Relation to other foundational concepts
 
 * [[encapsulation|Encapsulation]]: constructor validation and private invariants are the structural mechanism that makes fail-fast possible inside an object: the object enforces its own invariants at every mutation boundary rather than trusting callers.

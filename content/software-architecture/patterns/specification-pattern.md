@@ -277,6 +277,33 @@ The query specification variant is designed to pair with a **Repository**. The r
 * Why is `to_sql()` translation the genuinely hard part, and what must composite specs do recursively?
 * How does a single specification relate to the Strategy pattern, and how does it pair with a Repository's `find(spec)` method?
 
+> [!question]- Answers
+> **The defining method.** `is_satisfied_by(candidate) -> bool`, which turns a predicate
+> into a first-class composable object. The two primary use cases are in-memory validation
+> and selection, meaning filtering objects you already hold, and querying, meaning
+> translating the rule into a SQL `WHERE` clause or ORM filter so only matching records are
+> fetched. Sharing one specification across both is what removes the duplication between
+> validation logic and query parameters.
+>
+> **The combinators.** `AndSpecification`, `OrSpecification`, and `NotSpecification` are the
+> **Composite** pattern applied to predicates. A composite satisfies the same interface as a
+> leaf, so a caller invoking `is_satisfied_by` cannot tell whether it holds one rule or a
+> tree of twenty, and never has to branch on which it has.
+>
+> **Why `to_sql()` is the hard part.** A composite must recursively produce valid SQL by
+> combining its children's fragments, and doing that correctly means handling joins,
+> subqueries, NULL semantics, and ORM-specific syntax. The in-memory combinators implement
+> `is_satisfied_by` but not `to_sql()`, so composing two query specs with `&` yields
+> something that filters in memory and cannot translate. Making it work needs query-aware
+> composites or translation of the whole tree at the repository boundary, and some teams
+> separate query and validation specs entirely rather than share one hierarchy.
+>
+> **Strategy and Repository.** A single specification is a Strategy: an encapsulated
+> algorithm, here a predicate, injected rather than hard-coded, so the caller delegates the
+> decision without knowing the rule. It pairs with a Repository's `find(spec)` so the
+> repository exposes one query method instead of a method per query shape, and new rules
+> compose at the call site rather than expanding the interface.
+
 ## Relation to other foundational concepts
 
 * [[repository-pattern|Repository Pattern]]: the natural pairing: the repository exposes `find(spec)` and the specification handles both in-memory filtering and query translation, keeping the repository interface narrow.

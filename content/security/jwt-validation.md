@@ -96,6 +96,37 @@ A JWT is a **tamper-evident sealed envelope**, not a locked box. Anyone can read
 * How does publishing old and new keys in a JWKS at the same time let key rotation happen without breaking valid tokens?
 * What is the cost of self-verified JWTs compared to opaque tokens plus introspection, and when would you reach for introspection?
 
+> [!question]- Answers
+> **Why pin the algorithm.** The token's `alg` header is attacker-controlled input, not an
+> instruction. RFC 8725's rule is that the verifier decides which algorithms are acceptable.
+> Trusting the header enables two attacks: `alg: none`, where the token declares itself
+> unsigned and a naive library "verifies" it trivially, and RS/HS confusion, where a server
+> expecting RS256 is handed HS256 and the attacker signs with the **public** RSA key used as
+> an HMAC secret. The public key is public by definition, so that forgery costs nothing.
+> Pass the library an explicit allowlist and bind each key to exactly one algorithm.
+>
+> **Why asymmetric beats HS256 across services.** With HS256 one shared secret both signs
+> and verifies, so every verifier holds the ability to **forge** tokens. Spread across ten
+> services, a single compromised service can mint credentials for all of them. With RS256 or
+> ES256 the issuer signs with a private key and verifiers hold only the public key, so a
+> verifier can check tokens and cannot create them. That asymmetry is why public keys can be
+> published openly.
+>
+> **Why publishing two keys enables rotation.** A JWKS can carry the old and new keys at the
+> same time, each under its own `kid`. The issuer starts signing with the new `kid` while the
+> old stays published until every token signed with it has expired. Verifiers resolve by
+> `kid`, so tokens from both eras validate throughout the overlap and nothing breaks
+> mid-rotation. This also means verifiers must cache the JWKS but refresh it, on a TTL and on
+> encountering an unknown `kid`, rather than pinning one key forever.
+>
+> **The cost, and when to use introspection.** A signed token cannot be un-issued before it
+> expires, because there is no central session to delete, so a compromised token stays valid
+> until `exp`. Opaque tokens plus introspection invert the trade: the resource server calls
+> the issuer on every request, gaining immediate revocation at the cost of a network hop and
+> a dependency on the issuer being up. Reach for introspection on high-value operations
+> where immediate revocation matters more than offline verification. Many systems do both:
+> short-lived JWTs for most calls, introspection for the sensitive ones.
+
 ## Cross-links
 
 - [[oauth2-and-oidc-flows]]: where these tokens come from and what `iss`/`aud`/`client_id` mean.

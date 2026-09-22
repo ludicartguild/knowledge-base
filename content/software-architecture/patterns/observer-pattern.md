@@ -167,6 +167,26 @@ Use **Observer** when you want open-ended fan-out with unknown consumers. Use **
 * On which axes does Observer differ from Mediator (communication shape, direction, transparency)?
 * Why is Observer described as a concrete instance of Inversion of Control / the Hollywood Principle?
 
+> [!question]- Answers
+> **What the subject knows.** It owns state and drives the notification cycle, holding a
+> list of observers reached through an interface. It does **not** know observer identities
+> or what they do. Push means the subject sends the changed state along with the
+> notification, which is simpler. Pull means the observer fetches what it needs from the
+> subject after being told something changed, which gives observers more control over what
+> they read.
+>
+> **Against Mediator.** Communication shape: Observer is one-to-many broadcast from subject
+> to observers, Mediator is a many-to-many hub where components talk through a centre.
+> Direction: Observer is mostly one-way, Mediator is bidirectional and coordinates requests
+> and responses. Transparency: a subject does not know observer identities, while a mediator
+> knows every component and their relationships. Use Observer for open-ended fan-out to
+> unknown consumers, Mediator to coordinate specific interactions among a known set.
+>
+> **Why it is Inversion of Control.** The observer does not call the subject to ask whether
+> anything changed; it registers itself and the subject calls it. Control of when your code
+> runs has moved to the thing you registered with, which is the Hollywood Principle exactly:
+> don't call us, we'll call you. `addEventListener` is the everyday instance.
+
 ## Relation to other foundational concepts
 
 * [[mediator-pattern|Mediator Pattern]]: the natural complement; Mediator replaces the web of observer-to-observer references with a central coordinator. Often implemented on top of Observer internally.

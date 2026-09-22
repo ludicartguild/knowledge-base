@@ -139,6 +139,35 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * What do the four letters of ACID stand for, and why would a money transfer need them?
 * Why does an index speed up reads but slightly slow down writes?
 
+> [!question]- Answers
+> **Foreign keys and joins.** A foreign key is a column in one table referencing another
+> table's primary key, expressing a relationship: an `orders` table carries a `user_id`
+> pointing at `users.id`. It also enforces that relationship, so you cannot insert an order
+> for a customer who does not exist. A JOIN combines rows from two or more tables on that
+> related column, which is how the database answers "show me each order with the name of the
+> customer who placed it" in one query instead of one query per order.
+>
+> **When a document store wins.** When the shape of the data varies a lot from record to
+> record, when it is naturally a single self-contained document you read and write whole, or
+> when the priority is horizontal scale over strict consistency. Reach for relational when
+> the structure is clear and the relationships between entities matter, which is most
+> application data.
+>
+> **ACID for a money transfer.** Atomicity: all steps commit or none do, so the debit and the
+> credit both happen or neither does, and there is no half-applied transfer. Consistency: the
+> transaction leaves the database in a valid state with constraints respected. Isolation:
+> concurrent transactions do not see each other's uncommitted changes, so two simultaneous
+> transfers from one account cannot both read the same starting balance and both succeed.
+> Durability: once committed it survives a crash, so a confirmed transfer does not vanish.
+> A transfer needs all four because every one of them corresponds to money appearing or
+> disappearing.
+>
+> **Indexes.** An index is a separate sorted structure the database can search quickly,
+> turning a full scan into a lookup, which is why reads get faster. It slows writes because
+> every insert, update, or delete must also update every index on the table, so the cost of
+> a write scales with how many indexes exist. That is the trade: index the columns you
+> actually filter and join on, not every column.
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=Q5aTUc7c4jg)

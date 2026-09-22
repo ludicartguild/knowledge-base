@@ -125,6 +125,31 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * What do `RUN` and `CMD` each do, and at which stage (build versus run) does each execute?
 * In Compose, how does the `web` service reach the `db` service without any IP configuration, and what does the named volume protect?
 
+> [!question]- Answers
+> **Container against VM.** A VM virtualises the hardware and carries its own full operating
+> system kernel, while a container virtualises at the OS level and shares the host's kernel,
+> packaging only the application and its libraries. That is why a container starts in seconds
+> rather than minutes, ships as megabytes rather than gigabytes, and costs far less memory
+> per instance: there is no second operating system to boot or keep resident.
+>
+> **Image against container.** An image is a read-only blueprint, a packaged snapshot of an
+> application and its dependencies, built once. A container is a running instance of that
+> image. One image starts as many containers, on many machines, each isolated from the
+> others. The relationship is roughly class to object.
+>
+> **`RUN` against `CMD`.** `RUN` executes while the image is being **built**, which is where
+> dependency installation belongs, and its result is baked into a layer. `CMD` specifies what
+> executes when a container is **started** from the finished image. Putting your application
+> start command in `RUN` runs it during the build and never at runtime, which is a common
+> first mistake.
+>
+> **Compose networking and volumes.** Compose puts the services on a shared network and
+> registers each by its service name, so `web` reaches the database at the hostname `db`
+> with no IP configuration and no link between them beyond the file. A named volume stores
+> the database's data outside the container's writable layer, so stopping and recreating the
+> container does not destroy it. Without the volume, every restart is a fresh empty
+> database.
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=SXwC9fSwct8)

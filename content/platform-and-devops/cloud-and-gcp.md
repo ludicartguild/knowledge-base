@@ -97,6 +97,33 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * What is IAM for, and what does "least privilege" mean in that context?
 * When would a team reach for GKE over Cloud Run?
 
+> [!question]- Answers
+> **IaaS, PaaS, SaaS, and serverless.** IaaS gives raw virtual machines, storage, and
+> networking, with the provider managing physical hardware and you managing the OS upward,
+> as with Compute Engine. PaaS has the provider also manage the OS, runtime, and scaling
+> while you supply code, as with Cloud Run or App Engine. SaaS is a finished application with
+> no infrastructure exposed, as with Gmail. Serverless is not a fourth tier; it sits inside
+> PaaS and adds two properties: you never think about instance counts, and you pay only for
+> what runs, including scaling to zero.
+>
+> **Projects, regions, and zones.** A project is the top-level container for resources,
+> billing, and permissions, and nearly everything you create belongs to exactly one. A region
+> is a geographic area such as `us-central1`; a zone is an isolated location inside it.
+> Placing resources across zones controls latency and spreads risk, so one zone failing
+> should leave the others in the region serving.
+>
+> **IAM and least privilege.** IAM controls who, whether person or service, can do what, on
+> which resource. A role bundles permissions and is granted to a user, group, or service
+> account. Least privilege means granting only the specific permissions actually needed,
+> rather than broad admin access by default, so a compromised account or a mistaken script
+> can reach less than everything.
+>
+> **GKE over Cloud Run.** Reach for Cloud Run first: it runs a container, scales to zero,
+> and needs no cluster. GKE earns its operational cost when you need things Cloud Run does
+> not offer, such as long-running stateful workloads, sidecars, DaemonSets, custom
+> scheduling, service-mesh features, or fine-grained control over networking. The honest
+> default is that most HTTP services do not need it.
+
 ## Official documentation
 
 Authoritative, always-current references for the services above (verified against Google Cloud docs):

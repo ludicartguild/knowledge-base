@@ -97,6 +97,34 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * What is the state file, and why is it stored remotely in a team setting?
 * What does it mean that Terraform is declarative and idempotent?
 
+> [!question]- Answers
+> **Against click-ops.** Clicking through a console works but records nothing: the setup
+> lives in one person's memory or nowhere, and cannot be reproduced or reviewed. IaC puts the
+> infrastructure in files, so it is versioned with diffs and commit history, reproducible
+> into a second environment or region, destroyable and rebuildable on demand, reviewable in
+> a pull request before it is applied, and readable by a new team member instead of requiring
+> a guided tour.
+>
+> **init, plan, apply.** `init` prepares the working directory, downloading the providers
+> the configuration declares and configuring the backend. `plan` compares desired state
+> against recorded state against reality and prints what it would change, altering nothing.
+> `apply` executes that. The two-step matters because `plan` is the last point at which a
+> destructive change is visible before it happens; reading the output carefully, especially
+> any line saying a resource will be **destroyed**, is the single most useful habit for
+> avoiding an accidental outage.
+>
+> **The state file.** Terraform's record of what it believes exists and how it maps to your
+> code, read and updated by every plan and apply. In a team it lives remotely, such as in a
+> cloud storage bucket, so everyone plans against the same source of truth rather than
+> diverging laptop copies. It also holds secrets in plain text, so it needs encryption and
+> access control.
+>
+> **Declarative and idempotent.** Declarative means the file describes the desired end state,
+> "there should be one bucket named X", and the tool works out the steps, unlike imperative
+> scripting that spells out each step in order. Idempotent means applying the same
+> configuration twice produces the same result both times: nothing breaks or duplicates on a
+> second run, because Terraform changes only what differs from the desired state.
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=7xngnjfIlK4)

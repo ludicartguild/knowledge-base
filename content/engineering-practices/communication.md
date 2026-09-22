@@ -99,6 +99,35 @@ See [[glossary|the glossary]] for the full list of terms used across these notes
 * What quick test tells you whether a clarifying question is worth asking before you start coding?
 * What happens in a retrospective, and how does it differ from a standup?
 
+> [!question]- Answers
+> **The first item is a practice exercise**, so there is no fixed answer. A good clarifying
+> question is one where the two possible answers lead to different code. "Should the button
+> disable while submitting, and re-enable on failure?" passes. "What colour should the
+> spinner be?" usually does not, because you can build it either way and change it later.
+>
+> **The dividing line for "I'll figure it out".** Has the client already committed to the
+> engagement? If yes, saying it about an implementation detail is fine, because the
+> commitment is settled and this is just how you get there. If the commitment itself is what
+> is being decided, such as "can this be done in two weeks for three thousand", you owe a
+> real answer or a concrete plan to get one: "I need a day to scope this before I commit to
+> a number."
+>
+> **The three-step honesty pattern.** Say plainly that you do not know, with no hedging or
+> bluffing. State how the answer will be found, whether documentation, a spike, a colleague,
+> or a test. Give a timeframe for reporting back. The third step is what turns an admission
+> into a commitment.
+>
+> **The clarifying-question test.** "What would I build differently depending on the
+> answer?" If the answer does not change what gets built, it usually is not worth asking
+> before starting. The economics behind it: a question asked before writing code is cheap,
+> and the same question after two days built on a wrong assumption is expensive.
+>
+> **Retrospective against standup.** A standup is a short daily check-in, ten to fifteen
+> minutes, where each person says what they did, what they will do next, and what is
+> blocking them. A retrospective is recurring, usually at the end of a sprint, and discusses
+> what went well, what did not, and what to change. The standup is about the work in flight;
+> the retrospective is about the process producing it.
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=nj1AZoczVvg)

@@ -61,6 +61,30 @@ This is worse than either extreme. Either add the feature fully (and prove it wo
 * What does YAGNI explicitly NOT tell you to skip?
 * What is the Yagni-Done Trap, and why is it worse than either fully building or not building the feature?
 
+> [!question]- Answers
+> **The canonical statement.** Always implement things when you actually need them, never
+> when you just foresee that you may need them.
+>
+> **Three reasons speculative code is a bad bet.** Most "someday" features are never built
+> or never needed in the form you predicted, so the code is dead weight from the day it
+> lands. Even when the feature does ship, your speculative version is rarely the right one,
+> because by the time the real requirement arrives it differs from what you imagined. And
+> speculative code carries the same maintenance cost as real code: tests, documentation,
+> security review, dependency updates, refactors. You pay full price for hypothetical value.
+>
+> **What YAGNI does not tell you to skip.** It is about features and abstractions, not
+> hygiene. It does not tell you to skip tests, skip handling error cases that actually
+> exist, skip refactoring when complexity is genuinely accumulating, or skip applying SOLID
+> and GRASP to the code you do write. It tells you not to add the configuration flag, the
+> abstract base class, the plugin point, the extra parameter, or the second implementation
+> that nothing calls.
+>
+> **The Yagni-Done Trap.** Half-YAGNI: adding the speculative scaffolding, meaning the
+> interface, abstract class, or config key, while stopping short of the speculative
+> implementation. It is worse than either extreme because you carry all the cost of the
+> abstraction and get none of the benefit, since there is still only one concrete
+> implementation behind it.
+
 ## Relation to other foundational concepts
 
 * [[kiss|KISS]]: YAGNI is "don’t build it yet"; KISS is "and when you do, don’t make it complicated".

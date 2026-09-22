@@ -235,6 +235,30 @@ Command and Memento are natural partners for undo: the Command captures **what w
 * What distinguishes a command from an event in event sourcing (a request that can be rejected vs a fact that already happened)?
 * When would you pair Command with Memento, and what does each capture?
 
+> [!question]- Answers
+> **The four roles.** Command is the interface declaring `execute`. ConcreteCommand binds a
+> receiver to an action and holds the arguments. Receiver does the actual work. Invoker asks
+> the command to run. The invoker talks **only to the Command interface**, never to the
+> receiver, which is the whole point: swap the light for a fan or a database transaction and
+> the invoker is untouched.
+>
+> **The killer features.** Undo and redo via a history stack, queuing and scheduling,
+> logging and replay, and macros, with transactions falling out of the same mechanism.
+> Celery, Sidekiq, and RQ rely on **queuing**: the task payload is a serialised command,
+> meaning function name plus arguments plus routing, the broker is the queue, and workers
+> are invokers.
+>
+> **Command against event.** A command is a **request** that can still be validated or
+> rejected, phrased in the imperative. An event is a **fact that has already happened**, past
+> tense and not refusable. They are close cousins because a command, once executed, produces
+> the event that gets stored.
+>
+> **Pairing with Memento.** When a command cannot reconstruct the prior state from its own
+> arguments. The command captures **what to do and to whom**; the memento captures a
+> **snapshot of the receiver's state** before the change, so undo restores rather than
+> recomputes. Simple commands such as "increment by five" reverse themselves; a command that
+> overwrites a field needs the memento to know what was there.
+
 ## Relation to other foundational concepts
 
 * [[strategy-pattern|Strategy Pattern]]: both patterns wrap behaviour in an object, but Strategy selects one algorithm from a family; Command encapsulates a one-shot request with optional reversal. Prefer Strategy when you need pluggability without undo or queueing.

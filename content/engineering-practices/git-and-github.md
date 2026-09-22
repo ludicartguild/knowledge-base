@@ -94,6 +94,21 @@ See [[glossary|the glossary]] for more terms across all foundational notes.
 * Walk through the branch -> PR -> merge workflow in order, and say what an Issue is versus a PR.
 * What causes a merge conflict, and why is one not a sign that something went wrong?
 
+> [!question]- Answers
+> **Git against GitHub.** Git is the version control system: a tool running on your machine
+> that tracks changes to files over time, with full history available offline. GitHub is a
+> hosting service built around Git, adding the remote copy plus pull requests, issues, code
+> review, CI, and access control. Git works with no GitHub at all; GitHub without Git would
+> have nothing to host. GitLab and Bitbucket occupy the same slot.
+>
+> **Merge conflicts.** One arises when two branches change the same lines of the same file,
+> or when one edits a file the other deleted, and Git cannot determine which version is
+> correct. It is not a sign anything went wrong: it means two people worked on related code
+> in parallel, which is the normal condition of a team. Git resolves what it can
+> automatically and stops only where the answer requires human judgement about intent.
+> Conflicts get worse with branch lifetime, so the practical response is shorter-lived
+> branches rather than avoiding parallel work.
+
 ## Watch
 
 ![](https://www.youtube.com/watch?v=tRZGeaHPoaw)

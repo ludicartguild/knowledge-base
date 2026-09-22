@@ -82,6 +82,34 @@ Think of a **coat check**. You hand your coat and valuables (the tokens) to the 
 * Why is `SameSite` treated as defense-in-depth rather than a complete CSRF control?
 * What does RP-initiated logout accomplish that simply deleting the local session cookie does not?
 
+> [!question]- Answers
+> **Why `localStorage` is unsafe.** Anything reachable from JavaScript is reachable by any
+> script that executes on the page, which under the XSS threat model includes an injected
+> one. A token in `localStorage` can be read and exfiltrated in a single line, and it remains
+> valid wherever the attacker replays it. Keeping it server-side removes the surface
+> entirely: the browser holds only a session cookie, so there is nothing for a script to
+> steal even if XSS occurs. The attacker can still make requests as the user while the page
+> is open, which is worse than nothing but far better than a token they can take away.
+>
+> **What `HttpOnly` does and does not do.** It prevents JavaScript reading the cookie via
+> `document.cookie`, which is what defuses XSS **token theft**. It does not stop a script
+> from **triggering requests** that the browser will attach the cookie to, so an injected
+> script can still act as the user in the current session. It protects exfiltration, not
+> abuse.
+>
+> **Why `SameSite` is defense in depth.** `Lax` still permits top-level GET navigations, and
+> browser behaviour and coverage vary. A cookie-session app therefore still needs an
+> explicit anti-CSRF mechanism on state-changing requests: a double-submit token, or
+> requiring a custom header that a cross-site form cannot set. `SameSite` raises the bar and
+> does not close the hole.
+>
+> **What RP-initiated logout adds.** Deleting the local cookie signs the user out of **your**
+> app while leaving them signed in at the identity provider, so the next login silently
+> succeeds and the user believes they logged out when they did not. RP-initiated logout
+> redirects the browser to the provider's `end_session_endpoint` with an `id_token_hint`
+> identifying which session to end and a registered `post_logout_redirect_uri`, ending the
+> session at the provider too.
+
 ## Cross-links
 
 - [[oauth2-and-oidc-flows]]: the flow the BFF runs at login to obtain the tokens it stores.

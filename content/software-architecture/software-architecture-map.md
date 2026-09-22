@@ -47,6 +47,4 @@ Named, reusable solutions to recurring design problems.
 * [[web-app-architecture|Web App Architecture]]: how the pieces of a modern web application fit together.
 
 ## Related
-* [[full-stack-interview-foundations|Full-Stack Interview Foundations]]: a guided path that draws on many of these.
-* [[production-platform-genai-engineering|Production Platform & GenAI Engineering]]: applies these principles at platform scale.
 * [[glossary|Glossary]]: definitions for the terms used across these notes.

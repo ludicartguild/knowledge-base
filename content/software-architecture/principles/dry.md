@@ -52,6 +52,29 @@ DRY is about **knowledge**, not about **characters that happen to be identical**
 * What are the three steps of the Rule of Three, and why does waiting until the third repetition give you a better abstraction?
 * Why can two functions that look identical still not be a DRY violation?
 
+> [!question]- Answers
+> **What the representation refers to.** A piece of **knowledge**, not identical characters.
+> DRY says every piece of knowledge in a system should have one authoritative
+> representation. Two blocks of text that happen to match are only a violation if they
+> encode the same knowledge.
+>
+> **Why cost scales with volatility.** Every copy is a future change site. Duplication only
+> hurts when you have to change it, because that is when copies drift out of parity and the
+> divergence becomes a subtle bug. Stable, rarely-touched duplication never triggers that,
+> so it is cheap. The rule of thumb: duplicate code that changes a lot will hurt you;
+> duplicate code that never changes will not.
+>
+> **The Rule of Three.** Write the code. Write it a second time and resist the urge to
+> generalise. On the third time, now consider generalising. Waiting works because premature
+> abstraction locks in the wrong shape, which is harder to undo than the duplication it
+> replaced. By the third repetition you can see which parts are genuinely invariant and
+> which only look similar, so the abstraction you build is the right one.
+>
+> **Why identical functions may not be a violation.** If they represent two unrelated
+> business rules, they will diverge in future. Unifying them couples two things that have
+> no reason to change together, and the next change to one rule will force an awkward
+> parameter or a branch inside the shared function. Leave them alone.
+
 ## Relation to other foundational concepts
 
 * [[kiss|KISS]]: premature de-duplication often violates KISS by introducing abstractions before they’re justified.

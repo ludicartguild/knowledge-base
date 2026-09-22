@@ -159,6 +159,28 @@ These three terms are frequently conflated. They are related but distinct:
 * Can you apply IoC without DIP, and DIP without a container? Explain each case.
 * Name two caveats of IoC (over-injection, magic/hard-to-trace flow, or abstraction for its own sake) and the guidance the note gives for each.
 
+> [!question]- Answers
+> **The Hollywood Principle.** "Don't call us, we'll call you." In traditional control flow
+> your code calls libraries, creating what it needs and deciding what to call and when. Under
+> IoC the framework calls your code: it owns the event loop, the object graph, and the
+> lifecycle, and your code is a plugin dropped into a slot the framework controls. The
+> reversal is about who is in charge of the flow.
+>
+> **The three, distinguished.** IoC is the **principle**: cede control of flow or
+> instantiation to an external authority. Dependency Injection is one **technique** for
+> implementing it: supply collaborators from outside rather than constructing them inside.
+> The Dependency Inversion Principle is a separate SOLID principle about the **direction and
+> type** of dependencies, namely that high-level and low-level modules should both depend on
+> abstractions rather than on each other's concrete types. DIP says nothing about who
+> creates the object, which is the part people conflate.
+>
+> **Applying one without the other.** IoC without DIP: inject a concrete class through the
+> constructor. Control has been inverted, since the class no longer builds its own
+> collaborator, but you still depend on a concrete type rather than an abstraction. DIP
+> without a container: define the interface yourself, have both sides depend on it, and wire
+> it manually in `main`. Containers are convenience, not a requirement, and constructor
+> injection without one is often preferable in smaller codebases.
+
 ## Relation to other foundational concepts
 
 * [[solid|SOLID (DIP)]]: DIP specifies that injected dependencies should be **abstractions**, completing the IoC picture: not only is the object handed in, it’s typed against an interface the high-level module owns.

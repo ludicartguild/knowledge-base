@@ -94,6 +94,30 @@ Two shifts capture it. First, **from keys to passports**: a static secret is a c
 * In workload identity federation, what proves the job's identity and what stops the returned credential from being replayed later?
 * What do provenance, an SBOM, and artifact signing each attest, and how do they differ?
 
+> [!question]- Answers
+> **Why a SHA beats a tag.** A tag is a movable pointer, so whoever controls the upstream
+> repository, or anyone who compromises it, can repoint `v3` at different code and every
+> build consuming that tag silently runs something new. A full-length commit SHA is
+> effectively immutable, since changing what it refers to would require a hash collision.
+> Verify the SHA belongs to the real repository rather than a fork, since pinning to the
+> wrong repository's immutable commit is still pinned to the wrong code.
+>
+> **Workload identity federation.** The CI platform mints a short-lived OIDC token describing
+> **this specific job**: which repository, branch, environment, and workflow. The cloud is
+> pre-configured to trust that issuer and to accept only tokens whose claims match a policy,
+> such as this repository on this branch. That signed, claim-bound token is what proves the
+> job's identity, with no stored secret involved. What stops replay is that the returned
+> access token is **short-lived and scoped to that job**, so it expires rather than sitting
+> in a log or a cache waiting to be reused.
+>
+> **The three attestations.** Provenance attests **how** an artifact was built, a
+> tamper-evident record of which build system produced it from which source. An SBOM records
+> **what** went into it, listing every dependency so you can tell which builds a newly
+> disclosed vulnerability affects rather than guessing. A signature proves **who** released
+> it and that it was not swapped in transit. They answer different questions and none
+> substitutes for another: a signed artifact with no SBOM is verifiably from you and still
+> opaque about its contents.
+
 ## Cross-links
 
 - [[cicd-and-github-actions]]: the pipeline where these controls are configured.
