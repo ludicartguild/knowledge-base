@@ -64,6 +64,19 @@ without trusting the attacker? Where do tokens and secrets actually live?
 Feed it a tampered token and a wrong-audience token and confirm both are rejected.
 
 **Self-check:** you can validate a [[glossary#j|JWT]] correctly by hand, name the grant for user sign-in
+
+> [!question]- Answer
+> **Validating.** Fetch the issuer's JWKS, resolve the key by the token's `kid`, and
+> verify the signature against a **pinned** algorithm. Reject `alg: none` and reject any
+> algorithm you did not expect, since accepting the header's choice is what allows an
+> RS256 public key to be replayed as an HMAC secret. Then check `iss` is the issuer you
+> trust, `aud` names your service, `exp` has not passed, and `nbf` has been reached.
+> Cache the JWKS but honour key rotation.
+> **Grants.** User sign-in is authorization code with PKCE. Service-to-service is client
+> credentials. Calling a downstream API as the user is on-behalf-of, or token exchange.
+> **Why the token belongs on the server.** Anything reachable from browser JavaScript is
+> reachable by any XSS on the page. Hold the token server-side and give the browser only
+> an httpOnly, Secure, SameSite cookie.
 vs service-to-service vs on-behalf-of, and explain why a token belongs on the server.
 
 **Ask yourself:**
@@ -89,6 +102,18 @@ client) behind an interface, so the core logic can be tested with a fake. Then m
 write operation idempotent (safe to call twice).
 
 **Self-check:** you can explain ports-and-adapters in your own words and point to the seam
+
+> [!question]- Answer
+> **The shape.** The core declares interfaces for what it needs, a repository or a
+> notifier, and adapters implement them against the real database or HTTP client. The
+> dependency points inward: the core never imports the adapter.
+> **The seam.** Composition. Wherever the application is wired up, production passes the
+> real adapter and the test passes a fake. If your test has to stand up a database to
+> exercise a business rule, the seam is in the wrong place or missing.
+> **Idempotency.** Calling twice leaves the same state as calling once. Either the
+> operation is naturally idempotent (set a value rather than increment it), or the caller
+> supplies a key the server records so the replay is recognised and ignored. This is what
+> makes a client retry after a timeout safe.
 in your code where the real adapter is swapped for a test double.
 
 **Ask yourself:**
@@ -112,6 +137,20 @@ and prove that a failure midway leaves the data untouched. Add an index and obse
 query plan change.
 
 **Self-check:** you can explain each letter of ACID with an example and describe how a
+
+> [!question]- Answer
+> **Atomicity.** All steps commit or none do. A transfer debits and credits both, or
+> neither.
+> **Consistency.** The transaction moves the database from one valid state to another,
+> with constraints and foreign keys holding at commit.
+> **Isolation.** Concurrent transactions do not see each other's partial work. The
+> isolation level sets how strictly, trading correctness against throughput from read
+> committed up to serializable.
+> **Durability.** Once committed it survives a crash, because the write-ahead log is
+> flushed before the commit is acknowledged.
+> **The multi-step change.** Wrapping the debit and credit in one transaction means a
+> failure between them rolls back rather than leaving money destroyed. Without it, the
+> window between the two writes is a state no business rule permits.
 transaction protects a multi-step change.
 
 **Ask yourself:**
@@ -135,6 +174,18 @@ storage bucket) with **remote state**. Change it, run `plan`, and read the diff 
 `apply`. Then destroy it.
 
 **Self-check:** you can explain what `plan` vs `apply` do, why state is stored remotely,
+
+> [!question]- Answer
+> **plan and apply.** `plan` compares your configuration against recorded state and
+> against reality, then prints the diff. It changes nothing, so it is safe to run
+> anywhere. `apply` executes that diff.
+> **Why state is remote.** So everyone resolves against the same recorded reality, and so
+> it can be locked. Two concurrent applies against local state produce a corrupted record
+> and orphaned resources. State also holds secrets in plain text, so it needs encryption
+> and tight access control wherever it lives.
+> **Why code beats console.** It is reviewable before it runs, diffable afterwards,
+> reproducible in a second environment, and drift becomes detectable. A manual change
+> leaves no record of who made it or how to recreate it.
 and why infrastructure defined as code is safer than manual changes.
 
 **Ask yourself:**
@@ -159,6 +210,18 @@ workload?
 Compose alongside a database, then deploy the image to a managed container runtime.
 
 **Self-check:** you can build a lean container image, run a multi-service stack locally,
+
+> [!question]- Answer
+> **Lean image.** Multi-stage: the build stage carries the toolchain, the final stage
+> copies only the artifact onto a slim or distroless base. Run as a non-root user, leave
+> no package manager in the final layer, and use `.dockerignore` so the build context
+> stays small.
+> **Local stack.** Compose brings the app up alongside its database on one network with
+> a single command, which is what makes the integration tests runnable on a laptop.
+> **What the managed runtime handles.** Scheduling and placement, horizontal scaling,
+> health checks and restarts, TLS termination, service discovery, and rolling deploys.
+> What you give up is control of the node, some portability, and visibility into what the
+> platform decided.
 and describe what a managed runtime handles for you (scaling, health, networking).
 
 **Ask yourself:**
@@ -183,6 +246,17 @@ staging environment automatically, and requires a manual approval before product
 one job least-privilege and pin its actions to commit SHAs.
 
 **Self-check:** you can describe build-once-promote-the-same-artifact and explain what a
+
+> [!question]- Answer
+> **Build once, promote.** Build the artifact a single time, test that exact artifact,
+> then move the same immutable bytes through staging to production. Rebuilding per
+> environment means production runs something you never tested: dependencies may resolve
+> differently, the base image may have moved, build-time configuration may differ. The
+> tag you tested and the tag you shipped have to be the same digest.
+> **The reviewer gate.** A human checkpoint that a compromised or misconfigured pipeline
+> cannot skip on its own, plus an audit record of who approved what. It is the control
+> that stops an automated path from carrying a bad change all the way to production
+> unattended.
 required-reviewer gate protects against.
 
 **Ask yourself:**
@@ -204,6 +278,17 @@ what level?
 hops, then add a unit test and one integration test that runs against an ephemeral container.
 
 **Self-check:** you can explain the three telemetry signals and place a given test at the
+
+> [!question]- Answer
+> **The three signals.** Logs are discrete events, telling you what happened. Metrics are
+> numbers aggregated over time, telling you whether it is healthy and what to alert on.
+> Traces follow one request across services, telling you where the time went and which
+> hop failed. Metrics find the problem, traces locate it, logs explain it.
+> **Placing a test.** Ask what it owns. Pure logic with no external dependency is a unit
+> test, and there should be many of them because they are fast. The service against a
+> real database in an ephemeral container is an integration test. A user journey spanning
+> services is end-to-end, and there should be few, because they are slow and flaky in
+> proportion to what they cover.
 right level of the pyramid.
 
 **Ask yourself:**
@@ -231,6 +316,20 @@ answer changes with and without retrieval. Then wrap a model call in a minimal
 perceive-reason-act loop with one tool, and trace each step so you can see what it did.
 
 **Self-check:** you can explain [[glossary#r|RAG]] end to end, describe why grounding an answer in
+
+> [!question]- Answer
+> **RAG end to end.** Chunk the corpus, embed each chunk, and store the vectors. At query
+> time, embed the question, retrieve the nearest chunks, place them in the prompt as
+> context, generate, and cite what was used.
+> **Why grounding helps.** The model answers from text present in its context rather than
+> from parametric memory, which is where confident invention comes from. It also gives
+> you two controls you otherwise lack: refuse when the best retrieval similarity is below
+> a threshold, and attach citations so a wrong answer is checkable rather than merely
+> plausible.
+> **The agent loop.** Observe the current state, let the model reason about the next
+> action, call the tool, feed the result back as a new observation, and repeat until the
+> task is done or a step limit is hit. Trace every iteration, because a failure is
+> usually a bad tool call several steps back rather than a bad final answer.
 retrieved context reduces hallucination, and sketch the agent loop that lets a model call
 a tool and act on the result.
 

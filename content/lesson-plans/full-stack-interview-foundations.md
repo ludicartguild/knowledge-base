@@ -62,6 +62,17 @@ How do you handle a question you cannot fully answer?
 database) and narrate a request end to end out loud. Redraw it until you need no reference.
 
 **Self-check:** you can sketch the layers of a web app, describe what each does, and state
+
+> [!question]- Answer
+> **The layers.** The browser renders and handles interaction. The frontend owns
+> presentation and client-side state. The backend API owns business rules,
+> authorization, and validation, and is the only tier that trusts nothing from the
+> client. The database owns persistence and integrity. A cache and a queue sit alongside
+> when read load or slow work demands them.
+> **Handling a question past your knowledge.** Say what you do know, mark the boundary
+> plainly, then give a route to the answer. "I have not run that in production. What I do
+> know is how the pieces fit. I would start by reading X and proving it with a small
+> test." Interviewers probe, so a bluff costs more than the gap it covers.
 one honest way to handle a question at the edge of your knowledge.
 
 **Ask yourself:**
@@ -84,6 +95,18 @@ it would need (method + path), and say which logic runs on the frontend vs the b
 why. Then rehearse a short "what is a SPA and how does it talk to the backend" explanation.
 
 **Self-check:** you can trace a request from a button click to a database and back, naming
+
+> [!question]- Answer
+> **The path.** Click fires a handler, which calls the API over HTTPS. DNS resolves, TLS
+> negotiates, a load balancer picks a server. Middleware validates the token, the route
+> handler validates input, business logic runs, the driver or ORM issues SQL over a
+> pooled connection. Rows come back, get serialized to JSON, and the response updates
+> frontend state, which triggers a re-render.
+> **What a BFF adds.** One backend shaped for one client. It aggregates several
+> downstream calls into a single round trip, trims fields the client will never use, and
+> holds tokens server-side so the browser never touches them. The cost is another
+> deployable and another place for logic to drift, so it earns its keep when clients
+> diverge or when token custody matters.
 the technology at each step, and explain what a BFF adds.
 
 **Ask yourself:**
@@ -103,6 +126,19 @@ Where application state lives.
 query joining them. Explain out loud when you would reach for a document store instead.
 
 **Self-check:** you can justify a relational-vs-document choice, read a simple join, and
+
+> [!question]- Answer
+> **Choosing.** Relational when the shape is stable and you query across relationships,
+> because you get joins, constraints, and transactions. Document when the shape varies
+> per record, or you read a whole aggregate at once and rarely join. The honest version
+> of the answer is that most application data is relational and NoSQL is chosen for a
+> specific access pattern, not as a default.
+> **A join.** Matching rows across tables on a key:
+> `SELECT u.name, o.total FROM users u JOIN orders o ON o.user_id = u.id`.
+> **Why ACID matters for money.** Without atomicity a payment debits without crediting.
+> Without isolation two concurrent checkouts sell the same last item. Without durability
+> an order you already confirmed disappears in a crash. Each one is a state a customer
+> would notice.
 say what ACID guarantees and why they matter for money or orders.
 
 **Ask yourself:**
@@ -125,6 +161,18 @@ How code gets from a laptop to running software, reliably and repeatably.
 through a CI/CD pipeline, and name what could fail at each step.
 
 **Self-check:** you can walk through the commit-to-deploy journey and explain why a
+
+> [!question]- Answer
+> **The journey.** Commit and push, CI triggers, dependencies install, lint and unit
+> tests run, the artifact or image is built, integration tests run against it, the image
+> is pushed to a registry, staging deploys, smoke tests pass, a human approves,
+> production deploys behind health checks, and a failing check rolls back.
+> **What fails where.** Flaky tests, dependencies resolving to a different version than
+> yesterday, a registry permission, a migration that works on an empty database but not
+> a full one, and configuration that differs between environments.
+> **What the container fixes.** The image carries the runtime, the libraries, and the app
+> as one unit, so what passed in CI is byte-for-byte what runs in production. Most of
+> "works on my machine" was environment drift the image now pins.
 container makes "works on my machine" less of a problem.
 
 **Ask yourself:**
@@ -145,6 +193,18 @@ Where modern applications actually run, and how that environment is managed.
 sentences, explain why teams write infrastructure as code instead of clicking in a console.
 
 **Self-check:** you can distinguish IaaS/PaaS/SaaS with an example each and explain the
+
+> [!question]- Answer
+> **The three.** IaaS gives you raw compute, network, and storage while you manage the OS
+> and everything above it, as with EC2 or Compute Engine. PaaS takes your code and
+> manages the runtime beneath it, as with Cloud Run or App Engine. SaaS is finished
+> software you only use, as with Gmail. The line between them is how far up the stack
+> the provider's responsibility stops.
+> **Why infrastructure as code.** Environments become reproducible, so staging can be
+> stood up identical to production. Changes become reviewable, since a diff appears in a
+> pull request before it runs. And they become versioned, so the history says what
+> changed, when, and by whom. Clicking through a console gives you none of the three and
+> leaves no way to recreate what you built.
 value of [[glossary#i|IaC]] (reproducible, reviewable, versioned environments).
 
 **Ask yourself:**
@@ -164,6 +224,19 @@ The layer employers increasingly expect developers to work alongside.
 questions about our docs") to an app, and where RAG and vector search fit.
 
 **Self-check:** you can describe calling a model from an application and explain RAG in
+
+> [!question]- Answer
+> **Calling a model.** An HTTP request carrying a prompt and parameters, with the
+> response returned as text or structured output, often streamed. The engineering around
+> it is the real work: the key stays server-side, and you handle rate limits, retries,
+> timeouts, and cost per call.
+> **RAG in plain language.** A model knows what is in its prompt plus what it absorbed in
+> training, and it does not know your documents. So you search your documents first, put
+> the relevant passages into the prompt, and ask the model to answer from those. The
+> answer is grounded in text you supplied rather than assembled from memory, and you can
+> cite which passages it used.
+> **Being honest about it.** Separate what you have built from what you have read about.
+> Claiming production experience you lack is the fastest way to lose a room.
 plain language, while being honest about the limits of your experience.
 
 **Ask yourself:**
@@ -183,6 +256,19 @@ why?" "What is a JWT and how does a server trust it?" "How would you deploy this
 safely?" Record yourself once and listen back for filler and hedging.
 
 **Self-check:** you can hold a confident, honest conversation across the whole stack and
+
+> [!question]- Answer
+> This one has no fact to recall. The move is the same every time: name what you know,
+> mark the boundary, offer a route.
+>
+> "I have not operated Kubernetes at scale. I have deployed to Cloud Run and I understand
+> the scheduling and health-check model in principle. If I picked it up, I would start
+> with how a Deployment maps to ReplicaSets and Pods and prove it on something small."
+>
+> What reads as confidence is specificity: what *you* did rather than what the team did,
+> a willingness to say you do not know, and a next sentence that is a plan rather than a
+> shrug. Rambling past the edge of your knowledge is what reads as bluffing, and it is
+> usually obvious.
 respond well when a question goes past what you know.
 
 **Ask yourself:**

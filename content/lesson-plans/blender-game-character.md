@@ -53,6 +53,19 @@ Getting comfortable inside the 3D viewport before you build anything.
 
 **Self-check:** you can navigate the viewport without hunting for controls, constrain a transform to one axis, and switch between Object and Edit Mode on purpose.
 
+> [!question]- Answer
+> **Navigation.** Middle mouse orbits, Shift plus middle mouse pans, scroll zooms.
+> Numpad 1, 3, and 7 snap to front, right, and top; Numpad 5 toggles orthographic;
+> Numpad period frames the selection. If you have no numpad, enable Emulate Numpad in
+> Preferences.
+> **Constraining a transform.** Press G, R, or S to grab, rotate, or scale, then X, Y,
+> or Z to lock to that axis. Shift plus an axis excludes it instead, so Shift Z moves
+> freely in the XY plane. Typing a number after the axis applies an exact amount.
+> **The two modes.** Tab toggles them. Object Mode moves, rotates, and scales whole
+> objects and is where you add and delete them. Edit Mode works on the vertices, edges,
+> and faces inside one object. If a transform is moving the entire mesh when you meant
+> to move a few vertices, you are in the wrong mode.
+
 **Ask yourself:**
 * When something looks wrong, is it the object's position or the camera's? How can I tell?
 * Which handful of shortcuts am I already reaching for without the menus?
@@ -71,6 +84,21 @@ Blocking out a humanoid body from simple shapes, with animation in mind.
 
 **Self-check:** you can extrude and loop-cut deliberately, and you can point to the edge loops that will let the elbows and knees bend without collapsing.
 
+> [!question]- Answer
+> **Extruding.** E extrudes the selection along its normal; E then an axis key extrudes
+> along that axis instead. Extrude builds a limb out of a torso by pulling new geometry
+> from an existing face rather than adding a separate object.
+> **Loop cuts.** Ctrl plus R previews a loop, scrolling sets how many, left click
+> confirms and starts a slide, and right click drops them evenly spaced. Escape after
+> confirming leaves them centred.
+> **Why loops matter at joints.** A joint bending on a single edge collapses, because
+> all the deformation lands in one place. Two or three loops across an elbow or knee
+> spread the bend so the silhouette holds. Put the geometry where the mesh has to move
+> and leave it sparse where it does not, since every extra loop costs you in a
+> real-time engine.
+> **Quads.** Four-sided faces subdivide cleanly and deform predictably. Triangles and
+> n-gons are what you check for before rigging, because they pinch when posed.
+
 **Ask yourself:**
 * If this arm has to bend, does it have enough geometry at the joint, and not too much elsewhere?
 * Where am I adding detail the game camera will never see?
@@ -88,6 +116,20 @@ Turning the 3D surface into something you can color.
 **Practice:** Mark seams, unwrap the character, and color it in a game-friendly way. Keep it to a single texture or a small palette so it stays cheap to render. Aim for a look you like, not photorealism.
 
 **Self-check:** you can mark seams and unwrap without major stretching, and your character reads clearly with its low-poly colors.
+
+> [!question]- Answer
+> **What a UV map is.** The 3D surface flattened into 2D so an image can address points
+> on it. Without one the renderer has no way to know which pixel of a texture belongs to
+> which face.
+> **Seams.** Select edges in Edit Mode and use Edge, Mark Seam. Cut where the seam will
+> be hidden: inside the arms, down the back of the head, under the chin. Then select all
+> and unwrap. Too few seams forces stretching, too many wastes texture space and shows
+> as visible joins.
+> **Checking for stretch.** Assign a checker texture and look for squares that are no
+> longer square. Those areas need another seam or a relax pass.
+> **Low-poly colour.** The cheapest route is a small palette image with each UV island
+> parked on a flat patch of colour, or vertex colours with no texture at all. Both stay
+> cheap in-engine and give the flat look the style depends on.
 
 **Ask yourself:**
 * Is my texture doing work a flat color could do more cheaply?
@@ -110,6 +152,20 @@ Giving the character a skeleton it can be posed and animated with.
 
 **Self-check:** your rig has a single root bone, and you can pose an arm or leg and watch the mesh follow without ugly pinching.
 
+> [!question]- Answer
+> **Armature and skinning.** An armature is the skeleton object holding the bones. The
+> mesh follows through an Armature modifier plus vertex groups named after each bone.
+> Parenting with automatic weights creates both in one step.
+> **Why one root.** Defold expects a single bone at the top of the hierarchy. Rigify and
+> Mixamo can leave more than one top-level bone, so check the hierarchy before export
+> and reparent anything stray under one root.
+> **What weight painting fixes.** Vertices influenced by the wrong bone, or blended
+> across two bones badly. It shows as pinching or a chunk of shoulder travelling with
+> the arm. Shoulders and hips are almost always the spots that need hand correction.
+> **Choosing a route.** Rigify teaches the most because you shape the meta-rig yourself.
+> Mixamo is fastest and brings a free animation library, at the cost of its own bone
+> names. Auto-Rig Pro is the paid professional option and is not needed here.
+
 **Ask yourself:**
 * When I rotate this bone, which vertices move that should not, and where do I fix that?
 * Is my bone hierarchy something Defold will accept, one root at the top?
@@ -130,6 +186,19 @@ Making the character move, in clips your game can play.
 
 **Self-check:** you have at least an idle and a walk as named actions, each loops, and you can switch between them in the Action Editor.
 
+> [!question]- Answer
+> **Keyframes.** A keyframe stores a value at a frame and Blender interpolates between
+> them. The dope sheet shows the keys, the Action Editor shows which action they belong
+> to.
+> **What makes a walk read.** The four poses in order: contact, down, passing, up.
+> Weight comes from the body dipping on the down pose and lifting through passing and
+> up. A walk with no vertical travel is what reads as floating.
+> **Why one action per animation.** The exporter turns each action into a separate named
+> glTF clip, which is what lets you ask Defold for the idle or the walk by name. Push
+> each action down to a named NLA strip so the names survive.
+> **Looping.** The last frame has to meet the first without repeating it. Duplicating
+> the first pose at the end is what causes the visible hitch on loop.
+
 **Ask yourself:**
 * Does my walk have weight, or does the character float? Where does the body dip and rise?
 * If I loop this, does the last frame meet the first without a pop?
@@ -149,6 +218,21 @@ Packaging the model and its animations in a form Defold reads.
 
 **Self-check:** you produce one glTF that includes the mesh, a single-root skeleton, and both animations baked in.
 
+> [!question]- Answer
+> **Why apply transforms.** Applying rotation and scale resets the object to scale 1 and
+> rotation 0 while leaving it looking the same. Skip it and the engine inherits a
+> transform you did not intend, which shows up as a character the wrong size or lying on
+> its side.
+> **Why baking matters.** glTF has no concept of IK, constraints, or drivers. Sampling
+> evaluates the rig every frame and writes plain per-bone transforms, which is the only
+> form that survives the format. Without it a constraint-driven rig exports as almost
+> nothing.
+> **Deformation bones only.** Rigify and Mixamo add control and IK bones that move the
+> deform bones but should never reach the engine. Exporting deform bones only keeps the
+> skeleton to what Defold needs.
+> **Verify rather than assume.** Option labels move between Blender releases, so confirm
+> them against the manual link in this section for your installed version.
+
 **Ask yourself:**
 * Did I apply scale and rotation, and is the character the size I expect in meters?
 * If Defold plays the animation but the mesh does not move, what does that tell me about the export or the material?
@@ -166,6 +250,17 @@ Getting the character standing and animating inside a game project.
 **Practice:** In a Defold project, add a Model component, set its Mesh to your glTF, assign `/builtins/materials/model_skinned.material`, and play the idle from a script, then switch to the walk. Adjust scale and orientation until it looks right in the game.
 
 **Self-check:** your character stands in a Defold scene and plays its idle and walk on command.
+
+> [!question]- Answer
+> **Wiring it up.** Add a Model component to a game object and set its Mesh to the
+> exported glTF.
+> **Why the skinned material.** The default model material does not apply bone
+> transforms in its vertex shader, so a skinned mesh renders in bind pose and never
+> moves. `/builtins/materials/model_skinned.material` is the one that does the skinning.
+> A mesh that appears but stays in a T-pose is usually this.
+> **Playing a clip.** Call `model.play_anim()` from a script with the component url and
+> the animation name, which is the action name you exported. Switching from idle to walk
+> is another call with the other name.
 
 **Ask yourself:**
 * If the mesh appears but stays in a T-pose, is it the material, the animation call, or the export?
