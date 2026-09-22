@@ -1,6 +1,6 @@
 ---
 title: "Software Architecture: Map"
-tags: [moc, architecture]
+tags: [architecture]
 level: fundamentals
 type: moc
 reviewed: 2026-07-12

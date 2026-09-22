@@ -1,6 +1,6 @@
 ---
 title: "Glossary & Acronym Dictionary"
-tags: [reference]
+tags: []
 level: fundamentals
 type: reference
 reviewed: 2026-07-12

@@ -1,6 +1,6 @@
 ---
 title: "Blender: Low-Poly Game Character for Defold"
-tags: [moc, lesson-plan]
+tags: [lesson-plan, game-dev]
 level: fundamentals
 type: moc
 reviewed: 2026-08-24

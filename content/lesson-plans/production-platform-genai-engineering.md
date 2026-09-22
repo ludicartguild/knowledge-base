@@ -1,6 +1,6 @@
 ---
 title: "Production Platform & GenAI Engineering"
-tags: [moc, lesson-plan]
+tags: [lesson-plan, platform, ai]
 level: deep
 type: moc
 reviewed: 2026-07-12

@@ -1,6 +1,6 @@
 ---
 title: "Full-Stack Developer: Interview Foundations"
-tags: [moc, lesson-plan]
+tags: [lesson-plan, web]
 level: fundamentals
 type: moc
 reviewed: 2026-07-12
